@@ -1,0 +1,134 @@
+@charset "UTF-8";
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.dp-n {
+  display: none !important;
+}
+
+.background-color-orange {
+  background-color: rgb(255, 94, 31) !important;
+}
+
+.App {
+  position: relative;
+}
+.App .header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: fixed;
+  padding: 10px;
+}
+.App .header__logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.App .header__logo-text {
+  font-size: 28px;
+  font-family: cursive;
+}
+.App .header__logo-img {
+  font-size: 25px;
+  color: rgb(1, 148, 243);
+}
+.App .header__sign {
+  display: flex;
+  gap: 5px;
+}
+.App .header__sign-button {
+  all: unset;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.App .header__sign-in {
+  border: 1px solid rgb(1, 148, 243);
+}
+.App .header__sign-in:hover {
+  background-color: rgb(243, 243, 243);
+}
+.App .header__sign-up {
+  background-color: rgb(1, 148, 243);
+  color: white;
+  font-weight: 600;
+}
+.App .header__sign-up:hover {
+  background-color: rgb(0, 137, 228);
+}
+.App .background-opacity {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  opacity: 0;
+  width: 100vw;
+  height: 100vh;
+  transition: 0.4s ease-in-out;
+}
+.App .sign {
+  position: fixed;
+  width: 20%;
+  background-color: white;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 3px;
+  transition: 0.4s ease;
+}
+.App .sign-item {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  gap: 20px;
+  position: relative;
+}
+.App .sign-item__close {
+  position: fixed;
+  right: 15px;
+  top: 15px;
+  font-size: 15px;
+  color: gray;
+  cursor: pointer;
+}
+.App .sign-item__close:hover {
+  color: #000000;
+}
+.App .sign-item__title {
+  font-size: 25px;
+  font-weight: 500;
+}
+.App .sign-item__form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.App .sign-item__form-input {
+  all: unset;
+  text-align: start;
+  background-color: #f8f8f8;
+  padding: 10px;
+  border-radius: 3px;
+}
+.App .sign-item__form-input:hover {
+  outline: 1px solid rgb(228, 228, 228);
+}
+.App .sign-item__form-input:focus {
+  outline: 1px solid rgb(129, 129, 129);
+}
+.App .sign-item__form-submit {
+  all: unset;
+  font-weight: 600;
+  background-color: rgb(242, 243, 243);
+  padding: 10px;
+  color: rgb(205, 208, 209);
+  border-radius: 3px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}/*# sourceMappingURL=App.css.map */
