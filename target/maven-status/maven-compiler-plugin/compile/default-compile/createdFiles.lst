@@ -1,1 +1,5 @@
+com\appManageHotel\dao\DAOInterface.class
+com\appManageHotel\database\ConnectDatabase.class
+com\appManageHotel\dao\AccountDAO.class
 com\appManageHotel\controller\user\home\Home.class
+com\appManageHotel\models\Account.class
