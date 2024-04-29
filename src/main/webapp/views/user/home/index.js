@@ -1,8 +1,6 @@
 ///////////////
 ////////////// sign-in sign up
 
-setTimeout(() => {
-
 const headerSignIn = document.querySelector('.header__sign-in');
 const headerSignUp = document.querySelector('.header__sign-up');
 const backgroundOpacity = document.querySelector('.background-opacity');
@@ -11,6 +9,8 @@ const signIn = document.querySelector('.sign-in');
 const signUp = document.querySelector('.sign-up');
 const signInClose = document.querySelector('.sign-in__close');
 const signUpClose = document.querySelector('.sign-up__close');
+
+
 
 headerSignIn.addEventListener('click',() => {
     backgroundOpacity.classList.remove('dp-n');
@@ -110,6 +110,7 @@ for(let j = 0; j < signInFormInput.length; ++j){
 
 for(let i = 0; i < signInFormInput.length; ++i){
     signInFormInput[i].addEventListener('input',() => {
+
         for(let j = 0; j < signInFormInput.length; ++j){
             if(signInFormInput[j].value === ""){
                 signInFormSubmit.classList.remove('background-color-orange');
@@ -145,13 +146,13 @@ for(let j = 0; j < signUpFormInput.length; ++j){
 for(let i = 0; i < signUpFormInput.length; ++i){
     signUpFormInput[i].addEventListener('input',() => {
         for(let j = 0; j < signUpFormInput.length; ++j){
-            if(signUpFormInput[j].value === ""){
+            if(signUpFormInput[j].value === "" || signUpFormInput[1].value !== signUpFormInput[2].value){
                 signUpFormSubmit.classList.remove('background-color-orange');
                 signUpFormSubmit.classList.remove('color-white');
                 signUpFormSubmit.addEventListener('click', addSignUpPreventDefault);
                 break;
             }
-            if(j == signUpFormInput.length - 1){
+            if(j == signUpFormInput.length - 1 && signUpFormInput[1].value === signUpFormInput[2].value){
                 signUpFormSubmit.classList.add('background-color-orange');
                 signUpFormSubmit.classList.add('color-white');
                 signUpFormSubmit.removeEventListener('click', addSignUpPreventDefault);
@@ -159,7 +160,10 @@ for(let i = 0; i < signUpFormInput.length; ++i){
         }
     })
 }
-},1000);
+
+function redirectToPageRooms(){
+	window.location.href = "http://localhost:8080/javaWeb-hms-pbl3/rooms";
+}
 
 ///////////////
 //////////////
