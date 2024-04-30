@@ -61,6 +61,24 @@ public class AccountDAOImpl implements AccountDAO{
 	@Override
 	public Account selectByID(String ID) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			String sql = "SELECT * FROM Account WHERE IDAccount = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, ID);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String IDAccount = rs.getString("IDAccount");
+				String UserName = rs.getString("UserName");
+				String PassWord = rs.getString("PassWord");
+				String Role = rs.getString("Role");
+				return (new Account(IDAccount, UserName, PassWord, Role));
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 	

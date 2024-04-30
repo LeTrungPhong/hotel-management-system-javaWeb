@@ -10,6 +10,7 @@ import com.appManageHotel.model.DAO.AccountDAOImpl;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -73,6 +74,15 @@ public class home extends HttpServlet{
 				// success
 				Account account = AccountBO.getInstance().selectByUserNameAndPassWord(username, password);
 				System.out.println("Dang nhap thanh cong tk: " + account.getUserName());
+				
+//				request.setAttribute("Account", account);
+				
+				Cookie cookie = new Cookie("IDAccount", account.getIDAccount());
+				cookie.setMaxAge(24 * 60 * 60); // Thời gian sống của cookie, tính bằng giây (ở đây là 1 ngày)
+				response.addCookie(cookie);
+				
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/home/home.jsp");
+				dispatcher.forward(request, response);
 			} else {
 				// fail
 				

@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.appManageHotel.model.BEAN.Account" %>
+<%@ page import="com.appManageHotel.controller.cookie.cookie" %>
+<%@ page import="jakarta.servlet.http.Cookie" %>
+<%@ page import="jakarta.servlet.http.HttpServletRequest" %>
+<%@ page import="com.appManageHotel.model.DAO.AccountDAOImpl" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,12 +38,30 @@
             </button>
         </div>
         <div class='header__sign'>
-            <button class='header__sign-button header__sign-in'>
-                <span>SIGN UP</span>
-            </button>
-            <button class='header__sign-button header__sign-up'>
-                <span>REGISTER</span>
-            </button>
+            <%
+            
+            Cookie findCookieIDAccount = cookie.findCookieByName((HttpServletRequest)request, "IDAccount");
+            	if(findCookieIDAccount == null){
+            		System.out.print("Not find account");
+            		%>
+            			<button class='header__sign-button header__sign-in'>
+                			<span>SIGN UP</span>
+            			</button>
+            			<button class='header__sign-button header__sign-up'>
+                			<span>REGISTER</span>
+            			</button>
+            		<% 
+            	} else {
+            		System.out.println(findCookieIDAccount.getValue());
+            		String IDAccount = findCookieIDAccount.getValue();
+            		Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
+            		%>
+            			<button class="header__sign-button">
+            				<span><%= account.getUserName()%></span>
+            			</button>
+            		<%
+            	}
+            %>
         </div>
     </header>
     <section class='background-opacity dp-n'></section>
