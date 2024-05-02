@@ -4,6 +4,8 @@ import java.util.Objects;
 import com.appManageHotel.model.BEAN.Account;
 import com.appManageHotel.model.DAO.AccountDAOImpl;
 
+import jakarta.servlet.http.Cookie;
+
 public class AccountBO {
 	
 	public static AccountBO getInstance() {
@@ -32,7 +34,12 @@ public class AccountBO {
 		}
 	}
 	
-	public Account selectByUserNameAndPassWord(String username, String password) {
-		return AccountDAOImpl.getInstance().selectByUserNameAndPassWord(username, password);
+	public Account selectAccountByCookie(Cookie cookie) {
+		if(cookie != null) {
+			String IDAccount = cookie.getValue();
+    		Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
+    		return account;
+		}
+		return null;
 	}
 }

@@ -35,7 +35,7 @@ public class home extends HttpServlet{
 		// TODO Auto-generated method stub
 	}
 
-	@Override 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("Post");
 		String typeRequest = request.getParameter("type");
@@ -56,6 +56,11 @@ public class home extends HttpServlet{
 				// account not exits 
 				// insert new account
 				AccountDAOImpl.getInstance().insert(new Account(IDAccount, username, password, "Customer"));
+				
+				Cookie cookie = new Cookie("IDAccount", IDAccount);
+				cookie.setMaxAge(24 * 60 * 60); // Thời gian sống của cookie, tính bằng giây (ở đây là 1 ngày)
+				response.addCookie(cookie);
+				response.sendRedirect("http://localhost:8080/javaWeb-hms-pbl3/home");
 			} else {
 				// account exits
 				// show error
@@ -64,6 +69,7 @@ public class home extends HttpServlet{
 		}
 		
 		if(typeRequest.equals("signIn")) {
+			System.out.println("signIn");	
 			
 			// get data from request
 			String username = request.getParameter("username");
@@ -72,7 +78,7 @@ public class home extends HttpServlet{
 			// check username, password
 			if(AccountBO.getInstance().checkUserNamePassWordAccount(username, password)) {
 				// success
-				Account account = AccountBO.getInstance().selectByUserNameAndPassWord(username, password);
+				Account account = AccountDAOImpl.getInstance().selectByUserNameAndPassWord(username, password);
 				System.out.println("Dang nhap thanh cong tk: " + account.getUserName());
 				
 //				request.setAttribute("Account", account);
@@ -80,13 +86,25 @@ public class home extends HttpServlet{
 				Cookie cookie = new Cookie("IDAccount", account.getIDAccount());
 				cookie.setMaxAge(24 * 60 * 60); // Thời gian sống của cookie, tính bằng giây (ở đây là 1 ngày)
 				response.addCookie(cookie);
+//				request.setAttribute("IDAccount", account.getIDAccount());
+//				
+//				RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/home/home.jsp");
+//				dispatcher.forward(request, response);
 				
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/views/user/home/home.jsp");
-				dispatcher.forward(request, response);
+				response.sendRedirect("http://localhost:8080/javaWeb-hms-pbl3/home");
 			} else {
 				// fail
 				
 			}
+		}
+		
+		if(typeRequest.equals("signOut")) {
+			System.out.println("signOut");
+			
+			Cookie cookie = new Cookie("IDAccount", "");
+			cookie.setMaxAge(0); // Thời gian sống của cookie, tính bằng giây (ở đây là 1 ngày)
+			response.addCookie(cookie);
+			response.sendRedirect("http://localhost:8080/javaWeb-hms-pbl3/home");
 		}
 	}
 }

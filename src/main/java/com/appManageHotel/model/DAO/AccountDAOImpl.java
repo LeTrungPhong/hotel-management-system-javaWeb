@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import com.appManageHotel.model.DAO.AccountDAO;
 
 import com.appManageHotel.database.ConnectDatabase;
 import com.appManageHotel.model.BEAN.Account;
@@ -159,5 +158,4 @@ public class AccountDAOImpl implements AccountDAO{
 		}
 		return null;
 	}
-	
 }

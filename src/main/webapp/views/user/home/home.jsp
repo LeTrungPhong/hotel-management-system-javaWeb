@@ -22,79 +22,9 @@
 <title>Trang chu</title>
 </head>
 <body class="container">
-    <header class='header'>
-        <div class='header__logo'>
-            <button class='header__sign-button'>
-                <span>HOME PAGE</span>
-            </button>
-            <button class='header__sign-button'>
-                <span>ACCOMMODATION</span>
-            </button>
-            <button class='header__sign-button'>
-                <span>SERVICES</span>
-            </button>
-            <button class='header__sign-button'>
-                <span>ABOUT US</span>
-            </button>
-        </div>
-        <div class='header__sign'>
-            <%
-            
-            Cookie findCookieIDAccount = cookie.findCookieByName((HttpServletRequest)request, "IDAccount");
-            	if(findCookieIDAccount == null){
-            		System.out.print("Not find account");
-            		%>
-            			<button class='header__sign-button header__sign-in'>
-                			<span>SIGN UP</span>
-            			</button>
-            			<button class='header__sign-button header__sign-up'>
-                			<span>REGISTER</span>
-            			</button>
-            		<% 
-            	} else {
-            		System.out.println(findCookieIDAccount.getValue());
-            		String IDAccount = findCookieIDAccount.getValue();
-            		Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
-            		%>
-            			<button class="header__sign-button">
-            				<span><%= account.getUserName()%></span>
-            			</button>
-            		<%
-            	}
-            %>
-        </div>
-    </header>
-    <section class='background-opacity dp-n'></section>
-    <article class='sign dp-n'>
-        <div class='sign-in sign-item dp-n'>
-            <i class="sign-in__close sign-item__close fas fa-times"></i>
-            <p class='sign-in__title sign-item__title'>Đăng nhập</p>
-            <form action="" class="sign-in__form sign-item__form" method="post">
-                <input type="text" class="sign-in__form-input sign-item__form-input" placeholder=" Nhập tài khoản"
-                    name="username" />
-                <input type="password" class="sign-in__form-input sign-item__form-input" placeholder=" Nhập mật khẩu"
-                    name="password" />
-                <input class="sign-in__form-submit sign-item__form-submit" type="submit" value="Đăng nhập" />
-                <input class="dp-n" type="text" value="signIn" name="type"/>
-            </form>
-        </div>
-        <div class='sign-up sign-item dp-n'>
-            <i class="sign-up__close sign-item__close fas fa-times"></i>
-            <p class='sign-up__title sign-item__title'>Đăng ký</p>
-            <form action="" class="sign-up__form sign-item__form" method="post">
-                <input type="text" class="sign-up__form-input sign-item__form-input" placeholder=" Nhập tài khoản"
-                    name="username" />
-                <input type="password" class="sign-up__form-input sign-item__form-input" placeholder=" Nhập mật khẩu"
-                    name="password" />
-                <input type="password" class="sign-up__form-input sign-item__form-input"
-                    placeholder=" Xác nhận lại mật khẩu" name="confirmPassword" />
-                <input class="sign-up__form-submit sign-item__form-submit" type="submit" value="Đăng ký" />
-                <input class="dp-n" type="text" value="signUp" name="type"/>
-            </form>
-        </div>
-    </article>
+    <jsp:include page="../header/header.jsp"/>
     <div class="body__image">
-        <img class="body__image__instance" src="./assets/image/1543331218(1).jpg" alt="">
+        <img class="body__image__instance" src="" alt="">
         <div class="body__background__pattern">
             <h1 class="pattern__title">
                 WELCOME TO BEACHFRONT BLISS HOTEL
@@ -143,7 +73,7 @@
         <div class="room__list">
             <div class="room__item">
                 <div class="container_item">
-                    <img src="http://localhost:8080/javaWeb-hms-pbl3/views/user/assets/image/beach_view_suite.jpg" alt="">
+                    <img src="" alt="">
                     <div class="bottom__infor">
                         <span>The Beach View Suite offers a breathtaking panorama of the shimmering ocean, seamlessly
                             blending luxurious comfort with a serene, picturesque backdrop.</span>
@@ -251,7 +181,7 @@
             </div>
             <div class="room__item">
                 <div class="container_item">
-                    <img src="./assets/image/standard_double.jpg" alt="">
+                    <img src="" alt="">
                     <div class="bottom__infor">
                         <span>The Standard Double room in a hotel offers a cozy, efficiently designed space featuring
                             two double beds, ideal for couples or small families seeking comfortable
@@ -360,7 +290,7 @@
             </div>
             <div class="room__item">
                 <div class="container_item">
-                    <img src="./assets/image/beach_view_single.jpg" alt="">
+                    <img src="" alt="">
                     <div class="bottom__infor">
                         <span>The Beach View Single room offers a cozy, inviting space with a stunning view of the
                             ocean, perfect for solo travelers seeking serenity and scenic beauty.</span>
@@ -530,7 +460,7 @@
             </div>
             <div class="service__item">
                 <div class="card">
-                    <img src="./assets/image/meal_service.jpg" alt="">
+                    <img src="" alt="">
                     <div class="card__content">
                         <p class="card__title">Buffet Service</p>
                         <p class="card__description">
@@ -550,13 +480,12 @@
             </div>
             <div class="service__item">
                 <div class="card">
-                    <img src="./assets/image/bike_rental.jpg" alt="">
+                    <img src="" alt="">
                     <div class="card__content">
                         <p class="card__title">Rental Service</p>
                         <p class="card__description">Bike rental services at hotels provide guests with convenient
                             access to bicycles for easy exploration of the surrounding area.
                         </p>
-
                         <div class="card__rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -570,9 +499,6 @@
             </div>
         </div>
     </div>
-
-
-
     <div class="containerContactUs">
         <div class="content">
             <div class="left-side">
@@ -617,5 +543,4 @@
         </div>
     </div>
 </body>
-<script src="views/user/home/index.js"></script>
 </html>
