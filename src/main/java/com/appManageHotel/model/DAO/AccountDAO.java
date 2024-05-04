@@ -8,5 +8,6 @@ public interface AccountDAO extends DAOInterface<Account>{
 
 	public Account selectByUserNameAndPassWord(String username, String password);
 	
+	public Account selectByIDAndUserName(String ID, String username);
 }
  

@@ -198,9 +198,3 @@ headerAccount.addEventListener('click',() => {
         },1000);
     }
 });
-
-function signOut(){
-	console.log("Sign out");
-	var signOutClick = document.querySelector(".sign-out");
-	signOutClick.click();
-}

@@ -6,11 +6,11 @@
 <%@ page import="com.appManageHotel.model.DAO.RoomDAO" %>
 <%@ page import="com.appManageHotel.model.BEAN.TypeRoom" %>
 <%@ page import="com.appManageHotel.model.DAO.TypeRoomDAO" %>
+<%@ page import="com.appManageHotel.model.DAO.*" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-    <link rel="stylesheet" href="views/user/home/style.css">
     <link rel="stylesheet" href="views/user/rooms/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
@@ -21,33 +21,7 @@
 <title>Trang chu</title>
 </head>
 <body class="container">
-    <header class='header'>
-        <div class='header__logo'>
-            <button class='header__sign-button'>
-                <span>HOME PAGE</span>
-            </button>
-            <button class='header__sign-button'>
-                <span>ACCOMMODATION</span>
-            </button>
-            <button class='header__sign-button'>
-                <span>SERVICES</span>
-            </button>
-            <button class='header__sign-button'>
-                <span>ABOUT US</span>
-            </button>
-        </div>
-        <div class='header__sign'>
-            <button class='header__sign-button'>
-                <span>SIGN UP</span>
-            </button>
-            <button class='header__sign-button'>
-                <span>REGISTER</span>
-            </button>
-        </div>
-    </header>
-    <section class='background-opacity dp-n'>
-    </section>
-
+    <jsp:include page="../../general/header/header.jsp"/> 
     <div class="body__rooms">
         <div class="container_option__filter">
             <p class="option__filter__title">Looking for your suitable room?</p>
@@ -162,17 +136,17 @@
 
         <div class="rooms__list">
             <%
-            	List<Room> list = RoomDAO.getInstance().selectAll();
-            	for(int i = 0; i < list.size(); ++i)
+            	//List<Room> list = RoomDAOimpl.getInstance().selectAll();
+            	for(int i = 0; i < 10; ++i)
             	{
-            		TypeRoom typeRoom = TypeRoomDAO.getInstance().selectByID(list.get(i).getIDTypeRoom().toString());
-            		%>
+            		//TypeRoom typeRoom = TypeRoomDAOimpl.getInstance().selectByID(list.get(i).getIDTypeRoom().toString());
+            		//%>
          <div class="room__item">
             <div class="container_item">
-                <img src="./assets/image/beach_view_suite.jpg" alt="">
+                <img src="https://i.ibb.co/YkzccnP/standard-double.jpg" alt="">
                 <div class="bottom__infor">
                     <span>
-                    	<%= list.get(i).getDescription() %>
+                    	descripttion
                     </span>
                     <p class="star_room">
                         <i class="fas fa-star"></i>
@@ -184,15 +158,15 @@
                 </div>
                 <p class="infor__cost__maxPeople">
                     <button class="infor__cost">
-                        Price: <%= typeRoom.getPrice() %>$
+                        Price: 100$
                     </button>
 
                     <button class="infor__maxPeople">
-                        Max People: <%= typeRoom.getMaxPeople() %>
+                        Max People: 2
                     </button>
                 </p>
             </div>
-            <h3 class="room__item__title"><%= typeRoom.getTypeRoomName() %></h3>
+            <h3 class="room__item__title">double room</h3>
             <button class="book_now">
                 BOOK NOW
                 <div class="star-1">

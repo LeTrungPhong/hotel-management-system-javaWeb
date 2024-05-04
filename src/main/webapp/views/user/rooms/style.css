@@ -6,6 +6,7 @@
 .rooms__list{
     display: flex;
     flex-wrap: wrap;
+    gap: 10px;
     justify-content: space-evenly;
 }
 
@@ -24,11 +25,6 @@
     width: 100%;
 }
 
-.header{
-    background-color: #30CFD0;
-    z-index: 1;
-}
-
 .option__filter{
     gap: 10px;
     min-width: 500px;
@@ -39,7 +35,12 @@
     font-weight: 700;
 }
 
+.container {
+	position: relative;
+}
+
 .container_option__filter{
+	margin-top: 200px;
     width: 100%;
     background-color: orange;
     display: flex;

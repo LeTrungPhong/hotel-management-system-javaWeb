@@ -9,14 +9,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"/home-admin"})
-public class homeAdmin extends HttpServlet{
+@WebServlet(urlPatterns = {"/insertTypeRoom"})
+public class insertTypeRoom extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("DO GET /home-admin");
-		RequestDispatcher rd1 = req.getRequestDispatcher("/views/admin/home/home.jsp");
+		System.out.println("DO GET /insertTypeRoom");
+		RequestDispatcher rd1 = req.getRequestDispatcher("/views/admin/insertTypeRoom.jsp");
 		rd1.forward(req, resp);
 	}
 
@@ -25,15 +25,4 @@ public class homeAdmin extends HttpServlet{
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-	
 }

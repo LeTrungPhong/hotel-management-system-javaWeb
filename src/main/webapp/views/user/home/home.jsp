@@ -6,6 +6,7 @@
 <%@ page import="jakarta.servlet.http.Cookie" %>
 <%@ page import="jakarta.servlet.http.HttpServletRequest" %>
 <%@ page import="com.appManageHotel.model.DAO.AccountDAOImpl" %>
+<%@ page import="com.appManageHotel.controller.url.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,9 +23,9 @@
 <title>Trang chu</title>
 </head>
 <body class="container">
-    <jsp:include page="../header/header.jsp"/>
+    <jsp:include page="../../general/header/header.jsp"/> 
     <div class="body__image">
-        <img class="body__image__instance" src="" alt="">
+        <img class="body__image__instance" src="<%= url.urlImgHome %>" alt="">
         <div class="body__background__pattern">
             <h1 class="pattern__title">
                 WELCOME TO BEACHFRONT BLISS HOTEL
@@ -73,7 +74,7 @@
         <div class="room__list">
             <div class="room__item">
                 <div class="container_item">
-                    <img src="" alt="">
+                    <img src="https://i.ibb.co/YkzccnP/standard-double.jpg" alt="">
                     <div class="bottom__infor">
                         <span>The Beach View Suite offers a breathtaking panorama of the shimmering ocean, seamlessly
                             blending luxurious comfort with a serene, picturesque backdrop.</span>
@@ -181,7 +182,7 @@
             </div>
             <div class="room__item">
                 <div class="container_item">
-                    <img src="" alt="">
+                    <img src="https://i.ibb.co/YkzccnP/standard-double.jpg" alt="">
                     <div class="bottom__infor">
                         <span>The Standard Double room in a hotel offers a cozy, efficiently designed space featuring
                             two double beds, ideal for couples or small families seeking comfortable
@@ -290,7 +291,7 @@
             </div>
             <div class="room__item">
                 <div class="container_item">
-                    <img src="" alt="">
+                    <img src="https://i.ibb.co/YkzccnP/standard-double.jpg" alt="">
                     <div class="bottom__infor">
                         <span>The Beach View Single room offers a cozy, inviting space with a stunning view of the
                             ocean, perfect for solo travelers seeking serenity and scenic beauty.</span>
@@ -460,7 +461,7 @@
             </div>
             <div class="service__item">
                 <div class="card">
-                    <img src="" alt="">
+                    <img src="https://i.ibb.co/KD4pV89/bike-rental.jpg" alt="">
                     <div class="card__content">
                         <p class="card__title">Buffet Service</p>
                         <p class="card__description">
@@ -480,7 +481,7 @@
             </div>
             <div class="service__item">
                 <div class="card">
-                    <img src="" alt="">
+                    <img src="https://i.ibb.co/bBB4hFd/meal-service.jpg" alt="">
                     <div class="card__content">
                         <p class="card__title">Rental Service</p>
                         <p class="card__description">Bike rental services at hotels provide guests with convenient

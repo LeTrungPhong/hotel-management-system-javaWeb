@@ -42,4 +42,14 @@ public class AccountBO {
 		}
 		return null;
 	}
+	
+	public boolean updateAccount(Account t, String NewPassWord) {
+		Account account = AccountDAOImpl.getInstance().selectByIDAndUserName(t.getIDAccount(), t.getUserName());
+		if(account != null) {
+			if(account.getPassWord() != t.getPassWord()) return false;
+			AccountDAOImpl.getInstance().update(new Account(t.getIDAccount(), t.getUserName(), NewPassWord, account.getRole()));
+			return true;
+		}
+		return false;
+	}
 }
