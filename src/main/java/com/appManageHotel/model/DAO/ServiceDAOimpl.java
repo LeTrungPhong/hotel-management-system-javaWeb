@@ -4,52 +4,61 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import com.appManageHotel.database.ConnectDatabase;
-import com.appManageHotel.model.BEAN.Image;
 
-public class ImageDAOimpl implements ImageDAO{
-	public static ImageDAOimpl getInstance() {
-		return new ImageDAOimpl();
+import com.appManageHotel.database.ConnectDatabase;
+import com.appManageHotel.model.BEAN.Service;
+
+public class ServiceDAOimpl implements ServiceDAO{
+	
+	public static ServiceDAOimpl getInstance() {
+		return new ServiceDAOimpl();
 	}
 
 	@Override
-	public int insert(Image t) {
+	public int insert(Service t) {
 		// TODO Auto-generated method stub
 		try {
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "INSERT INTO Image(IDImage,ImageName,Path)"
-					+ " VALUES(?,?,?)";
+			String sql = "INSERT INTO Service(IDService,ServiceName,Price,Description,IDImage) "
+					+ " VALUES (?,?,?,?,?)";
+			
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, t.getIDImage());
-			pstmt.setString(2, t.getImageName());
-			pstmt.setString(3, t.getPath());
+			pstmt.setString(1, t.getIDService());
+			pstmt.setString(2, t.GetServiceName());
+			pstmt.setInt(3, t.getPrice());
+			pstmt.setString(4, t.getDescription());
+			pstmt.setString(5, t.getIDImage());
 			
 			int kq = pstmt.executeUpdate();
 			System.out.println("Thuc thi: " + sql);
 			System.out.println("Co" + kq + "Ket qua thay doi");
 		}
-		catch (Exception e) {
+		catch(Exception e){
 			e.printStackTrace();
 		}
 		return 0;
 	}
 
 	@Override
-	public int update(Image t) {
+	public int update(Service t) {
 		// TODO Auto-generated method stub
 		try {
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "UPDATE Image"
-					+ " SET ImageName = ?,"
-					+ " Path = ?"
-					+ " WHERE IDImage = ?";
+			String sql = "UPDATE Service"
+					+ " SET ServiceName = ?,"
+					+ " Price = ?,"
+					+ " Description = ?,"
+					+ " IDImage = ?"
+					+ " WHERE IDService = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, t.getImageName());
-			pstmt.setString(2, t.getPath());
-			pstmt.setString(3, t.getIDImage());
+			pstmt.setString(1, t.GetServiceName());
+			pstmt.setInt(2, t.getPrice());
+			pstmt.setString(3, t.getDescription());
+			pstmt.setString(4, t.getIDImage());
+			pstmt.setString(5, t.getIDService());
 			
 			int kq = pstmt.executeUpdate();
 			
@@ -69,24 +78,26 @@ public class ImageDAOimpl implements ImageDAO{
 	}
 
 	@Override
-	public ArrayList<Image> selectAll() {
+	public ArrayList<Service> selectAll() {
 		// TODO Auto-generated method stub
 		try {
-			ArrayList<Image> result = new ArrayList<Image>(); 
+			ArrayList<Service> result = new ArrayList<Service>(); 
 			
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "SELECT * FROM Image";
+			String sql = "SELECT * FROM Service";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 
 			ResultSet rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
+				String IDService = rs.getString("IDService");
+				String ServiceName = rs.getString("ServiceName");
+				int Price = rs.getInt("Price");
+				String Description = rs.getString("Description");
 				String IDImage = rs.getString("IDImage");
-				String ImageName = rs.getString("ImageName");
-				String Path = rs.getString("Path");
-				result.add(new Image(IDImage,ImageName,Path));
+				result.add(new Service( IDService,ServiceName,Price,Description,IDImage));
 			}
 			
 			System.out.println("Thuc thi: " + pstmt.toString());
@@ -99,59 +110,38 @@ public class ImageDAOimpl implements ImageDAO{
 	}
 
 	@Override
-	public Image selectByID(String ID) {
+	public Service selectByID(String ID) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Service> selectByCondition(String Condition) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Service selectByName(String name) {
 		// TODO Auto-generated method stub
 		try {
 			Connection con = ConnectDatabase.getConnection();
-			String sql = "SELECT * FROM Image WHERE IDImage = ?";
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, ID);
 			
+			String sql = "SELECT * FROM Service WHERE ServiceName = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+
 			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
-				String IDImage = rs.getString("IDImage");
-				String ImageName = rs.getString("ImageName");
-				String Path = rs.getString("Path");
-				return (new Image(IDImage, ImageName, Path));
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+			System.out.println("Thuc thi: " + pstmt.toString());
 	
-	public Image selectByIDRoom(String ID) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public ArrayList<Image> selectByCondition(String Condition) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Image selectByNameOrPath(String name, String path) {
-		// TODO Auto-generated method stub
-		try {
-			Connection con = ConnectDatabase.getConnection();
-			
-			String sql = "SELECT * FROM Image WHERE ImageName = ? OR Path = ?";
-			
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, name);
-			pstmt.setString(2, path);
-			
-			ResultSet rs = pstmt.executeQuery();
-			System.out.println("Thuc thi: " + pstmt.toString());
-			
 			while(rs.next()) {
+				String IDService = rs.getString("IDService");
+				String ServiceName = rs.getString("ServiceName");
+				int Price = rs.getInt("Price");
+				String Description = rs.getString("Description");
 				String IDImage = rs.getString("IDImage");
-				String ImageName = rs.getString("ImageName");
-				String Path = rs.getString("Path");
-				return new Image(IDImage,ImageName,Path);
+				return new Service( IDService,ServiceName,Price,Description,IDImage);
 			}
 			
 		}
@@ -162,32 +152,33 @@ public class ImageDAOimpl implements ImageDAO{
 	}
 
 	@Override
-	public Image selectByNameOrPathExceptID(String id, String name, String path) {
+	public Service selectByNameExceptID(String id, String name) {
 		// TODO Auto-generated method stub
 		try {
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "SELECT * FROM Image WHERE (ImageName = ? OR Path = ?) AND IDImage != ?";
+			String sql = "SELECT * FROM Service WHERE ServiceName = ? AND IDService != ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, name);
-			pstmt.setString(2, path);
-			pstmt.setString(3, id);
-			
+			pstmt.setString(2, id);
+
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println("Thuc thi: " + pstmt.toString());
-			
+	
 			while(rs.next()) {
+				String IDService = rs.getString("IDService");
+				String ServiceName = rs.getString("ServiceName");
+				int Price = rs.getInt("Price");
+				String Description = rs.getString("Description");
 				String IDImage = rs.getString("IDImage");
-				String ImageName = rs.getString("ImageName");
-				String Path = rs.getString("Path");
-				return new Image(IDImage,ImageName,Path);
+				return new Service( IDService,ServiceName,Price,Description,IDImage);
 			}
-			
 		}
 		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+
 }

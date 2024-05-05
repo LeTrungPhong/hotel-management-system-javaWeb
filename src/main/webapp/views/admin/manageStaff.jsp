@@ -174,7 +174,6 @@
             <button class="suspend-button" onclick="suspendEmployee()">Đình chỉ</button>
         </div>
     </div>
-
 </div>
 
 <div class="add-button">
