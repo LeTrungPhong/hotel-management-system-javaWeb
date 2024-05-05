@@ -159,10 +159,6 @@ for(let i = 0; i < signUpFormInput.length; ++i){
     })
 }
 
-function redirectToPageRooms(){
-	window.location.href = "http://localhost:8080/javaWeb-hms-pbl3/rooms";
-}
-
 ///////////////
 //////////////
 

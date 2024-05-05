@@ -21,7 +21,6 @@ public class ConnectDatabase {
 			}
         	Connection con = DriverManager.getConnection(connectionUrl); 
         	Statement stmt = con.createStatement();
-        	System.out.println("Ket noi database thanh cong");
         	return con;
         }
         catch (SQLException e) {

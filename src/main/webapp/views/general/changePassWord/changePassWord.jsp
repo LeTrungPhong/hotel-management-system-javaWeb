@@ -41,8 +41,9 @@
     label {
         font-weight: bold;
     }
+    
     input[type="text"],
-    input[type="email"],
+    input[type="password"],
     select {
         width: 100%;
         padding: 10px;
@@ -51,8 +52,17 @@
         border-radius: 4px;
         box-sizing: border-box;
     }
+    
+    #username {
+    	background-color: rgba(0,0,0, 0.1);
+    }
+    
+    .background-color-green {
+    	 background-color: #45a049 !important;
+    }
+    
     input[type="submit"] {
-        background-color: #4caf50;
+        background-color: #d5d5d5;
         color: white;
         padding: 14px 20px;
         margin: 8px 0;
@@ -60,9 +70,6 @@
         border-radius: 4px;
         cursor: pointer;
         width: 100%;
-    }
-    input[type="submit"]:hover {
-        background-color: #45a049;
     }
 </style>
 </head>
@@ -76,20 +83,60 @@
 		<h2>Change Password</h2>
     	<form action="<%= url.urlServer + "changePassWord" %>" method="post">
      	  <label for="username">Username:</label>
-      	  <input type="text" id="username" value="<%= account == null ? "" : account.getUserName() %>" name="UserName" placeholder="Your username..." required disabled>
+      	  <input type="text" id="username" value="<%= account == null ? "" : account.getUserName() %>" name="UserName" placeholder="Your username..." required readonly>
 
 		  <label for="oldpassword">Old password:</label>
-      	  <input type="text" id="oldpassword" name="PassWord" placeholder="Your old password.." required>
+      	  <input type="password" class="newPassWord" id="oldpassword" name="PassWord" placeholder="Your old password.." required>
 
       	  <label for="password">New password:</label>
-      	  <input type="text" id="password" name="NewPassWord" placeholder="Your password.." required>
+      	  <input type="password" class="newPassWord" id="password" name="NewPassWord" placeholder="Your password.." required>
       	  
       	  <label for="passwordConfirm">Confirm new password:</label>
-      	  <input type="text" id="passwordConfirm" name="ConfirmNewPassWord" placeholder="Confirm new password..." required>
+      	  <input type="password" class="newPassWord" id="passwordConfirm" name="ConfirmNewPassWord" placeholder="Confirm new password..." required>
 		
           <input class="dp-n" type="text" value="changePassWord" name="type">
-          <input type="submit" value="Update">
+          <input type="submit" class="submitNewPassWord" value="Update">
     </form>
 	</div>
 </body>
+<script>
+const newPassWord = document.getElementsByClassName('newPassWord');
+const submitNewPassWord = document.querySelector('.submitNewPassWord');
+
+function addSubmitPreventDefault(event){
+    event.preventDefault();
+}
+
+for(let j = 0; j < newPassWord.length; ++j){
+    if(newPassWord[j].value === ""){
+    	submitNewPassWord.classList.remove('background-color-green');
+    	submitNewPassWord.classList.remove('color-white');
+    	submitNewPassWord.addEventListener('click', addSubmitPreventDefault);
+        break;
+    }
+    if(j == newPassWord.length - 1){
+    	submitNewPassWord.classList.add('background-color-green');
+    	submitNewPassWord.classList.add('color-white');
+    	submitNewPassWord.removeEventListener('click', addSubmitPreventDefault);
+    }
+}
+
+for(let i = 0; i < newPassWord.length; ++i){
+	newPassWord[i].addEventListener('input',() => {
+        for(let j = 0; j < newPassWord.length; ++j){
+            if(newPassWord[j].value === "" || newPassWord[1].value !== newPassWord[2].value){
+            	submitNewPassWord.classList.remove('background-color-green');
+            	submitNewPassWord.classList.remove('color-white');
+            	submitNewPassWord.addEventListener('click', addSubmitPreventDefault);
+                break;
+            }
+            if(j == newPassWord.length - 1 && newPassWord[1].value === newPassWord[2].value){
+            	submitNewPassWord.classList.add('background-color-green');
+            	submitNewPassWord.classList.add('color-white');
+            	submitNewPassWord.removeEventListener('click', addSubmitPreventDefault);
+            }
+        }
+    })
+}
+</script>
 </html>

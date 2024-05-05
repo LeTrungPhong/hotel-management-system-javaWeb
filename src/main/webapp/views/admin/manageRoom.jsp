@@ -8,6 +8,7 @@
 	
 </head>
 <body class="container">
+<jsp:include page="../general/header/header.jsp"/> 
 
 </body>
 </html>

@@ -41,30 +41,6 @@ public class FacilityDAOimpl implements FacilityDAO{
 	@Override
 	public int update(Facility t) {
 		// TODO Auto-generated method stub
-		try {
-			Connection con = ConnectDatabase.getConnection();
-			
-			String sql = "UPDATE Facility"
-					+ " SET FacilityName = ?"
-					+ " IDRoom = ?"
-					+ " State = ?"
-					+ " NumberBook = ?"
-					+ " WHERE IDFacility = ?";
-			
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, t.getFacilityName());
-			pstmt.setString(2, t.getIDRoom());
-			pstmt.setBoolean(3, t.isState());
-			pstmt.setString(4, t.getIDFacility());
-			
-			int kq = pstmt.executeUpdate();
-			
-			System.out.println("Thuc thi: " + pstmt.toString());
-			System.out.println("Co" + kq + "Ket qua thay doi");
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
 		return 0;
 	}
 

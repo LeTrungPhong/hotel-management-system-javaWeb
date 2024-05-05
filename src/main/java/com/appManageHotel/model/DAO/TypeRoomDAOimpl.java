@@ -19,15 +19,16 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 		try {
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "INSERT INTO TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxPeople,NumberBook) "
-					+ " VALUES (?,?,?,?,?)";
+			String sql = "INSERT INTO TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook) "
+					+ " VALUES (?,?,?,?,?,?)";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, t.getIDTypeRoom());
 			pstmt.setString(2, t.getTypeRoomName());
 			pstmt.setInt(3, t.getPrice());
-			pstmt.setInt(4, t.getMaxPeople());
-			pstmt.setInt(5, t.getNumberBook());
+			pstmt.setInt(4, t.getMaxAdult());
+			pstmt.setInt(5, t.getMaxChild());
+			pstmt.setInt(6, t.getNumberBook());
 			
 			int kq = pstmt.executeUpdate();
 			System.out.println("Thuc thi: " + sql);
@@ -46,17 +47,17 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 			Connection con = ConnectDatabase.getConnection();
 			
 			String sql = "UPDATE TypeRoom"
-					+ " SET TypeRoomName = ?"
-					+ " Price = ?"
-					+ " MaxPeople = ?"
-					+ " NumberBook = ?"
+					+ " SET TypeRoomName = ?,"
+					+ " Price = ?," 
+					+ " MaxAdult = ?,"
+					+ " MaxChild = ?"
 					+ " WHERE IDTypeRoom = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, t.getTypeRoomName());
 			pstmt.setInt(2, t.getPrice());
-			pstmt.setInt(3, t.getMaxPeople());
-			pstmt.setInt(4, t.getNumberBook());
+			pstmt.setInt(3, t.getMaxAdult());
+			pstmt.setInt(4, t.getMaxChild());
 			pstmt.setString(5, t.getIDTypeRoom());
 			
 			int kq = pstmt.executeUpdate();
@@ -73,24 +74,6 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 	@Override
 	public int delete(String ID) {
 		// TODO Auto-generated method stub
-		try {
-			Connection con = ConnectDatabase.getConnection();
-			
-			String sql = "DELETE FROM TypeRoom"
-					+ " WHERE IDTypeRoom = ?";
-			
-			PreparedStatement pstmt = con.prepareStatement(sql);
-			
-			pstmt.setString(1, ID);
-			
-			int kq = pstmt.executeUpdate();
-			
-			System.out.println("Thuc thi: " + pstmt.toString());
-			System.out.println("Co" + kq + "Ket qua thay doi");
-		} 
-		catch (Exception e) {
-			e.printStackTrace();
-		}
 		return 0;
 	}
 
@@ -112,9 +95,10 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 				String IDTypeRoom = rs.getString("IDTypeRoom");
 				String TypeRoomName = rs.getString("TypeRoomName");
 				int Price = rs.getInt("Price");
-				int MaxPeople = rs.getInt("MaxPeople");
+				int MaxAdult = rs.getInt("MaxAdult");
+				int MaxChild = rs.getInt("MaxChild");
 				int NumberBook = rs.getInt("NumberBook");
-				result.add(new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxPeople,NumberBook));
+				result.add(new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook));
 			}
 			
 			System.out.println("Thuc thi: " + pstmt.toString());
@@ -129,26 +113,35 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 	@Override
 	public TypeRoom selectByID(String ID) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<TypeRoom> selectByCondition(String Condition) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TypeRoom selectByTypeRoomName(String typeroomname) {
+		// TODO Auto-generated method stub
+		
 		try {
 			Connection con = ConnectDatabase.getConnection();
-			
-			String sql = "SELECT * FROM TypeRoom WHERE IDTypeRoom = ?";
-			
+			String sql = "SELECT * FROM TypeRoom WHERE TypeRoomName = ?";
 			PreparedStatement pstmt = con.prepareStatement(sql);
-			pstmt.setString(1, ID);
-			ResultSet rs = pstmt.executeQuery();
+			pstmt.setString(1, typeroomname);
 			
+			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				String IDTypeRoom = rs.getString("IDTypeRoom");
 				String TypeRoomName = rs.getString("TypeRoomName");
 				int Price = rs.getInt("Price");
-				int MaxPeople = rs.getInt("MaxPeople");
+				int MaxAdult = rs.getInt("MaxAdult");
+				int MaxChild = rs.getInt("MaxChild");
 				int NumberBook = rs.getInt("NumberBook");
-				TypeRoom result = new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxPeople,NumberBook);
-				System.out.println("Thuc thi: " + pstmt.toString());
-				return result;
+				return (new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook));
 			}
-			return null;
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -157,8 +150,34 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 	}
 
 	@Override
-	public ArrayList<TypeRoom> selectByCondition(String Condition) {
+	public TypeRoom selectByTypeRoomNameExceptID(String id, String typeroomname) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT * FROM TypeRoom WHERE TypeRoomName = ? AND IDTypeRoom != ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, typeroomname);
+			pstmt.setString(2, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("Thuc thi: " + pstmt.toString());
+			
+			while(rs.next()) {
+				String IDTypeRoom = rs.getString("IDTypeRoom");
+				String TypeRoomName = rs.getString("TypeRoomName");
+				int Price = rs.getInt("Price");
+				int MaxAdult = rs.getInt("MaxAdult");
+				int MaxChild = rs.getInt("MaxChild");
+				int NumberBook = rs.getInt("NumberBook");
+				return (new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook));
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

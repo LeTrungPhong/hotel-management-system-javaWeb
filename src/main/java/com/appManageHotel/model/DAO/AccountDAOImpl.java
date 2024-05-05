@@ -42,6 +42,29 @@ public class AccountDAOImpl implements AccountDAO{
 	@Override
 	public int update(Account account) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "UPDATE Account"
+					+ " SET UserName = ?,"
+					+ " PassWord = ?,"
+					+ " Role = ?"
+					+ " WHERE IDAccount = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, account.getUserName());
+			pstmt.setString(2, account.getPassWord());
+			pstmt.setString(3, account.getRole());
+			pstmt.setString(4, account.getIDAccount());
+			
+			int kq = pstmt.executeUpdate();
+			
+			System.out.println("Thuc thi: " + pstmt.toString());
+			System.out.println("Co" + kq + "Ket qua thay doi");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 

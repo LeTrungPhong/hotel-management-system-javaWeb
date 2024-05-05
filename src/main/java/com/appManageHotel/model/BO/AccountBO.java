@@ -46,7 +46,8 @@ public class AccountBO {
 	public boolean updateAccount(Account t, String NewPassWord) {
 		Account account = AccountDAOImpl.getInstance().selectByIDAndUserName(t.getIDAccount(), t.getUserName());
 		if(account != null) {
-			if(account.getPassWord() != t.getPassWord()) return false;
+			if(!account.getPassWord().equals(t.getPassWord())) return false;
+			System.out.println(NewPassWord);
 			AccountDAOImpl.getInstance().update(new Account(t.getIDAccount(), t.getUserName(), NewPassWord, account.getRole()));
 			return true;
 		}

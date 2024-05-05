@@ -39,6 +39,7 @@ public class changePassWord extends HttpServlet{
 			Cookie cookieIDAccount = cookie.findCookieByName(req, "IDAccount");
 			
 			if(cookieIDAccount != null) {
+				System.out.println(cookieIDAccount.getValue() + " " + UserName + " " + PassWord + " " + NewPassWord);
 				if(AccountBO.getInstance().updateAccount(new Account(cookieIDAccount.getValue(), UserName, PassWord, ""), NewPassWord)) {
 					 System.out.println("Cap nhat mat khau thanh cong");
 				} else {

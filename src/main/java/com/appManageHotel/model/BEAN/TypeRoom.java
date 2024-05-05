@@ -4,14 +4,16 @@ public class TypeRoom {
 	private String IDTypeRoom;
 	private String TypeRoomName;
 	private int Price;
-	private int MaxPeople;
+	private int MaxAdult;
+	private int MaxChild;
 	private int NumberBook;
 	
-	public TypeRoom(String IDTypeRoom, String TypeRoomName, int Price, int MaxPeople, int NumberBook) {
+	public TypeRoom(String IDTypeRoom, String TypeRoomName, int Price, int MaxAdult, int MaxChild, int NumberBook) {
 		this.IDTypeRoom = IDTypeRoom;
 		this.TypeRoomName = TypeRoomName;
 		this.Price = Price;
-		this.MaxPeople = MaxPeople;
+		this.MaxAdult = MaxAdult;
+		this.MaxChild = MaxChild;
 		this.NumberBook = NumberBook;
 	}
 	
@@ -33,16 +35,26 @@ public class TypeRoom {
 	public void setPrice(int price) {
 		Price = price;
 	}
-	public int getMaxPeople() {
-		return MaxPeople;
-	}
-	public void setMaxPeople(int maxPeople) {
-		MaxPeople = maxPeople;
-	}
 	public int getNumberBook() {
 		return NumberBook;
 	}
 	public void setNumberBook(int numberBook) {
 		NumberBook = numberBook;
+	}
+
+	public int getMaxAdult() {
+		return MaxAdult;
+	}
+
+	public void setMaxAdult(int maxAdult) {
+		MaxAdult = maxAdult;
+	}
+
+	public int getMaxChild() {
+		return MaxChild;
+	}
+
+	public void setMaxChild(int maxChild) {
+		MaxChild = maxChild;
 	}
 }

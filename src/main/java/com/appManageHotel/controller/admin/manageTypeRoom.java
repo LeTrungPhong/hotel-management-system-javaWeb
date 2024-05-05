@@ -1,6 +1,13 @@
 package com.appManageHotel.controller.admin;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.UUID;
+
+import com.appManageHotel.controller.url.url;
+import com.appManageHotel.model.BEAN.TypeRoom;
+import com.appManageHotel.model.BO.TypeRoomBO;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -23,6 +30,50 @@ public class manageTypeRoom extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String typeRequest = req.getParameter("type");
+		System.out.println("Post in manageTypeRoom");                                                                                                                                                      
+		if(typeRequest.equals("insertTypeRoom")) {
+			System.out.println(typeRequest);
+			
+			UUID uuid = UUID.randomUUID();
+			String IDTypeRoom = uuid.toString();
+			String TypeRoomName = req.getParameter("TypeRoomName");
+			int Price = Integer.parseInt(req.getParameter("Price"));
+			int MaxAdult = Integer.parseInt(req.getParameter("MaxAdult"));
+			int MaxChild = Integer.parseInt(req.getParameter("MaxChild"));
+			int NumberBook = 0;
+			
+			String[] roomImages = req.getParameterValues("roomImages");
+			HashSet<String> uniqueSet = new HashSet<>(Arrays.asList(roomImages));
+			String[] listIDImage = uniqueSet.toArray(new String[uniqueSet.size()]);
+			
+			if(TypeRoomBO.getInstance().insertTypeRoom(new TypeRoom(IDTypeRoom, TypeRoomName, Price, MaxAdult, MaxChild, NumberBook), listIDImage)) {
+				System.out.println("Insert type room thanh cong");
+			} else {
+				System.out.println("Insert type room that bai, trung ten hoac error...");
+			}
+		}
 		
+		if(typeRequest.equals("updateTypeRoom")) {
+			System.out.println(typeRequest);
+			
+			String IDTypeRoom = req.getParameter("IDTypeRoom");
+			String TypeRoomName = req.getParameter("TypeRoomName");
+			int Price = Integer.parseInt(req.getParameter("Price"));
+			int MaxAdult = Integer.parseInt(req.getParameter("MaxAdult"));
+			int MaxChild = Integer.parseInt(req.getParameter("MaxChild"));
+			
+			String[] roomImages = req.getParameterValues("roomImages");
+			HashSet<String> uniqueSet = new HashSet<>(Arrays.asList(roomImages));
+			String[] listIDImage = uniqueSet.toArray(new String[uniqueSet.size()]);
+			
+			if(TypeRoomBO.getInstance().updateTypeRoom(new TypeRoom(IDTypeRoom, TypeRoomName, Price, MaxAdult, MaxAdult, MaxChild), listIDImage)) {
+				System.out.println("Update type room thanh cong");
+			} else {
+				System.out.println("Update type room that bai, trung ten hoac error,...");
+			}
+		}
+		
+		resp.sendRedirect(url.urlServer + "manageTypeRoom");
 	}
 }
