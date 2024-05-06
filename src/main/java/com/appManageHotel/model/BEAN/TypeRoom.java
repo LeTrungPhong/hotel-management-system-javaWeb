@@ -7,14 +7,16 @@ public class TypeRoom {
 	private int MaxAdult;
 	private int MaxChild;
 	private int NumberBook;
+	private String Description;
 	
-	public TypeRoom(String IDTypeRoom, String TypeRoomName, int Price, int MaxAdult, int MaxChild, int NumberBook) {
+	public TypeRoom(String IDTypeRoom, String TypeRoomName, int Price, int MaxAdult, int MaxChild, int NumberBook, String Description) {
 		this.IDTypeRoom = IDTypeRoom;
 		this.TypeRoomName = TypeRoomName;
 		this.Price = Price;
 		this.MaxAdult = MaxAdult;
 		this.MaxChild = MaxChild;
 		this.NumberBook = NumberBook;
+		this.Description = Description;
 	}
 	
 	public String getIDTypeRoom() {
@@ -56,5 +58,13 @@ public class TypeRoom {
 
 	public void setMaxChild(int maxChild) {
 		MaxChild = maxChild;
+	}
+
+	public String getDescription() {
+		return Description;
+	}
+
+	public void setDescription(String description) {
+		Description = description;
 	}
 }

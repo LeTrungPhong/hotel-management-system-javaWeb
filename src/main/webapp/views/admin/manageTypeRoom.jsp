@@ -92,6 +92,14 @@
             border: 1px solid #ccc;
             border-radius: 5px;
         }
+        .form-container textarea,
+        .form-container-update textarea {
+        	width: calc(100% - 20px);
+        	padding 10px;
+        	margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
         .image-container {
             margin-bottom: 20px;
         }
@@ -147,6 +155,7 @@
 			int MaxAdult = listTypeRoom.get(i).getMaxAdult();
 			int MaxChild = listTypeRoom.get(i).getMaxChild();
 			int NumberBook = listTypeRoom.get(i).getNumberBook();
+			String Description = listTypeRoom.get(i).getDescription();
 			%>
 				<div class="room-type">
 	    			<img src="https://media.cnn.com/api/v1/images/stellar/prod/140127103345-peninsula-shanghai-deluxe-mock-up.jpg?q=w_2226,h_1449,x_0,y_0,c_fill" alt="Room Image">
@@ -155,9 +164,10 @@
 	        			<p>Số người tối đa: Người lớn - <%= MaxAdult %>, Trẻ nhỏ - <%= MaxChild %></p>
 	        			<p>Giá: $<%= Price %>/đêm</p>
 	        			<p>Số lần đặt: <%= NumberBook %></p>
+	        			<p>Description: <%= Description %></p>
 	        			<div class="btn-container">
-	            			<a href="#"><button>Xem chi tiết</button></a>
-	            			<button onclick="displayFormUpdate('<%= IDTypeRoom %>','<%= TypeRoomName %>',<%= Price %>,<%= MaxAdult %>,<%= MaxChild %>)">Chỉnh sửa</button>
+	            			<button onclick="detailTypeRoom('<%= IDTypeRoom %>')">Xem chi tiết</button>
+	            			<button onclick="displayFormUpdate('<%= IDTypeRoom %>','<%= TypeRoomName %>',<%= Price %>,<%= MaxAdult %>,<%= MaxChild %>,<%= Description %>)">Chỉnh sửa</button>
 	        			</div>
 	    			</div>
 				</div>
@@ -186,6 +196,9 @@
 
         <label for="roomPrice">Giá:</label>
         <input type="number" id="roomPrice" name="Price" min="0" step="50" required>
+        
+        <label for="description">Description:</label>
+        <textarea id="description" name="Description" rows="4" required></textarea>
 
         <div class="image-container">
             <label for="roomImages">Đường dẫn hình ảnh phòng:</label>
@@ -223,6 +236,9 @@
 
         <label for="priceUpdate">Giá:</label>
         <input type="number" id="priceUpdate" name="Price" min="0" step="50" required>
+        
+        <label for="Description">Description:</label>
+        <textarea id="Description" name="Description" rows="4" required></textarea>
 
         <div class="image-container-update">
             <label for="roomImages">Đường dẫn hình ảnh phòng:</label>
@@ -263,7 +279,7 @@ https://i.ibb.co/PhyGC7n/beach-view-single.jpg -->
 		backgroundShadow.classList.remove('dp-n');
 	}
 
-	function displayFormUpdate(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild){
+	function displayFormUpdate(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,Description){
 		formContainerUpdate.classList.remove('dp-n');
 		backgroundShadow.classList.remove('dp-n');
 
@@ -272,6 +288,7 @@ https://i.ibb.co/PhyGC7n/beach-view-single.jpg -->
 		document.getElementById('priceUpdate').value = Price;
 		document.getElementById('maxChildUpdate').value = MaxChild;
 		document.getElementById('maxAdultUpdate').value = MaxAdult;
+		document.getElementById('Description').value = Description;
 	}
 
 	backgroundShadow.addEventListener('click', () => {
@@ -358,6 +375,10 @@ https://i.ibb.co/PhyGC7n/beach-view-single.jpg -->
         form.insertBefore(imageContainer, form.lastElementChild);
     }
 
+    function detailTypeRoom(IDTypeRoom){
+    	document.cookie = "IDTypeRoom=" + IDTypeRoom + ";max-age=" + (24 * 60 * 60);
+    	window.location.href = '<%= url.urlServer + "manageRoom" %>';
+    }
     
 </script>
 

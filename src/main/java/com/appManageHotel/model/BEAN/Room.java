@@ -4,13 +4,11 @@ public class Room {
 	private String IDRoom;
 	private String IDTypeRoom;
 	private String RoomName;
-	private String Description;
 	
-	public Room(String IDRoom, String IDTypeRoom, String RoomName, String Description) {
+	public Room(String IDRoom, String IDTypeRoom, String RoomName) {
 		this.IDRoom = IDRoom;
 		this.IDTypeRoom = IDTypeRoom;
 		this.RoomName = RoomName;
-		this.Description = Description;
 	}
 	
 	public String getIDRoom() {
@@ -30,11 +28,5 @@ public class Room {
 	}
 	public void setRoomName(String roomName) {
 		RoomName = roomName;
-	}
-	public String getDescription() {
-		return Description;
-	}
-	public void setDescription(String description) {
-		Description = description;
 	}
 }

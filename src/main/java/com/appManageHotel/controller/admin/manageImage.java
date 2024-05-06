@@ -58,7 +58,6 @@ public class manageImage extends HttpServlet{
 				System.out.println("Update khong thanh cong, ten hoac path da ton tai");
 			}
 		}
-		
 		resp.sendRedirect(url.urlServer + "manageImage");
 	}
 }

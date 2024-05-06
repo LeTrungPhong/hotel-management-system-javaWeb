@@ -53,4 +53,14 @@ public class AccountBO {
 		}
 		return false;
 	}
+	
+	public boolean insertAccount(Account t) {
+		Account find = AccountDAOImpl.getInstance().selectByUserName(t.getUserName());
+		if (find == null) {
+			AccountDAOImpl.getInstance().insert(t);
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

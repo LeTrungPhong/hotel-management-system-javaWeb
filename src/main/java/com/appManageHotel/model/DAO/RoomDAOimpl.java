@@ -12,21 +12,20 @@ public class RoomDAOimpl implements RoomDAO{
 	public static RoomDAOimpl getInstance() {
 		return new RoomDAOimpl();
 	}
-	
+
 	@Override
 	public int insert(Room t) {
 		// TODO Auto-generated method stub
 		try {
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "INSERT INTO Room(IDRoom,IDTypeRoom,RoomName,Description) "
-					+ " VALUES (?,?,?,?)";
+			String sql = "INSERT INTO Room(IDRoom,IDTypeRoom,RoomName) "
+					+ " VALUES (?,?,?)";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, t.getIDRoom());
 			pstmt.setString(2, t.getIDTypeRoom());
 			pstmt.setString(3, t.getRoomName());
-			pstmt.setString(4, t.getDescription());
 			
 			int kq = pstmt.executeUpdate();
 			System.out.println("Thuc thi: " + sql);
@@ -47,14 +46,12 @@ public class RoomDAOimpl implements RoomDAO{
 			String sql = "UPDATE Room"
 					+ " SET IDTypeRoom = ?"
 					+ " RoomName = ?"
-					+ " Description = ?"
 					+ " WHERE IDRoom = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, t.getIDTypeRoom());
 			pstmt.setString(2, t.getRoomName());
-			pstmt.setString(3, t.getDescription());
-			pstmt.setString(4, t.getIDRoom());
+			pstmt.setString(3, t.getIDRoom());
 			
 			int kq = pstmt.executeUpdate();
 			
@@ -109,8 +106,7 @@ public class RoomDAOimpl implements RoomDAO{
 				String IDRoom = rs.getString("IDRoom");
 				String IDTypeRoom = rs.getString("IDTypeRoom");
 				String RoomName = rs.getString("RoomName");
-				String Description = rs.getString("Description");
-				result.add(new Room(IDRoom,IDTypeRoom,RoomName,Description));
+				result.add(new Room(IDRoom,IDTypeRoom,RoomName));
 			}
 			
 			System.out.println("Thuc thi: " + pstmt.toString());
@@ -125,25 +121,40 @@ public class RoomDAOimpl implements RoomDAO{
 	@Override
 	public Room selectByID(String ID) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Room> selectByCondition(String Condition) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Room> selectByIDTypeRoom(String ID) {
+		// TODO Auto-generated method stub
 		try {
+			ArrayList<Room> result = new ArrayList<Room>(); 
+			
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "SELECT * FROM Room WHERE IDRoom = ?";
+			String sql = "SELECT * FROM Room WHERE IDTypeRoom = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, ID);
 
 			ResultSet rs = pstmt.executeQuery();
 			
-			String IDRoom = rs.getString("IDRoom");
-			String IDTypeRoom = rs.getString("IDTypeRoom");
-			String RoomName = rs.getString("RoomName");
-			String Description = rs.getString("Description");
-			Room result = new Room(IDRoom,IDTypeRoom,RoomName,Description);
+			while(rs.next()) {
+				String IDRoom = rs.getString("IDRoom");
+				String IDTypeRoom = rs.getString("IDTypeRoom");
+				String RoomName = rs.getString("RoomName");
+				result.add(new Room(IDRoom,IDTypeRoom,RoomName));
+			}
 			
 			System.out.println("Thuc thi: " + pstmt.toString());
 			return result;
-		}
+		} 
 		catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -151,8 +162,31 @@ public class RoomDAOimpl implements RoomDAO{
 	}
 
 	@Override
-	public ArrayList<Room> selectByCondition(String Condition) {
+	public Room selectByRoomName(String name) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT * FROM Room WHERE RoomName = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, name);
+
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+			String IDRoom = rs.getString("IDRoom");
+			String IDTypeRoom = rs.getString("IDTypeRoom");
+			String RoomName = rs.getString("RoomName");
+		
+			Room result = new Room(IDRoom,IDTypeRoom,RoomName);
+			
+			System.out.println("Thuc thi: " + pstmt.toString());
+			return result;
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

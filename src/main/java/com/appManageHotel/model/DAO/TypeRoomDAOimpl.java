@@ -19,8 +19,8 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 		try {
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "INSERT INTO TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook) "
-					+ " VALUES (?,?,?,?,?,?)";
+			String sql = "INSERT INTO TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook,Description) "
+					+ " VALUES (?,?,?,?,?,?,?)";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, t.getIDTypeRoom());
@@ -29,6 +29,7 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 			pstmt.setInt(4, t.getMaxAdult());
 			pstmt.setInt(5, t.getMaxChild());
 			pstmt.setInt(6, t.getNumberBook());
+			pstmt.setString(7, t.getDescription());
 			
 			int kq = pstmt.executeUpdate();
 			System.out.println("Thuc thi: " + sql);
@@ -50,7 +51,8 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 					+ " SET TypeRoomName = ?,"
 					+ " Price = ?," 
 					+ " MaxAdult = ?,"
-					+ " MaxChild = ?"
+					+ " MaxChild = ?,"
+					+ " Description = ?"
 					+ " WHERE IDTypeRoom = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -58,7 +60,8 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 			pstmt.setInt(2, t.getPrice());
 			pstmt.setInt(3, t.getMaxAdult());
 			pstmt.setInt(4, t.getMaxChild());
-			pstmt.setString(5, t.getIDTypeRoom());
+			pstmt.setString(5, t.getDescription());
+			pstmt.setString(6, t.getIDTypeRoom());
 			
 			int kq = pstmt.executeUpdate();
 			
@@ -98,7 +101,8 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 				int MaxAdult = rs.getInt("MaxAdult");
 				int MaxChild = rs.getInt("MaxChild");
 				int NumberBook = rs.getInt("NumberBook");
-				result.add(new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook));
+				String Description = rs.getString("Description");
+				result.add(new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook,Description));
 			}
 			
 			System.out.println("Thuc thi: " + pstmt.toString());
@@ -140,7 +144,8 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 				int MaxAdult = rs.getInt("MaxAdult");
 				int MaxChild = rs.getInt("MaxChild");
 				int NumberBook = rs.getInt("NumberBook");
-				return (new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook));
+				String Description = rs.getString("Description");
+				return (new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook,Description));
 			}
 		}
 		catch (Exception e) {
@@ -171,9 +176,9 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 				int MaxAdult = rs.getInt("MaxAdult");
 				int MaxChild = rs.getInt("MaxChild");
 				int NumberBook = rs.getInt("NumberBook");
-				return (new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook));
+				String Description = rs.getString("Description");
+				return (new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook,Description));
 			}
-			
 		}
 		catch (Exception e) {
 			e.printStackTrace();

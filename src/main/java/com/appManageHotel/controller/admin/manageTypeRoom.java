@@ -42,12 +42,13 @@ public class manageTypeRoom extends HttpServlet{
 			int MaxAdult = Integer.parseInt(req.getParameter("MaxAdult"));
 			int MaxChild = Integer.parseInt(req.getParameter("MaxChild"));
 			int NumberBook = 0;
+			String Description = req.getParameter("Description");
 			
 			String[] roomImages = req.getParameterValues("roomImages");
 			HashSet<String> uniqueSet = new HashSet<>(Arrays.asList(roomImages));
 			String[] listIDImage = uniqueSet.toArray(new String[uniqueSet.size()]);
 			
-			if(TypeRoomBO.getInstance().insertTypeRoom(new TypeRoom(IDTypeRoom, TypeRoomName, Price, MaxAdult, MaxChild, NumberBook), listIDImage)) {
+			if(TypeRoomBO.getInstance().insertTypeRoom(new TypeRoom(IDTypeRoom, TypeRoomName, Price, MaxAdult, MaxChild, NumberBook, Description), listIDImage)) {
 				System.out.println("Insert type room thanh cong");
 			} else {
 				System.out.println("Insert type room that bai, trung ten hoac error...");
@@ -62,12 +63,13 @@ public class manageTypeRoom extends HttpServlet{
 			int Price = Integer.parseInt(req.getParameter("Price"));
 			int MaxAdult = Integer.parseInt(req.getParameter("MaxAdult"));
 			int MaxChild = Integer.parseInt(req.getParameter("MaxChild"));
+			String Description = req.getParameter("Description");
 			
 			String[] roomImages = req.getParameterValues("roomImages");
 			HashSet<String> uniqueSet = new HashSet<>(Arrays.asList(roomImages));
 			String[] listIDImage = uniqueSet.toArray(new String[uniqueSet.size()]);
 			
-			if(TypeRoomBO.getInstance().updateTypeRoom(new TypeRoom(IDTypeRoom, TypeRoomName, Price, MaxAdult, MaxAdult, MaxChild), listIDImage)) {
+			if(TypeRoomBO.getInstance().updateTypeRoom(new TypeRoom(IDTypeRoom, TypeRoomName, Price, MaxAdult, MaxAdult, MaxChild, Description), listIDImage)) {
 				System.out.println("Update type room thanh cong");
 			} else {
 				System.out.println("Update type room that bai, trung ten hoac error,...");

@@ -43,7 +43,6 @@
     	<button onclick="window.location.href='<%= url.urlServer + "manageTypeRoom" %>'">Danh sách các loại phòng</button>
     	<button onclick="window.location.href='<%= url.urlServer + "manageService" %>'">Danh sách các dịch vụ</button>
     	<button onclick="window.location.href='<%= url.urlServer + "manageStaff" %>'">Danh sách các nhân viên</button>
-    	<button onclick="window.location.href='<%= url.urlServer + "manageRoom" %>'">Danh sách các phòng</button>
     	<button onclick="window.location.href='<%= url.urlServer + "manageImage" %>'">Danh sách hinh anh</button>
 	</div>
 </body>
