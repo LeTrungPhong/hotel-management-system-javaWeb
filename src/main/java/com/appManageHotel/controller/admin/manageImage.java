@@ -26,6 +26,13 @@ public class manageImage extends HttpServlet{
 	}
 
 	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		System.out.println("DO PUT /manageImage");
+		RequestDispatcher rd1 = req.getRequestDispatcher("/views/admin/manageImage.jsp");
+		rd1.forward(req, resp);
+	}
+
+	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		System.out.println("Post in manageImage");

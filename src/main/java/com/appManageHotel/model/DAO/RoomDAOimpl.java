@@ -44,7 +44,7 @@ public class RoomDAOimpl implements RoomDAO{
 			Connection con = ConnectDatabase.getConnection();
 			
 			String sql = "UPDATE Room"
-					+ " SET IDTypeRoom = ?"
+					+ " SET IDTypeRoom = ?,"
 					+ " RoomName = ?"
 					+ " WHERE IDRoom = ?";
 			
@@ -121,6 +121,29 @@ public class RoomDAOimpl implements RoomDAO{
 	@Override
 	public Room selectByID(String ID) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT * FROM Room WHERE IDRoom = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, ID);
+
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String IDRoom = rs.getString("IDRoom");
+				String IDTypeRoom = rs.getString("IDTypeRoom");
+				String RoomName = rs.getString("RoomName");
+		
+				Room result = new Room(IDRoom,IDTypeRoom,RoomName);
+			
+				System.out.println("Thuc thi: " + pstmt.toString());
+				return result;
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

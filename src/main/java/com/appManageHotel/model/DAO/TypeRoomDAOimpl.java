@@ -117,6 +117,27 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 	@Override
 	public TypeRoom selectByID(String ID) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			String sql = "SELECT * FROM TypeRoom WHERE IDTypeRoom = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, ID);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String IDTypeRoom = rs.getString("IDTypeRoom");
+				String TypeRoomName = rs.getString("TypeRoomName");
+				int Price = rs.getInt("Price");
+				int MaxAdult = rs.getInt("MaxAdult");
+				int MaxChild = rs.getInt("MaxChild");
+				int NumberBook = rs.getInt("NumberBook");
+				String Description = rs.getString("Description");
+				return (new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook,Description));
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

@@ -158,7 +158,11 @@
 </head>
 <body class="container">
 <jsp:include page="../general/header/header.jsp"/> 
-	<h1>Quản lý Phòng</h1>
+	<%
+		Cookie cookieIDTypeRoom = cookie.findCookieByName((HttpServletRequest)request, "IDTypeRoom");
+		TypeRoom tr = cookieIDTypeRoom != null ? TypeRoomDAOimpl.getInstance().selectByID(cookieIDTypeRoom.getValue()) : null;
+	%> 
+	<h1>Quản lý loại phòng: <%= tr != null ? tr.getTypeRoomName() : "" %></h1> 
     <table>
         <thead>
             <tr>
@@ -166,7 +170,6 @@
                 <th>Thao tác</th>
             </tr>
             	<%
-            		Cookie cookieIDTypeRoom = cookie.findCookieByName((HttpServletRequest)request, "IDTypeRoom");
             		if(cookieIDTypeRoom != null){
             			ArrayList<Room> listRoom = RoomDAOimpl.getInstance().selectByIDTypeRoom(cookieIDTypeRoom.getValue());
             			if(listRoom != null){
@@ -179,7 +182,7 @@
             							<td><%= RoomName %></td>
             							<td>
             								<button class="btn-delete" type="submit">Xóa</button>
-            								<button class="btn-edit" onclick="">Sửa Phòng</button>
+            								<button class="btn-edit" onclick="displayFormUpdate('<%= IDRoom %>','<%= RoomName %>')">Sửa Phòng</button>
             							</td>
             						</tr>
             					<%
@@ -198,7 +201,7 @@
 	<div class="background-shadow dp-n"></div>
 
     <div id="form" class="form-container dp-n">
-        <h1 id="edit_or_add">Thêm loại phòng</h1>
+        <h1 id="edit_or_add" style="margin-bottom: 10px">Thêm phòng</h1>
         <form class="formModify" action="<%= url.urlServer + "manageRoom" %>" method="post">
             <label for="room_name">Tên Phòng:</label><br>
             <input type="text" id="room_name" name="RoomName"><br><br>
@@ -206,10 +209,22 @@
             <input type="submit" value="Them">
         </form>
     </div>
+    
+    <div id="form" class="form-container-update dp-n">
+        <h1 id="edit_or_add" style="margin-bottom: 10px">Sửa phòng</h1>
+        <form class="formModify" action="<%= url.urlServer + "manageRoom" %>" method="post">
+            <label for="RoomNameUpdate">Tên Phòng:</label><br>
+            <input type="text" id="RoomNameUpdate" name="RoomName"><br><br>
+            <input type="text" id="IDRoomUpdate" name="IDRoom" class="dp-n">
+            <input type="text" name="type" value="updateRoom" class="dp-n">
+            <input type="submit" value="Sửa">
+        </form>
+    </div>
 
     <script>
         var formContainer = document.querySelector('.form-container');
         var backgroundShadow = document.querySelector('.background-shadow');
+        var formContainerUpdate = document.querySelector('.form-container-update');
 
         function displayFormInsert() {
         	formContainer.classList.remove('dp-n');
@@ -219,7 +234,17 @@
         backgroundShadow.addEventListener('click', () => {
         	formContainer.classList.add('dp-n');
         	backgroundShadow.classList.add('dp-n');
+        	formContainerUpdate.classList.add('dp-n');
         })
+        
+        function displayFormUpdate(IDRoom,RoomName){
+
+			document.getElementById('IDRoomUpdate').value = IDRoom;
+			document.getElementById('RoomNameUpdate').value = RoomName;
+            
+			formContainerUpdate.classList.remove('dp-n');
+			backgroundShadow.classList.remove('dp-n');
+        }
     </script>
 </body>
 </html>

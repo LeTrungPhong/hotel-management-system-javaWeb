@@ -56,7 +56,6 @@
         <h1 class="pattern__title">
             ACCOMMODATION
         </h1>
-2	
         <button class="viewAllRooms" onclick="window.location.href='<%= url.urlServer + "rooms" %>'">
             <span class="circle1"></span>
             <span class="circle2"></span>

@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,14 +8,15 @@
 <%@ page import="com.appManageHotel.model.BEAN.TypeRoom" %>
 <%@ page import="com.appManageHotel.model.DAO.TypeRoomDAO" %>
 <%@ page import="com.appManageHotel.model.DAO.*" %>
+<%@ page import="com.appManageHotel.controller.url.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="views/user/rooms/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/datepicker.min.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -23,6 +25,24 @@
 <body class="container">
     <jsp:include page="../../general/header/header.jsp"/> 
     <div class="body__rooms">
+    	
+    	<form class="dp-n" method="get" action="<%= url.urlServer + "rooms" %>">
+    		<input type="text" name="MinPrice" value="800">
+    		<input type="text" name="MaxPrice" value="1500">
+    		<input type="text" name="timeStart" value="12/12/2023">
+    		<input type="text" name="timeEnd" value="10/09/2024">
+    		<input type="text" name="maxAdult" value="3">
+    		<input type="text" name="maxChild" value="3">
+    		<input type="text" name="TypeRoomName" value="Phong co ban">
+    		<input type="text" name="TypeRoomName" value="phong thuong">
+    		<input type="text" name="TypeRoomName" value="phong don">
+    		<input type="submit" class="submitFindByCondition">
+    	</form>
+    	
+    	<% 
+    		ArrayList<TypeRoom> listTypeRoom = TypeRoomDAOimpl.getInstance().selectAll();
+    	%>
+    
         <div class="container_option__filter">
             <p class="option__filter__title">Looking for your suitable room?</p>
             <div date-rangepicker class="flex items-center option__filter">
@@ -88,24 +108,22 @@
                         </div>
                     </div>
                 </div>
-                <button class="button_search">
+                <button class="button_search" onclick="document.querySelector('.submitFindByCondition').click()">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
             <div class="option__filter">
-                <button class="option__item">
-                    <span>Beach view</span>
-                    
-                </button>
-                <button class="option__item">
-                    <span>Double bed</span>
-                    
-                </button>
-                <button class="option__item">
-                    <span>Luxury</span>
-                    
-                </button>
-                
+                <%
+                	if(listTypeRoom != null){
+                		for(int i = 0; i < listTypeRoom.size(); ++i){
+                			%>
+                				<button class="option__item">
+                    				<span><%= listTypeRoom.get(i).getTypeRoomName() %></span> 
+                				</button>
+                			<%
+                		}
+                	}
+                %>
             </div>
             <div class="option__filter">
                 <div class="rangeCost">

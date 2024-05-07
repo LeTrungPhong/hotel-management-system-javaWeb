@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @WebServlet(urlPatterns = {"/manageRoom"})
 public class manageRoom extends HttpServlet{
-
+ 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -49,6 +49,19 @@ public class manageRoom extends HttpServlet{
 				} else {
 					System.out.println("Insert room that bai, trung ten");
 				}
+			}
+		}
+		
+		if(typeRequest.equals("updateRoom")) {
+			System.out.println(typeRequest);
+			
+			String IDRoom = req.getParameter("IDRoom");
+			String RoomName = req.getParameter("RoomName");
+			
+			if(RoomBO.getInstance().UpdateRoom(IDRoom, RoomName)) {
+				System.out.println("Update room thanh cong");
+			} else {
+				System.out.println("Update room that bai, trung ten hoac error ...");
 			}
 		}
 		

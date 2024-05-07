@@ -2,7 +2,6 @@ package com.appManageHotel.model.BO;
 
 import com.appManageHotel.model.BEAN.Account;
 import com.appManageHotel.model.BEAN.Staff;
-import com.appManageHotel.model.DAO.AccountDAOImpl;
 import com.appManageHotel.model.DAO.StaffDAOimpl;
 
 public class StaffBO {
@@ -21,7 +20,7 @@ public class StaffBO {
 	}
 	
 	public boolean UpdateStaff(String IdStaff,String NewFullName,String NewCCCD) {
-		Staff find=StaffDAOimpl.getInstance().selectByCCCD(NewCCCD);
+		Staff find = StaffDAOimpl.getInstance().selectByCCCD(NewCCCD);
 		if (find != null) {
 			if (find.getIDStaff().equals(IdStaff)) {
 				find.setFullName(NewFullName);
@@ -38,7 +37,7 @@ public class StaffBO {
 	}
 	
 	public void Layoff(String IdStaff) {
-		Staff f=StaffDAOimpl.getInstance().selectByID(IdStaff);
+		Staff f = StaffDAOimpl.getInstance().selectByID(IdStaff);
 		f.setState(false);
 		StaffDAOimpl.getInstance().update(f);
 	}

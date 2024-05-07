@@ -19,7 +19,6 @@
         font-family: Arial, sans-serif;
         background-color: #f4f4f4;
     }
-    
     .container {
     	position: relative;
     	width: 100vw;
@@ -28,7 +27,6 @@
     	align-items: center;
     	justify-content: center;
     }
-    
     .content {
         max-width: 400px;
         padding: 20px;

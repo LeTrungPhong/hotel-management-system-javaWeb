@@ -167,11 +167,11 @@
 	        			<p>Description: <%= Description %></p>
 	        			<div class="btn-container">
 	            			<button onclick="detailTypeRoom('<%= IDTypeRoom %>')">Xem chi tiết</button>
-	            			<button onclick="displayFormUpdate('<%= IDTypeRoom %>','<%= TypeRoomName %>',<%= Price %>,<%= MaxAdult %>,<%= MaxChild %>,<%= Description %>)">Chỉnh sửa</button>
+	            			<button onclick="displayFormUpdate('<%= IDTypeRoom %>','<%= TypeRoomName %>',<%= Price %>,<%= MaxAdult %>,<%= MaxChild %>,'<%= Description %>')">Chỉnh sửa</button>
 	        			</div>
 	    			</div>
 				</div>
-			<% 
+			<%
 		}
 	}
 %>
@@ -283,7 +283,7 @@ https://i.ibb.co/PhyGC7n/beach-view-single.jpg -->
 		formContainerUpdate.classList.remove('dp-n');
 		backgroundShadow.classList.remove('dp-n');
 
-		document.getElementById('idTypeRoomUpdate').value = IDTypeRoom;
+		document.getElementById('idTypeRoomUpdate').value = IDTypeRoom; 
 		document.getElementById('typeRoomNameUpdate').value = TypeRoomName;
 		document.getElementById('priceUpdate').value = Price;
 		document.getElementById('maxChildUpdate').value = MaxChild;
