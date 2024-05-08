@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.appManageHotel.model.BEAN.TypeRoom;
 import com.appManageHotel.model.BO.RoomBO;
+import com.appManageHotel.model.DAO.TypeRoomDAOimpl;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -21,49 +23,41 @@ public class rooms extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		int MinPrice = req.getParameter("MinPrice") != null ? Integer.parseInt(req.getParameter("MinPrice")) : 0;
-		int MaxPrice = req.getParameter("MaxPrice") != null ? Integer.parseInt(req.getParameter("MaxPrice")) : 0;
-		int maxAdult = req.getParameter("maxAdult") != null ? Integer.parseInt(req.getParameter("maxAdult")) : 0;
-		int maxChild = req.getParameter("maxChild") != null ? Integer.parseInt(req.getParameter("maxChild")) : 0;
+		String strMinPrice = req.getParameter("MinPrice");
+		String strMaxPrice = req.getParameter("MaxPrice");
+		String strmaxAdult = req.getParameter("maxAdult"); 
+		String strmaxChild = req.getParameter("maxChild");
+		String strtimeStart = req.getParameter("timeStart");
+		String strtimeEnd = req.getParameter("timeEnd");
 		
-		String strTimeStart = req.getParameter("timeStart");
-		String strTimeEnd = req.getParameter("timeEnd");
+		int MinPrice = strMinPrice != null ? Integer.parseInt(strMinPrice.substring(1).replace(",", "")) : 0;
+		int MaxPrice = strMaxPrice != null ? Integer.parseInt(strMaxPrice.substring(1).replace(",", "")) : 0;
+		int maxAdult = strmaxAdult != null ? Integer.parseInt(strmaxAdult) : 0;
+		int maxChild = strmaxChild != null ? Integer.parseInt(strmaxChild) : 0;
 		
-		LocalDate timeStart = strTimeStart != null ? LocalDate.of(
-				Integer.parseInt(strTimeStart.substring(6, 10)), 
-				Integer.parseInt(strTimeStart.substring(0, 2)), 
-				Integer.parseInt(strTimeStart.substring(3, 5))
-				) 
-					: null;
-				
-		LocalDate timeEnd = strTimeEnd != null ? LocalDate.of(
-				Integer.parseInt(strTimeEnd.substring(6, 10)), 
-				Integer.parseInt(strTimeEnd.substring(0, 2)), 
-				Integer.parseInt(strTimeEnd.substring(3, 5))
-				) : null;
+		LocalDate timeStart = strtimeStart == null || strtimeStart.equals("") ? null : LocalDate.of(
+				Integer.parseInt(strtimeStart.substring(6, 10)), 
+				Integer.parseInt(strtimeStart.substring(0, 2)), 
+				Integer.parseInt(strtimeStart.substring(3, 5))
+					);
 		
-		String[] listTypeRoomName = req.getParameterValues("TypeRoomName");
+		LocalDate timeEnd = strtimeEnd == null || strtimeEnd.equals("") ? null : LocalDate.of(
+				Integer.parseInt(strtimeEnd.substring(6, 10)), 
+				Integer.parseInt(strtimeEnd.substring(0, 2)), 
+				Integer.parseInt(strtimeEnd.substring(3, 5))
+					);
 		
-		if(timeStart != null && timeEnd != null) {
-			System.out.println(MinPrice);
-			System.out.println(MaxPrice);
-			System.out.println(maxAdult);
-			System.out.println(maxChild);
-			System.out.println(timeStart.toString());
-			System.out.println(timeEnd.toString());
-			for(String item : listTypeRoomName) {
-				System.out.println(item);
-			}
-		}
+		String[] listTypeRoomName = req.getParameterValues("TypeRoomName") != null ? req.getParameterValues("TypeRoomName") : null;
 		
-		if(listTypeRoomName != null) {
-			ArrayList<String> list1 = RoomBO.getInstance().FindRoomByCondition(listTypeRoomName, MinPrice, MaxPrice, maxAdult, maxChild);
-			if(list1 != null) {
-				for(int i = 0; i < list1.size(); ++i) {
-					System.out.println(list1.get(i));
-				}
-			}
-		}
+		ArrayList<TypeRoom> listFindRoom = RoomBO.getInstance().findRoom(MinPrice, MaxPrice, maxAdult, maxChild, timeStart, timeEnd, listTypeRoomName);
+		
+		ArrayList<TypeRoom> typeRoomMaxPrice = TypeRoomDAOimpl.getInstance().selectTypeRoomMaxPrice(1);
+		ArrayList<TypeRoom> typeRoomMinPrice = TypeRoomDAOimpl.getInstance().selectTypeRoomMinPrice(1);
+		
+		req.setAttribute("listTypeRoom", listFindRoom);
+		req.setAttribute("MaxPrice", typeRoomMaxPrice != null ? typeRoomMaxPrice.get(0).getPrice() : 0); 
+		req.setAttribute("MinPrice", typeRoomMinPrice != null ? typeRoomMinPrice.get(0).getPrice() : 0);
+		
 		
 		System.out.println("DO GET /rooms");
 		RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/rooms/rooms.jsp");

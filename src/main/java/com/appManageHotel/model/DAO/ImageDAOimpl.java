@@ -190,4 +190,34 @@ public class ImageDAOimpl implements ImageDAO{
 		}
 		return null;
 	}
+
+	@Override
+	public ArrayList<Image> selectByIDTypeRoom(String id) {
+		// TODO Auto-generated method stub
+		try {
+			ArrayList<Image> result = new ArrayList<Image>();
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT Image.* FROM (TypeRoom JOIN ImageTypeRoom on TypeRoom.IDTypeRoom = ImageTypeRoom.IDTypeRoom) JOIN Image ON ImageTypeRoom.IDImage = Image.IDImage"
+					+ " WHERE TypeRoom.IDTypeRoom = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("Thuc thi: " + pstmt.toString());
+			
+			while(rs.next()) {
+				String IDImage = rs.getString("IDImage");
+				String ImageName = rs.getString("ImageName");
+				String Path = rs.getString("Path");
+				result.add(new Image(IDImage,ImageName,Path));
+			}
+			return result;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -206,4 +206,100 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 		}
 		return null;
 	}
+
+	@Override
+	public ArrayList<TypeRoom> selectTypeRoomMaxPrice(int number) {
+		// TODO Auto-generated method stub
+		try {
+			ArrayList<TypeRoom> result = new ArrayList<TypeRoom>();
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT TOP " + number + " * FROM TypeRoom ORDER BY Price DESC";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			 
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("Thuc thi: " + pstmt.toString());
+			
+			while(rs.next()) {
+				String IDTypeRoom = rs.getString("IDTypeRoom");
+				String TypeRoomName = rs.getString("TypeRoomName");
+				int Price = rs.getInt("Price");
+				int MaxAdult = rs.getInt("MaxAdult");
+				int MaxChild = rs.getInt("MaxChild");
+				int NumberBook = rs.getInt("NumberBook");
+				String Description = rs.getString("Description");
+				result.add(new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook,Description));
+			}
+			return result;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public ArrayList<TypeRoom> selectTypeRoomMinPrice(int number) {
+		// TODO Auto-generated method stub
+				ArrayList<TypeRoom> result = new ArrayList<TypeRoom>();
+				try {
+					Connection con = ConnectDatabase.getConnection();
+					
+					String sql = "SELECT TOP " + number + " * FROM TypeRoom ORDER BY Price ASC";
+					
+					PreparedStatement pstmt = con.prepareStatement(sql);
+					
+					ResultSet rs = pstmt.executeQuery();
+					System.out.println("Thuc thi: " + pstmt.toString());
+					
+					while(rs.next()) {
+						String IDTypeRoom = rs.getString("IDTypeRoom");
+						String TypeRoomName = rs.getString("TypeRoomName");
+						int Price = rs.getInt("Price");
+						int MaxAdult = rs.getInt("MaxAdult");
+						int MaxChild = rs.getInt("MaxChild");
+						int NumberBook = rs.getInt("NumberBook");
+						String Description = rs.getString("Description");
+						result.add(new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook,Description));
+					}
+					return result;
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+	}
+
+	@Override
+	public ArrayList<TypeRoom> selectTypeRoomMaxBooked(int number) {
+		// TODO Auto-generated method stub
+		try {
+			ArrayList<TypeRoom> result = new ArrayList<TypeRoom>();
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT TOP " + number + " * FROM TypeRoom ORDER BY NumberBook DESC";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			 
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("Thuc thi: " + pstmt.toString());
+			
+			while(rs.next()) {
+				String IDTypeRoom = rs.getString("IDTypeRoom");
+				String TypeRoomName = rs.getString("TypeRoomName");
+				int Price = rs.getInt("Price");
+				int MaxAdult = rs.getInt("MaxAdult");
+				int MaxChild = rs.getInt("MaxChild");
+				int NumberBook = rs.getInt("NumberBook");
+				String Description = rs.getString("Description");
+				result.add(new TypeRoom(IDTypeRoom,TypeRoomName,Price,MaxAdult,MaxChild,NumberBook,Description));
+			}
+			return result;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

@@ -1,17 +1,16 @@
 package com.appManageHotel.controller.user;
 
 import java.io.IOException;
-import java.util.UUID;
+import java.util.ArrayList;
 
-import com.appManageHotel.controller.url.url;
-import com.appManageHotel.model.BEAN.Account;
-import com.appManageHotel.model.BO.AccountBO;
-import com.appManageHotel.model.DAO.AccountDAOImpl;
+import com.appManageHotel.model.BEAN.Service;
+import com.appManageHotel.model.BEAN.TypeRoom;
+import com.appManageHotel.model.DAO.ServiceDAOimpl;
+import com.appManageHotel.model.DAO.TypeRoomDAOimpl;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,6 +20,13 @@ public class home extends HttpServlet{
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		ArrayList<TypeRoom> listTypeRoomMaxBooked = TypeRoomDAOimpl.getInstance().selectTypeRoomMaxBooked(3);
+		ArrayList<Service> listServiceMaxUsed = ServiceDAOimpl.getInstance().selectServiceMaxUsed(3);
+		
+		request.setAttribute("listTypeRoomMaxBooked", listTypeRoomMaxBooked);
+		request.setAttribute("listServiceMaxUsed", listServiceMaxUsed);
+		
 		System.out.println("DO GET /home");
 		RequestDispatcher rd1 = request.getRequestDispatcher("/views/user/home/home.jsp");
 		rd1.forward(request, response);

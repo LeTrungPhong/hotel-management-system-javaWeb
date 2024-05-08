@@ -1,3 +1,5 @@
+<%@page import="com.appManageHotel.model.DAO.ImageDAOimpl"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,6 +9,7 @@
 <%@ page import="jakarta.servlet.http.HttpServletRequest" %>
 <%@ page import="com.appManageHotel.model.DAO.AccountDAOImpl" %>
 <%@ page import="com.appManageHotel.controller.url.*"%>
+<%@ page import="com.appManageHotel.model.BEAN.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -71,19 +74,26 @@
         </p>
 
         <div class="room__list">
-            <div class="room__item">
+            <%
+            	ArrayList<TypeRoom> listTypeRoomMaxBooked = (ArrayList<TypeRoom>)request.getAttribute("listTypeRoomMaxBooked");
+                if(listTypeRoomMaxBooked != null){
+                	for(int i = 0; i < listTypeRoomMaxBooked.size(); ++i){
+                		ArrayList<Image> listImage = ImageDAOimpl.getInstance().selectByIDTypeRoom(listTypeRoomMaxBooked.get(i).getIDTypeRoom());
+                		%>
+              <div class="room__item">
                 <div class="container_item">
-                    <img src="https://i.ibb.co/YkzccnP/standard-double.jpg" alt="">
+                    <img src="<%= listImage != null ? listImage.get(0).getPath() : "https://i.ibb.co/RbVrNbX/default-image.png" %>" alt="">
                     <div class="bottom__infor">
-                        <span>The Beach View Suite offers a breathtaking panorama of the shimmering ocean, seamlessly
-                            blending luxurious comfort with a serene, picturesque backdrop.</span>
+                        <span><%= listTypeRoomMaxBooked.get(i).getDescription() %></span>
                         <p class="infor__cost__maxPeople">
                             <button class="infor__cost">
-                                Price: 20$
+                                Price: <%= listTypeRoomMaxBooked.get(i).getPrice() %>$
                             </button>
-
                             <button class="infor__maxPeople">
-                                Max People: 2
+                                Max Adult: <%= listTypeRoomMaxBooked.get(i).getMaxAdult() %>
+                            </button>
+                            <button class="infor__maxPeople">
+                                Max People: <%= listTypeRoomMaxBooked.get(i).getMaxChild() %>
                             </button>
                         </p>
                         <p>
@@ -95,7 +105,7 @@
                         </p>
                     </div>
                 </div>
-                <h3 class="room__item__title">BEACH VIEW SUITE</h3>
+                <h3 class="room__item__title"><%= listTypeRoomMaxBooked.get(i).getTypeRoomName() %></h3>
                 <button class="book_now">
                     BOOK NOW
                     <div class="star-1">
@@ -177,225 +187,11 @@
                         </svg>
                     </div>
                 </button>
-
             </div>
-            <div class="room__item">
-                <div class="container_item">
-                    <img src="https://i.ibb.co/YkzccnP/standard-double.jpg" alt="">
-                    <div class="bottom__infor">
-                        <span>The Standard Double room in a hotel offers a cozy, efficiently designed space featuring
-                            two double beds, ideal for couples or small families seeking comfortable
-                            accommodation.</span>
-                        <p class="infor__cost__maxPeople">
-                            <button class="infor__cost">
-                                Price: 35$
-                            </button>
-
-                            <button class="infor__maxPeople">
-                                Max People: 4
-                            </button>
-                        </p>
-                        <p>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </p>
-                    </div>
-                </div>
-                <h3 class="room__item__title">STANDARD DOUBLE</h3>
-                <button class="book_now">
-                    BOOK NOW
-                    <div class="star-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-5">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                </button>
-
-            </div>
-            <div class="room__item">
-                <div class="container_item">
-                    <img src="https://i.ibb.co/YkzccnP/standard-double.jpg" alt="">
-                    <div class="bottom__infor">
-                        <span>The Beach View Single room offers a cozy, inviting space with a stunning view of the
-                            ocean, perfect for solo travelers seeking serenity and scenic beauty.</span>
-                        <p class="infor__cost__maxPeople">
-                            <button class="infor__cost">
-                                Price: 25$
-                            </button>
-
-                            <button class="infor__maxPeople">
-                                Max People: 2
-                            </button>
-                        </p>
-                        <p>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </p>
-                    </div>
-                </div>
-                <h3 class="room__item__title">BEACH VIEW SINGLE</h3>
-                <button class="book_now">
-                    BOOK NOW
-                    <div class="star-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-4">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-5">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                    <div class="star-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
-                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-                            viewBox="0 0 784.11 815.53" xmlns:xlink="http://www.w3.org/1999/xlink">
-                            <defs></defs>
-                            <g id="Layer_x0020_1">
-                                <metadata id="CorelCorpID_0Corel-Layer"></metadata>
-                                <path class="fil0"
-                                    d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z">
-                                </path>
-                            </g>
-                        </svg>
-                    </div>
-                </button>
-
-            </div>
+                		<%
+                	}
+                }
+            %>
         </div>
     </div>
 
@@ -439,14 +235,18 @@
         </div>
 
         <div class="list__service">
+            <%
+            	ArrayList<Service> listServiceMaxUsed = (ArrayList<Service>)request.getAttribute("listServiceMaxUsed");
+            	if(listServiceMaxUsed != null){
+            		for(int i = 0; i < listServiceMaxUsed.size(); ++i){
+            			Image image = ImageDAOimpl.getInstance().selectByID(listServiceMaxUsed.get(i).getIDImage());
+            			%>
             <div class="service__item">
                 <div class="card">
-                    <img src="https://easysalon.vn/wp-content/uploads/2019/11/phan-biet-spa-va-tham-my-vien-4.jpeg"
-                        alt="">
+                    <img src="<%= image != null ? image.getPath() : "https://i.ibb.co/RbVrNbX/default-image.png" %>" alt="">
                     <div class="card__content">
-                        <p class="card__title">SPA Service</p>
-                        <p class="card__description">Luxury hotel spas provide a serene retreat with professional
-                            massages, facials, and hydrotherapy in a plush setting.</p>
+                        <p class="card__title"><%= listServiceMaxUsed.get(i).GetServiceName() %></p>
+                        <p class="card__description"><%= listServiceMaxUsed.get(i).getDescription() %></p>
                         <div class="card__rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -456,47 +256,12 @@
                         </div>
                     </div>
                 </div>
-                <h3 class="room__item__title">SPA</h3>
+                <h3 class="room__item__title"><%= listServiceMaxUsed.get(i).GetServiceName() %></h3>
             </div>
-            <div class="service__item">
-                <div class="card">
-                    <img src="https://i.ibb.co/KD4pV89/bike-rental.jpg" alt="">
-                    <div class="card__content">
-                        <p class="card__title">Buffet Service</p>
-                        <p class="card__description">
-                            Hotel buffets offer a variety of dishes and cuisines in an all-you-can-eat format, catering
-                            to diverse tastes in a casual dining environment.
-                        </p>
-                        <div class="card__rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="room__item__title">BUFFET</h3>
-            </div>
-            <div class="service__item">
-                <div class="card">
-                    <img src="https://i.ibb.co/bBB4hFd/meal-service.jpg" alt="">
-                    <div class="card__content">
-                        <p class="card__title">Rental Service</p>
-                        <p class="card__description">Bike rental services at hotels provide guests with convenient
-                            access to bicycles for easy exploration of the surrounding area.
-                        </p>
-                        <div class="card__rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="room__item__title">RENTAL</h3>
-            </div>
+            			<%
+            		}
+            	}
+            %>
         </div>
     </div>
     <div class="containerContactUs">

@@ -89,5 +89,9 @@ public class ImageTypeRoomDAOimpl implements ImageTypeRoomDAO{
 		return 0;
 	}
 
-	
+	@Override
+	public ArrayList<ImageTypeRoom> selectByIDTypeRoom(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

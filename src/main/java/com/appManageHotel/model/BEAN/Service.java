@@ -6,12 +6,14 @@ public class Service {
 	private int Price;
 	private String Description;
 	private String IDImage;
-	public Service(String IDService, String ServiceName, int Price, String Description, String IDImage) {
-		this.IDService=IDService;
-		this.ServiceName=ServiceName;
-		this.Price=Price;
-		this.Description=Description;
-		this.IDImage=IDImage;
+	private int NumberUse;
+	public Service(String IDService, String ServiceName, int Price, String Description, String IDImage, int NumberUse) {
+		this.IDService = IDService;
+		this.ServiceName = ServiceName;
+		this.Price = Price;
+		this.Description = Description;
+		this.IDImage = IDImage;
+		this.NumberUse = NumberUse;
 	}
 	public String getIDService() {
 		return IDService;
@@ -42,5 +44,11 @@ public class Service {
 	}
 	public void setIDImage(String iDImage) {
 		IDImage = iDImage;
+	}
+	public int getNumberUse() {
+		return NumberUse;
+	}
+	public void setNumberUse(int numberUse) {
+		NumberUse = numberUse;
 	}
 }

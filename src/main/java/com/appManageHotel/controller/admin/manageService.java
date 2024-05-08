@@ -42,7 +42,7 @@ public class manageService extends HttpServlet{
 			String Description = req.getParameter("Description");
 			String IDImage = req.getParameter("IDImage");
 			
-			if(ServiceBO.getInstance().insertService(new Service(IDService,ServiceName,Price,Description,IDImage))) {
+			if(ServiceBO.getInstance().insertService(new Service(IDService,ServiceName,Price,Description,IDImage,0))) {
 				System.out.println("Insert service thanh cong");
 			} else {
 				System.out.println("Insert service that bai, trung ten service hoac error ...");
@@ -56,7 +56,7 @@ public class manageService extends HttpServlet{
 			String Description = req.getParameter("Description");
 			String IDImage = req.getParameter("IDImage");
 			
-			if(ServiceBO.getInstance().updateService(new Service(IDService, ServiceName, Price, Description, IDImage))) {
+			if(ServiceBO.getInstance().updateService(new Service(IDService, ServiceName, Price, Description, IDImage,0))) {
 				System.out.println("Update service thanh cong");
 			} else {
 				System.out.println("Update service khong thanh cong, trung ten hoac error ...");

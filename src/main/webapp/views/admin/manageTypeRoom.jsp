@@ -156,9 +156,11 @@
 			int MaxChild = listTypeRoom.get(i).getMaxChild();
 			int NumberBook = listTypeRoom.get(i).getNumberBook();
 			String Description = listTypeRoom.get(i).getDescription();
+			
+			ArrayList<Image> listImage = ImageDAOimpl.getInstance().selectByIDTypeRoom(IDTypeRoom);
 			%>
 				<div class="room-type">
-	    			<img src="https://media.cnn.com/api/v1/images/stellar/prod/140127103345-peninsula-shanghai-deluxe-mock-up.jpg?q=w_2226,h_1449,x_0,y_0,c_fill" alt="Room Image">
+	    			<img src="<%= listImage != null ? listImage.get(0).getPath() : "https://i.ibb.co/RbVrNbX/default-image.png" %>" alt="Room Image">
 	    			<div class="room-type-info">
 	        			<h2><%= TypeRoomName %></h2>
 	        			<p>Số người tối đa: Người lớn - <%= MaxAdult %>, Trẻ nhỏ - <%= MaxChild %></p>

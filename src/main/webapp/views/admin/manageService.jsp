@@ -171,6 +171,7 @@
     			String Description = listService.get(i).getDescription();
     			String IDImage = listService.get(i).getIDImage();
     			String Path = ImageDAOimpl.getInstance().selectByID(IDImage).getPath();
+    			int NumberUse = listService.get(i).getNumberUse();
     			%>
     				<div class="service">
         				<div class="service-info">
@@ -178,6 +179,7 @@
             				<div>
                 				<h3>Tên dịch vụ: <%= ServiceName %></h3>
                 				<p>Giá: $<%= Price %></p>
+                				<p>Số lần đặt: <%= NumberUse %></p>
                 				<p>Description: <%= Description %></p>
             				</div>
         				</div>
