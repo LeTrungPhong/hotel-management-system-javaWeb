@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.appManageHotel.controller.url.url;
 import com.appManageHotel.model.BEAN.Account;
 import com.appManageHotel.model.BO.AccountBO;
+import com.appManageHotel.model.DAO.AccountDAOImpl;
 import com.appManageHotel.controller.cookie.*;
 
 import jakarta.servlet.RequestDispatcher;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(urlPatterns = {"/changePassWord"})
 public class changePassWord extends HttpServlet{
@@ -21,8 +23,23 @@ public class changePassWord extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("DO GET /changePassWord");
-		RequestDispatcher rd1 = request.getRequestDispatcher("/views/general/changePassWord/changePassWord.jsp");
-		rd1.forward(request, response);
+		
+		HttpSession session = request.getSession();
+		Cookie cookieIDSession = cookie.findCookieByName(request, "IDSession");
+		
+		if(cookieIDSession != null) {
+			if(session.getId().equals(cookieIDSession.getValue())) {
+				String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+				if(!IDAccount.equals("")) {
+					Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
+					if(account != null) {
+						request.setAttribute("Account", account);
+						RequestDispatcher rd1 = request.getRequestDispatcher("/views/general/changePassWord/changePassWord.jsp");
+						rd1.forward(request, response);
+					}
+				}
+			}
+		}
 	}
 
 	@Override

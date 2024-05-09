@@ -14,7 +14,6 @@ public class AccountBO {
 	
 	public boolean checkUserNameAccount(String username) {
 		Account account = AccountDAOImpl.getInstance().selectByUserName(username);
-		
 		// Check account null ???
 		if(Objects.isNull(account)) {
 			return false;

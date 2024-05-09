@@ -1,4 +1,5 @@
 package com.appManageHotel.model.DAO;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import com.appManageHotel.model.BEAN.TypeRoom;
@@ -14,4 +15,9 @@ public interface TypeRoomDAO extends DAOInterface<TypeRoom>{
 	
 	public ArrayList<TypeRoom> selectTypeRoomMaxBooked(int number);
 	
+	public ArrayList<String> selectIDTypeRoomByTime(LocalDate timeIn, LocalDate timeOut);
+	
+	public ArrayList<String> selectIDTypeRoomByPriceAndNumberPeople(int minPrice, int maxPrice, int maxAdult, int maxChild);
+	
+	public ArrayList<String> selectIDTypeRoomByIDTypeRoomAndPriceAndNumberPeople(String[] listIDTypeRoom, int minPrice, int maxPrice, int maxAdult, int maxChild);
 }

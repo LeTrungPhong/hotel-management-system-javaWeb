@@ -68,11 +68,9 @@
 <body class="container">
 	<jsp:include page="../../general/header/header.jsp"/>
 			<%
-            	Cookie findCookieIDAccount = cookie.findCookieByName((HttpServletRequest)request, "IDAccount");
-            	Account account = findCookieIDAccount == null ? null : AccountBO.getInstance().selectAccountByCookie(findCookieIDAccount);
-            	Customer customer = account == null ? null : CustomerDAOimpl.getInstance().selectByIDAccount(account.getIDAccount());
+            	Customer customer = request.getAttribute("Customer") != null ? (Customer)request.getAttribute("Customer") : null;
             %>
-	<div class="content <%= account == null ? "dp-n" : "" %>">
+	<div class="content <%= customer == null ? "dp-n" : "" %>">
 		<h2>Update Information</h2>
     	<form action="<%= url.urlServer + "updateInforUser" %>" method="post">
      	  <label for="fullName">Full Name:</label>

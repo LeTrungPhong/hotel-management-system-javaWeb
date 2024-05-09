@@ -159,7 +159,7 @@
 <jsp:include page="../general/header/header.jsp"/>  
 <div class="employee-container">
     <%
-    	ArrayList<Staff> listStaff = StaffDAOimpl.getInstance().selectAll();
+    	ArrayList<Staff> listStaff = request.getAttribute("listStaff") != null ? (ArrayList<Staff>)request.getAttribute("listStaff") : null;
     	if(listStaff != null){
     		for(int i = 0; i < listStaff.size(); ++i){
     			String IDStaff = listStaff.get(i).getIDStaff();

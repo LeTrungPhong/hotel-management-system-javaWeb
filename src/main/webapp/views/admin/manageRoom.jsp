@@ -159,8 +159,8 @@
 <body class="container">
 <jsp:include page="../general/header/header.jsp"/> 
 	<%
-		Cookie cookieIDTypeRoom = cookie.findCookieByName((HttpServletRequest)request, "IDTypeRoom");
-		TypeRoom tr = cookieIDTypeRoom != null ? TypeRoomDAOimpl.getInstance().selectByID(cookieIDTypeRoom.getValue()) : null;
+		TypeRoom tr = (TypeRoom)request.getAttribute("TypeRoom");
+		ArrayList<Room> listRoom = request.getAttribute("listRoom") != null ? (ArrayList<Room>)request.getAttribute("listRoom") : null;
 	%> 
 	<h1>Quản lý loại phòng: <%= tr != null ? tr.getTypeRoomName() : "" %></h1> 
     <table>
@@ -170,25 +170,22 @@
                 <th>Thao tác</th>
             </tr>
             	<%
-            		if(cookieIDTypeRoom != null){
-            			ArrayList<Room> listRoom = RoomDAOimpl.getInstance().selectByIDTypeRoom(cookieIDTypeRoom.getValue());
-            			if(listRoom != null){
-            				for(int i = 0; i < listRoom.size(); ++i){
-            					String IDRoom = listRoom.get(i).getIDRoom();
-            					String IDTypeRoom = listRoom.get(i).getIDTypeRoom();
-            					String RoomName = listRoom.get(i).getRoomName();
-            					%>
-            						<tr>
-            							<td><%= RoomName %></td>
-            							<td>
-            								<button class="btn-delete" type="submit">Xóa</button>
-            								<button class="btn-edit" onclick="displayFormUpdate('<%= IDRoom %>','<%= RoomName %>')">Sửa Phòng</button>
-            							</td>
-            						</tr>
-            					<%
-            				}
-            			}
-            		} 
+            	if(listRoom != null){
+    				for(int i = 0; i < listRoom.size(); ++i){
+    					String IDRoom = listRoom.get(i).getIDRoom();
+    					String IDTypeRoom = listRoom.get(i).getIDTypeRoom();
+    					String RoomName = listRoom.get(i).getRoomName();
+    					%>
+    						<tr>
+    							<td><%= RoomName %></td>
+    							<td>
+    								<button class="btn-delete" type="submit">Xóa</button>
+    								<button class="btn-edit" onclick="displayFormUpdate('<%= IDRoom %>','<%= RoomName %>')">Sửa Phòng</button>
+    							</td>
+    						</tr>
+    					<%
+    				}
+    			}
             	%>
         </thead>
         <tbody id="room-list">

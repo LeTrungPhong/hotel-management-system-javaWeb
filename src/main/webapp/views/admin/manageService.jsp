@@ -162,7 +162,7 @@
 <jsp:include page="../general/header/header.jsp"/> 
 <div class="service-container">
     <%
-    	ArrayList<Service> listService = ServiceDAOimpl.getInstance().selectAll();
+    	ArrayList<Service> listService = request.getAttribute("listService") != null ? (ArrayList<Service>)request.getAttribute("listService") : null;
     	if(listService != null){
     		for(int i = 0; i < listService.size(); ++i){
     			String IDService = listService.get(i).getIDService();

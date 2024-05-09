@@ -1,13 +1,16 @@
 package com.appManageHotel.controller.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.appManageHotel.controller.cookie.cookie;
 import com.appManageHotel.controller.url.url;
 import com.appManageHotel.model.BEAN.Room;
+import com.appManageHotel.model.BEAN.TypeRoom;
 import com.appManageHotel.model.BO.RoomBO;
 import com.appManageHotel.model.DAO.RoomDAOimpl;
+import com.appManageHotel.model.DAO.TypeRoomDAOimpl;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -22,6 +25,14 @@ public class manageRoom extends HttpServlet{
  
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		Cookie cookieIDTypeRoom = cookie.findCookieByName(req, "IDTypeRoom");
+		TypeRoom typeRoom = cookieIDTypeRoom != null ? TypeRoomDAOimpl.getInstance().selectByID(cookieIDTypeRoom.getValue()) : null;
+		ArrayList<Room> listRooms = typeRoom != null ? RoomDAOimpl.getInstance().selectByIDTypeRoom(typeRoom.getIDTypeRoom()) : null;
+		
+		req.setAttribute("TypeRoom",typeRoom);
+		req.setAttribute("listRoom", listRooms);
+		
 		// TODO Auto-generated method stub
 		System.out.println("DO GET /manageRoom");
 		RequestDispatcher rd1 = req.getRequestDispatcher("/views/admin/manageRoom.jsp");

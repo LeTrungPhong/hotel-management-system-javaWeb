@@ -16,7 +16,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 
 @WebFilter(urlPatterns = {"/home-admin","/manageImage", "/manageRoom","/manageService","/manageStaff","/manageTypeRoom"})
-public class authenAdminFilter implements Filter{
+public class authorizationAdminFilter implements Filter{
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

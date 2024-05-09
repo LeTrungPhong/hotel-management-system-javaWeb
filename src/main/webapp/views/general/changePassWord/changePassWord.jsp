@@ -76,8 +76,7 @@
 <body class="container">
 	<jsp:include page="../../general/header/header.jsp"/>
 			<%
-            	Cookie findCookieIDAccount = cookie.findCookieByName((HttpServletRequest)request, "IDAccount");
-            	Account account = findCookieIDAccount == null ? null : AccountBO.getInstance().selectAccountByCookie(findCookieIDAccount);
+            	Account account = request.getAttribute("Account") != null ? (Account)request.getAttribute("Account"): null;
             %>
 	<div class="content <%= account == null ? "dp-n" : "" %>">
 		<h2>Change Password</h2>

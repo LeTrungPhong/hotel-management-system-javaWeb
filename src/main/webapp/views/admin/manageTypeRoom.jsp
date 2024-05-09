@@ -146,7 +146,7 @@
 <jsp:include page="../general/header/header.jsp"/> 
 
 <%
-	ArrayList<TypeRoom> listTypeRoom = TypeRoomDAOimpl.getInstance().selectAll();
+	ArrayList<TypeRoom> listTypeRoom = request.getAttribute("listTypeRoom") != null ? (ArrayList<TypeRoom>)request.getAttribute("listTypeRoom") : null;
 	if(listTypeRoom != null){
 		for(int i = 0; i < listTypeRoom.size(); ++i){
 			String IDTypeRoom = listTypeRoom.get(i).getIDTypeRoom();

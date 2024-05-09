@@ -161,7 +161,7 @@ https://i.ibb.co/PhyGC7n/beach-view-single.jpg -->
 <div class="background-shadow dp-n"></div>
 <div class="image-container">
     <%
-    	ArrayList<Image> listImage = ImageDAOimpl.getInstance().selectAll();
+    	ArrayList<Image> listImage = request.getAttribute("listImage") != null ? (ArrayList<Image>)request.getAttribute("listImage") : null;
     	if(listImage != null){
     		for(int i = 0; i < listImage.size(); ++i){
         		%>

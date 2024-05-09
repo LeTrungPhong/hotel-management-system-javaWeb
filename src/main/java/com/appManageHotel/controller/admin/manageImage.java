@@ -1,11 +1,13 @@
 package com.appManageHotel.controller.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.appManageHotel.controller.url.url;
 import com.appManageHotel.model.BEAN.Image;
 import com.appManageHotel.model.BO.ImageBO;
+import com.appManageHotel.model.DAO.ImageDAOimpl;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -19,6 +21,10 @@ public class manageImage extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		ArrayList<Image> listImage = ImageDAOimpl.getInstance().selectAll();
+		req.setAttribute("listImage", listImage);
+		
 		// TODO Auto-generated method stub
 		System.out.println("DO GET /manageImage");
 		RequestDispatcher rd1 = req.getRequestDispatcher("/views/admin/manageImage.jsp");

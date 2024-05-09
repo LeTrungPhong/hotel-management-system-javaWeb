@@ -20,12 +20,17 @@
 </head>
 <body class="container">
 	<%
-		Cookie cookieIDAccount = cookie.findCookieByName((HttpServletRequest)request, "IDAccount");
-		if (cookieIDAccount != null) { 
-			if(AccountDAOImpl.getInstance().selectByID(cookieIDAccount.getValue()).getRole().equals("Admin")){
-				%>
-	    			<jsp:include page="navBarAdmin.jsp"/>
-				<%
+		Cookie cookieIDSession = cookie.findCookieByName((HttpServletRequest)request, "IDSession");
+		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+		if (cookieIDSession != null) { 
+			if(session.getId().equals(cookieIDSession.getValue())){
+				if(!IDAccount.equals("")){
+					if(AccountDAOImpl.getInstance().selectByID(IDAccount).getRole().equals("Admin")){
+						%>
+			    			<jsp:include page="navBarAdmin.jsp"/>
+						<%
+					}
+				}
 			}
 		} 
 	%>
@@ -46,9 +51,8 @@
         </div>
         <div class='header__sign'>
             <%
-            	Cookie findCookieIDAccount = cookie.findCookieByName((HttpServletRequest)request, "IDAccount");
-            	Account account = AccountBO.getInstance().selectAccountByCookie(findCookieIDAccount);    			
-            %> 
+            	Account account = !IDAccount.equals("") ? AccountDAOImpl.getInstance().selectByID(IDAccount) : null;    			
+            %>
             		<button class='header__sign-button header__sign-in <%= account != null ?"dp-n":""%>'>
                 		<span>SIGN IN</span>
             		</button>
@@ -79,7 +83,7 @@
                             	>Change password</a
                         	>
                         	<button class="header__dashboard-account-nav-item" onclick="document.querySelector('.sign-out').click()">Sign out</button>
-                        	<form method="post" action="<%= url.urlServer + "general" %>" class="dp-n">
+                        	<form method="post" action="<%= url.urlServer + "signOut" %>" class="dp-n">
                         		<input type="text" name="type" value="signOut">
                         		<input type="submit" class="sign-out">
                         	</form>
@@ -92,7 +96,7 @@
         <div class='sign-in sign-item dp-n'>
             <i class="sign-in__close sign-item__close fas fa-times"></i>
             <p class='sign-in__title sign-item__title'>Đăng nhập</p>
-            <form action="<%= url.urlServer + "general" %>" class="sign-in__form sign-item__form" method="post">
+            <form action="<%= url.urlServer + "signIn" %>" class="sign-in__form sign-item__form" method="post">
                 <input type="text" class="sign-in__form-input sign-item__form-input" placeholder=" Nhập tài khoản"
                     name="username" />
                 <input type="password" class="sign-in__form-input sign-item__form-input" placeholder=" Nhập mật khẩu"
@@ -104,7 +108,7 @@
         <div class='sign-up sign-item dp-n'>
             <i class="sign-up__close sign-item__close fas fa-times"></i>
             <p class='sign-up__title sign-item__title'>Đăng ký</p>
-            <form action="<%= url.urlServer + "general" %>" class="sign-up__form sign-item__form" method="post">
+            <form action="<%= url.urlServer + "signUp" %>" class="sign-up__form sign-item__form" method="post">
                 <input type="text" class="sign-up__form-input sign-item__form-input" placeholder=" Nhập tài khoản"
                     name="username" />
                 <input type="password" class="sign-up__form-input sign-item__form-input" placeholder=" Nhập mật khẩu"

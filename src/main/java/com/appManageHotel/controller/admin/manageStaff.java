@@ -1,12 +1,14 @@
 package com.appManageHotel.controller.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import com.appManageHotel.controller.url.url;
 import com.appManageHotel.model.BEAN.Account;
 import com.appManageHotel.model.BEAN.Staff;
 import com.appManageHotel.model.BO.StaffBO;
+import com.appManageHotel.model.DAO.StaffDAOimpl;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -20,6 +22,10 @@ public class manageStaff extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		ArrayList<Staff> listStaff = StaffDAOimpl.getInstance().selectAll();
+		req.setAttribute("listStaff", listStaff);
+		
 		// TODO Auto-generated method stub
 		System.out.println("DO GET /manageStaff");
 		RequestDispatcher rd1 = req.getRequestDispatcher("/views/admin/manageStaff.jsp");

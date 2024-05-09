@@ -1,6 +1,7 @@
 package com.appManageHotel.controller.admin;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.UUID;
@@ -8,6 +9,7 @@ import java.util.UUID;
 import com.appManageHotel.controller.url.url;
 import com.appManageHotel.model.BEAN.TypeRoom;
 import com.appManageHotel.model.BO.TypeRoomBO;
+import com.appManageHotel.model.DAO.TypeRoomDAOimpl;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -21,6 +23,10 @@ public class manageTypeRoom extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		ArrayList<TypeRoom> listTypeRoom = TypeRoomDAOimpl.getInstance().selectAll();
+		req.setAttribute("listTypeRoom", listTypeRoom);
+		
 		// TODO Auto-generated method stub
 		System.out.println("DO GET /manageTypeRoom");
 		RequestDispatcher rd1 = req.getRequestDispatcher("/views/admin/manageTypeRoom.jsp");

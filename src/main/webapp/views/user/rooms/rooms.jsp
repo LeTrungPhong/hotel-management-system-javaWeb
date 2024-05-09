@@ -1,3 +1,4 @@
+<%@page import="java.awt.font.ImageGraphicAttribute"%>
 <%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -5,7 +6,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="com.appManageHotel.model.BEAN.Room" %>
 <%@ page import="com.appManageHotel.model.DAO.RoomDAO" %>
-<%@ page import="com.appManageHotel.model.BEAN.TypeRoom" %>
+<%@ page import="com.appManageHotel.model.BEAN.*" %>
 <%@ page import="com.appManageHotel.model.DAO.TypeRoomDAO" %>
 <%@ page import="com.appManageHotel.model.DAO.*" %>
 <%@ page import="com.appManageHotel.controller.url.*"%>
@@ -147,10 +148,11 @@
             <%
             	if(listTypeRoom != null){
             		for(int i = 0; i < listTypeRoom.size(); ++i){
+            			ArrayList<Image> imageTypeRoom = ImageDAOimpl.getInstance().selectByIDTypeRoom(listTypeRoom.get(i).getIDTypeRoom());
             			%>
             <div class="room__item">
                 <div class="container_item">
-                    <img src="./assets/image/beach_view_suite.jpg" alt="">
+                    <img src="<%= imageTypeRoom != null ? imageTypeRoom.get(0).getPath() : "https://i.ibb.co/RbVrNbX/default-image.png" %>" alt="">
                     <div class="bottom__infor">
                         <span><%= listTypeRoom.get(i).getDescription() %></span>
                         <p class="star_room">

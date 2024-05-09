@@ -8,8 +8,11 @@ import java.util.UUID;
 
 import com.appManageHotel.controller.cookie.*;
 import com.appManageHotel.controller.url.url;
+import com.appManageHotel.model.BEAN.Account;
+import com.appManageHotel.model.BEAN.Customer;
 import com.appManageHotel.model.BO.CustomerBO;
 import com.appManageHotel.model.DAO.AccountDAOImpl;
+import com.appManageHotel.model.DAO.CustomerDAOimpl;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -18,16 +21,31 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet(urlPatterns = {"/updateInforUser"})
 public class updateInforUser extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		System.out.println("DO GET /updateInforUser");
-		RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/updateInforUser/updateInforUser.jsp");
-		rd1.forward(req, resp);
+		HttpSession session = req.getSession();
+		Cookie cookieIDSession = cookie.findCookieByName(req, "IDSession");
+		
+		if(cookieIDSession != null) {
+			if(session.getId().equals(cookieIDSession.getValue())) {
+				String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+				if(!IDAccount.equals("")) {
+					Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
+					if(account != null) {
+						Customer customer = CustomerDAOimpl.getInstance().selectByIDAccount(account.getIDAccount());
+						req.setAttribute("Customer", customer);
+						RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/updateInforUser/updateInforUser.jsp");
+						rd1.forward(req, resp);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
