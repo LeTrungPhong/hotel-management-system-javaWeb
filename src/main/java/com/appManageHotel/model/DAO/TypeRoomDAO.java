@@ -20,4 +20,6 @@ public interface TypeRoomDAO extends DAOInterface<TypeRoom>{
 	public ArrayList<String> selectIDTypeRoomByPriceAndNumberPeople(int minPrice, int maxPrice, int maxAdult, int maxChild);
 	
 	public ArrayList<String> selectIDTypeRoomByIDTypeRoomAndPriceAndNumberPeople(String[] listIDTypeRoom, int minPrice, int maxPrice, int maxAdult, int maxChild);
+
+	public int selectPriceByIDTypeRoom(String IDTypeRoom);
 }

@@ -385,4 +385,26 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 		}
 		return null;
 	}
+
+	@Override
+	public int selectPriceByIDTypeRoom(String IDTypeRoom) {
+		// TODO Auto-generated method stub
+		int result=0;
+		try{
+			Connection c=ConnectDatabase.getConnection();
+			String sql="Select Price From TypeRoom where IDTypeRoom = ? ";
+			PreparedStatement pstmt=c.prepareStatement(sql);
+			pstmt.setString(1, IDTypeRoom);
+			
+			ResultSet rs=pstmt.executeQuery();
+			while(rs.next()) {
+				result=rs.getInt("Price");
+			}
+			return result;
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

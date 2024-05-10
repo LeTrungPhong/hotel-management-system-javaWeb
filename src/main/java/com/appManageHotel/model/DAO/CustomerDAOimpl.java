@@ -27,7 +27,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 			pstmt.setString(1, t.getIDCustomer());
 			pstmt.setString(2, t.getCCCD());
 			pstmt.setString(3, t.getFullName());
-			pstmt.setDate(4, java.sql.Date.valueOf(t.getBirth())); 
+			pstmt.setDate(4, java.sql.Date.valueOf(LocalDate.of(2004, 2, 11))); 
 			pstmt.setString(5, t.getSDT());
 			pstmt.setString(6, t.getIDAccount());
 			pstmt.setString(7, t.getGender());

@@ -36,17 +36,17 @@
 	%>
 	<header class='header'>
         <div class='header__logo'>
-            <a href="<%= url.urlServer %>home" class='header__sign-button'>
+            <a href="<%= url.urlServer + "home" %>" class='header__sign-button'>
                 <span>HOME PAGE</span>
             </a>
-            <a class='header__sign-button'>
-                <span>ACCOMMODATION</span>
+            <a href="<%= url.urlServer + "rooms" %>" class='header__sign-button'>
+                <span>BOOK ROOM</span>
             </a>
-            <a class='header__sign-button'>
+            <a href="<%= url.urlServer + "services" %>" class='header__sign-button'>
                 <span>SERVICES</span>
             </a>
-            <a class='header__sign-button'>
-                <span>ABOUT US</span>
+            <a href="<%= url.urlServer + "myBooking" %>" class='header__sign-button'>
+                <span>MY BOOKING</span>
             </a>
         </div>
         <div class='header__sign'>

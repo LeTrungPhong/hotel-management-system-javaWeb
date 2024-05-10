@@ -30,20 +30,15 @@ public class updateInforUser extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("DO GET /updateInforUser");
 		HttpSession session = req.getSession();
-		Cookie cookieIDSession = cookie.findCookieByName(req, "IDSession");
 		
-		if(cookieIDSession != null) {
-			if(session.getId().equals(cookieIDSession.getValue())) {
-				String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
-				if(!IDAccount.equals("")) {
-					Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
-					if(account != null) {
-						Customer customer = CustomerDAOimpl.getInstance().selectByIDAccount(account.getIDAccount());
-						req.setAttribute("Customer", customer);
-						RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/updateInforUser/updateInforUser.jsp");
-						rd1.forward(req, resp);
-					}
-				}
+		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+		if(!IDAccount.equals("")) {
+			Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
+			if(account != null) {
+				Customer customer = CustomerDAOimpl.getInstance().selectByIDAccount(account.getIDAccount());
+				req.setAttribute("Customer", customer);
+				RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/updateInforUser/updateInforUser.jsp");
+				rd1.forward(req, resp);
 			}
 		}
 	}
@@ -64,15 +59,18 @@ public class updateInforUser extends HttpServlet{
 			 int Month = Integer.parseInt(strBirth.substring(5, 7));
 			 int Day = Integer.parseInt(strBirth.substring(8,10));
 			 LocalDate Birth = LocalDate.of(Year, Month, Day);
-			 Cookie cookieIDAccount = com.appManageHotel.controller.cookie.cookie.findCookieByName(req, "IDAccount");
 			 
-			 if(cookieIDAccount != null) {
-				 if(AccountDAOImpl.getInstance().selectByID(cookieIDAccount.getValue()) != null) {
+			 HttpSession session = req.getSession();
+			 
+			 String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+			 
+			 if(!IDAccount.equals("")) {
+				 if(AccountDAOImpl.getInstance().selectByID(IDAccount) != null) {
 					 UUID uuid = UUID.randomUUID();
 					 String IDCustomer = uuid.toString();
-					 String notification = CustomerBO.getInstance().checkUpdateCustomer(IDCustomer, FullName, CCCD, Gender, SDT, Birth, cookieIDAccount);
+					 String notification = CustomerBO.getInstance().checkUpdateCustomer(IDCustomer, FullName, CCCD, Gender, SDT, Birth, IDAccount);
 					 
-					 System.out.println(notification);
+					 System.out.println(notification); 
 					 resp.sendRedirect(url.urlServer + "updateInforUser");
 				 }
 			 }

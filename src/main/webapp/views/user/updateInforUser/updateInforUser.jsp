@@ -70,9 +70,9 @@
 			<%
             	Customer customer = request.getAttribute("Customer") != null ? (Customer)request.getAttribute("Customer") : null;
             %>
-	<div class="content <%= customer == null ? "dp-n" : "" %>">
+	<div class="content">
 		<h2>Update Information</h2>
-    	<form action="<%= url.urlServer + "updateInforUser" %>" method="post">
+    	<form action="<%= url.urlServer + "updateInforUser" %>" method="post" onsubmit="refuseData()">
      	  <label for="fullName">Full Name:</label>
       	  <input type="text" id="fname" value="<%= customer == null ? "" : customer.getFullName() %>" name="FullName" placeholder="Your full name.." required>
 
@@ -98,4 +98,17 @@
     </form>
 	</div>
 </body>
+<script>
+	function refuseData(){
+		if(document.getElementById('lname').value.length != 12){
+			alert("CCCD phai nhap 12 so");
+			return false;
+		}
+		if(document.getElementById('sdt').value.length != 10){
+			alert("SDT phai nhap 10 so");
+			return false;
+		}
+		return true;
+	}
+</script>
 </html>

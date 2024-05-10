@@ -177,7 +177,7 @@
                     </p>
                 </div>
                 <h3 class="room__item__title"><%= listTypeRoom.get(i).getTypeRoomName() %></h3>
-                <button class="book_now">
+                <button class="book_now" onclick="bookRoom('<%= listTypeRoom.get(i).getIDTypeRoom() %>')">
                     BOOK NOW
                     <div class="star-1">
                         <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
@@ -280,6 +280,11 @@
 <input type="hidden" id="amongChild" name="amongChild" value="">
 <input type="hidden" id="amongAdult" name="amongAdult" value="">
 </form> */
+
+function bookRoom(IDTypeRoom){
+	document.cookie = "IDTypeRoom=" + IDTypeRoom + ";max-age=" + (24 * 60 * 60);
+	window.location.href = '<%= url.urlServer + "bookRoom" %>';
+}
 
 function submitFindRoom(){	
 	document.getElementById('MinPrice').value = document.getElementById('slider-range-value1').textContent;

@@ -14,6 +14,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @WebFilter(urlPatterns = {"/home-admin","/manageImage", "/manageRoom","/manageService","/manageStaff","/manageTypeRoom"})
 public class authorizationAdminFilter implements Filter{
@@ -22,9 +23,11 @@ public class authorizationAdminFilter implements Filter{
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		Cookie cookieIDAccount = cookie.findCookieByName((HttpServletRequest)request, "IDAccount");
-		if(cookieIDAccount != null) {
-			if(AccountDAOImpl.getInstance().selectByID(cookieIDAccount.getValue()).getRole().equals("Admin")) {
+		HttpSession session = ((HttpServletRequest)request).getSession();
+		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+		
+		if(!IDAccount.equals("")) {
+			if(AccountDAOImpl.getInstance().selectByID(IDAccount).getRole().equals("Admin")) {
 				System.out.println("Authen admin filter");
 				chain.doFilter(request, response);
 			} else {

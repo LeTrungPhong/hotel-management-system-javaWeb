@@ -58,7 +58,6 @@ public class rooms extends HttpServlet{
 		req.setAttribute("MaxPrice", typeRoomMaxPrice != null ? typeRoomMaxPrice.get(0).getPrice() : 0); 
 		req.setAttribute("MinPrice", typeRoomMinPrice != null ? typeRoomMinPrice.get(0).getPrice() : 0);
 		
-		
 		System.out.println("DO GET /rooms");
 		RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/rooms/rooms.jsp");
 		rd1.forward(req, resp);
@@ -78,5 +77,4 @@ public class rooms extends HttpServlet{
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
-
 }

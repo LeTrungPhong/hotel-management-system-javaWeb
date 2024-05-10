@@ -25,19 +25,14 @@ public class changePassWord extends HttpServlet{
 		System.out.println("DO GET /changePassWord");
 		
 		HttpSession session = request.getSession();
-		Cookie cookieIDSession = cookie.findCookieByName(request, "IDSession");
 		
-		if(cookieIDSession != null) {
-			if(session.getId().equals(cookieIDSession.getValue())) {
-				String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
-				if(!IDAccount.equals("")) {
-					Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
-					if(account != null) {
-						request.setAttribute("Account", account);
-						RequestDispatcher rd1 = request.getRequestDispatcher("/views/general/changePassWord/changePassWord.jsp");
-						rd1.forward(request, response);
-					}
-				}
+		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+		if(!IDAccount.equals("")) {
+			Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
+			if(account != null) {
+				request.setAttribute("Account", account);
+				RequestDispatcher rd1 = request.getRequestDispatcher("/views/general/changePassWord/changePassWord.jsp");
+				rd1.forward(request, response);
 			}
 		}
 	}
@@ -53,11 +48,14 @@ public class changePassWord extends HttpServlet{
 			String UserName = req.getParameter("UserName");
 			String PassWord = req.getParameter("PassWord");
 			String NewPassWord = req.getParameter("NewPassWord");
-			Cookie cookieIDAccount = cookie.findCookieByName(req, "IDAccount");
 			
-			if(cookieIDAccount != null) {
-				System.out.println(cookieIDAccount.getValue() + " " + UserName + " " + PassWord + " " + NewPassWord);
-				if(AccountBO.getInstance().updateAccount(new Account(cookieIDAccount.getValue(), UserName, PassWord, ""), NewPassWord)) {
+			HttpSession session = req.getSession();
+			
+			String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+			
+			if(!IDAccount.equals("")) {
+				System.out.println(IDAccount + " " + UserName + " " + PassWord + " " + NewPassWord);
+				if(AccountBO.getInstance().updateAccount(new Account(IDAccount, UserName, PassWord, ""), NewPassWord)) {
 					 System.out.println("Cap nhat mat khau thanh cong");
 				} else {
 					System.out.println("Loi khong the cap nhat mat khau");

@@ -25,7 +25,7 @@ public class signIn extends HttpServlet{
 		// get data from request
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
-		 
+		
 		// check username, password
 		Account account = AccountDAOImpl.getInstance().selectByUserNameAndPassWord(username, password);
 		if(account != null) {
