@@ -144,6 +144,7 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, ID);
 			ResultSet rs = pstmt.executeQuery();
+			System.out.println("Thuc thi: " + pstmt.toString());
 			
 			while(rs.next()) {
 				String IDIFBookRoom=rs.getString("IDIFBookRoom");
@@ -152,11 +153,8 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 				LocalDate dayout=rs.getDate("ComeOutDate").toLocalDate();
 				int nA=rs.getInt("NumberAdult");
 				int nC=rs.getInt("NumberChild");
-				result=new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC);
+				return new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC);
 			}
-			
-			System.out.println("Thuc thi: " + pstmt.toString());
-			return result;
 		} 
 		catch (Exception e) {
 			e.printStackTrace();

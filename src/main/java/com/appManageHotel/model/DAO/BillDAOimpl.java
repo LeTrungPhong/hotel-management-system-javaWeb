@@ -2,6 +2,7 @@ package com.appManageHotel.model.DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import com.appManageHotel.database.ConnectDatabase;
@@ -90,6 +91,33 @@ public class BillDAOimpl implements BillDAO {
 	@Override
 	public ArrayList<Bill> selectByCondition(String Condition) {
 		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ArrayList<Bill> selectByIDCustomer(String id) {
+		// TODO Auto-generated method stub
+		try {
+			ArrayList<Bill> result = new ArrayList<Bill>();
+			Connection con = ConnectDatabase.getConnection();
+			String sql = "SELECT * FROM Bill WHERE IDCustomer = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String IDBill = rs.getString("IDBill");
+				String IDStaff = rs.getString("IDStaff");
+				String IDCustomer = rs.getString("IDCustomer");
+				int Total = rs.getInt("Total");
+				String IDIFBookRoom = rs.getString("IDIFBookRoom");
+				result.add(new Bill(IDBill, IDStaff, IDCustomer, Total, IDIFBookRoom));
+			}
+			return result;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

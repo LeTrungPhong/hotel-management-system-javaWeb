@@ -92,6 +92,33 @@ public class CustomerDAOimpl implements CustomerDAO{
 	@Override
 	public Customer selectByID(String ID) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT * FROM Customer WHERE IDCustomer = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, ID);
+			
+
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("Thuc thi: " + pstmt.toString());
+			
+			while(rs.next()) {
+				String IDCustomer = rs.getString("IDCustomer");
+				String FullName = rs.getString("FullName");
+				String CCCD = rs.getString("CCCD");
+				String Gender = rs.getString("Gender");
+				String SDT = rs.getString("SDT");
+				String IDAccount = rs.getString("IDAccount");
+				LocalDate Birth = rs.getDate("Birth").toLocalDate();
+				return new Customer(IDCustomer,FullName,CCCD,Gender,SDT,Birth,IDAccount);
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

@@ -47,13 +47,15 @@ public class bookRoom extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		System.out.println("DO POST /bookRoom");
+		
+		HttpSession session = req.getSession();
+		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+		
 		String FullName = req.getParameter("FullName");
 		String SDT = req.getParameter("SDT");
 		String IDCustomer = UUID.randomUUID().toString();
-		
 		String IDTypeRoom = req.getParameter("IDTypeRoom"); 
 		String IDIFBookRoom = UUID.randomUUID().toString();
-		String IDRoom = "";
 		String strtimeStart = req.getParameter("ComeInDate");
 		String strtimeEnd = req.getParameter("ComeOutDate");
 		LocalDate timeStart = LocalDate.of(Integer.parseInt(strtimeStart.substring(0, 4)), Integer.parseInt(strtimeStart.substring(5, 7)), Integer.parseInt(strtimeStart.substring(8, 10)));
@@ -62,7 +64,14 @@ public class bookRoom extends HttpServlet{
 		int NumberChild = Integer.parseInt(req.getParameter("NumberChild"));
 		int total = Integer.parseInt(req.getParameter("payPrice"));
 		
-		IFBookRoomBO.getInstance().bookRoom(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild), IDTypeRoom , new Customer(IDCustomer,FullName,null,null,SDT,null,null), total);
+		if(!IDAccount.equals("")) {
+			Customer customer = CustomerDAOimpl.getInstance().selectByIDAccount(IDAccount);
+			if(customer != null) {
+				IFBookRoomBO.getInstance().bookRoomByAccount(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild), IDTypeRoom , customer, total);
+			}
+		} else {
+			IFBookRoomBO.getInstance().bookRoom(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild), IDTypeRoom , new Customer(IDCustomer,FullName,null,null,SDT,null,null), total);
+		}
 		resp.sendRedirect(url.urlServer + "bookRoom");
 	}
 }
