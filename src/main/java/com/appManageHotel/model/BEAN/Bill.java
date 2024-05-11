@@ -4,12 +4,14 @@ public class Bill {
 	private String IDBill;
 	private String IDStaff;
 	private String IDCustomer;
+	private int Prepayment;
 	private int Total;
 	private String IDIFBookRoom;
-	public Bill(String idb,String ids,String idc,int tt,String idi) {
+	public Bill(String idb,String ids,String idc,int p,int tt,String idi) {
 		IDBill=idb;
 		IDStaff=ids;
 		IDCustomer=idc;
+		Prepayment=p;
 		Total=tt;
 		IDIFBookRoom=idi;
 	}
@@ -42,6 +44,12 @@ public class Bill {
 	}
 	public void setIDIFBookRoom(String id) {
 		IDIFBookRoom=id;
+	}
+	public int getPrepayment() {
+		return Prepayment;
+	}
+	public void setPrepayment(int p) {
+		Prepayment=p;
 	}
 	
 	

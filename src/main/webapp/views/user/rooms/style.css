@@ -67,6 +67,7 @@
 .QuantityPerson__show{
     opacity: 1;
     visibility: visible;
+    z-index: 100;
 }
 
 .QuantityPerson__item{
@@ -320,3 +321,7 @@ i{
   .rangeCost{
     margin-top: 15px;
   }
+  
+  .datepicker-dropdown{
+        	top: 43px !important;
+        }

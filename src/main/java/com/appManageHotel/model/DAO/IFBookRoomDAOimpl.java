@@ -21,8 +21,8 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 		// TODO Auto-generated method stub
 		try {
 			Connection c=ConnectDatabase.getConnection();
-			String sql="INSERT INTO IFBookRoom (IDIFBookRoom, IDRoom, ComeInDate, ComeOutDate, NumberAdult, NumberChild) "
-					+ "VALUES (?,?,?,?,?,?)";
+			String sql="INSERT INTO IFBookRoom (IDIFBookRoom, IDRoom, ComeInDate, ComeOutDate, NumberAdult, NumberChild, State) "
+					+ "VALUES (?,?,?,?,?,?,?)";
 			PreparedStatement pstmt = c.prepareStatement(sql);
 			pstmt.setString(1, t.getIDIFBookRoom());
 			pstmt.setString(2, t.getIDRoom());
@@ -30,6 +30,7 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 			pstmt.setDate(4, Date.valueOf(t.getComeOutDate()));
 			pstmt.setInt(5, t.getNumberAdult());
 			pstmt.setInt(6, t.getNumberChild());
+			pstmt.setBoolean(7, t.isState());
 			
 			int kq=pstmt.executeUpdate();
 			System.out.println("Thuc thi: " + sql);
@@ -48,11 +49,12 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 			Connection con = ConnectDatabase.getConnection();
 			
 			String sql = "UPDATE IFBookRoom"
-					+ " SET IDRoom = ?"
-					+ "	ComeInDate = ?"
-					+ "	ComeOutDate = ?"
-					+ "	NumberAdult = ?"
-					+ "	NumberChild = ?"
+					+ " SET IDRoom = ?,"
+					+ "	ComeInDate = ?,"
+					+ "	ComeOutDate = ?,"
+					+ "	NumberAdult = ?,"
+					+ "	NumberChild = ?,"
+					+ " State = ?"
 					+ " WHERE IDIFBookRoom = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -61,7 +63,8 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 			pstmt.setDate(3, Date.valueOf(t.getComeOutDate()));
 			pstmt.setInt(4, t.getNumberAdult());
 			pstmt.setInt(5, t.getNumberChild());
-			pstmt.setString(6, t.getIDIFBookRoom());
+			pstmt.setBoolean(6, t.isState());
+			pstmt.setString(7, t.getIDIFBookRoom());
 			
 			int kq = pstmt.executeUpdate();
 			
@@ -119,7 +122,8 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 				LocalDate dayout=rs.getDate("ComeOutDate").toLocalDate();
 				int nA=rs.getInt("NumberAdult");
 				int nC=rs.getInt("NumberChild");
-				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC));
+				boolean state = rs.getBoolean("State");
+				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state));
 			}
 			
 			System.out.println("Thuc thi: " + pstmt.toString());
@@ -153,7 +157,8 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 				LocalDate dayout=rs.getDate("ComeOutDate").toLocalDate();
 				int nA=rs.getInt("NumberAdult");
 				int nC=rs.getInt("NumberChild");
-				return new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC);
+				boolean state = rs.getBoolean("State");
+				return new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state);
 			}
 		} 
 		catch (Exception e) {
@@ -187,7 +192,8 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 				LocalDate dayout=rs.getDate("ComeOutDate").toLocalDate();
 				int nA=rs.getInt("NumberAdult");
 				int nC=rs.getInt("NumberChild");
-				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC));
+				boolean state = rs.getBoolean("State");
+				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state));
 			}
 			
 			System.out.println("Thuc thi: " + pstmt.toString());

@@ -30,17 +30,23 @@ public class rooms extends HttpServlet{
 		String strtimeStart = req.getParameter("timeStart");
 		String strtimeEnd = req.getParameter("timeEnd");
 		
-		int MinPrice = strMinPrice != null ? Integer.parseInt(strMinPrice.substring(1).replace(",", "")) : 0;
-		int MaxPrice = strMaxPrice != null ? Integer.parseInt(strMaxPrice.substring(1).replace(",", "")) : 0;
+		req.setAttribute("maxAdult", strmaxAdult);
+		req.setAttribute("maxChild", strmaxChild);
+		req.setAttribute("timeStart", strtimeStart);
+		req.setAttribute("timeEnd", strtimeEnd);
+		
+		
 		int maxAdult = strmaxAdult != null ? Integer.parseInt(strmaxAdult) : 0;
 		int maxChild = strmaxChild != null ? Integer.parseInt(strmaxChild) : 0;
+		
+		
 		
 		LocalDate timeStart = strtimeStart == null || strtimeStart.equals("") ? null : LocalDate.of(
 				Integer.parseInt(strtimeStart.substring(6, 10)), 
 				Integer.parseInt(strtimeStart.substring(0, 2)), 
 				Integer.parseInt(strtimeStart.substring(3, 5))
 					);
-		
+			
 		LocalDate timeEnd = strtimeEnd == null || strtimeEnd.equals("") ? null : LocalDate.of(
 				Integer.parseInt(strtimeEnd.substring(6, 10)), 
 				Integer.parseInt(strtimeEnd.substring(0, 2)), 
@@ -49,14 +55,30 @@ public class rooms extends HttpServlet{
 		
 		String[] listTypeRoomName = req.getParameterValues("TypeRoomName") != null ? req.getParameterValues("TypeRoomName") : null;
 		
-		ArrayList<TypeRoom> listFindRoom = RoomBO.getInstance().findRoom(MinPrice, MaxPrice, maxAdult, maxChild, timeStart, timeEnd, listTypeRoomName);
+		String[] s = listTypeRoomName;
+		if(s != null)
+		for(int i = 0; i < s.length; i++){
+			System.out.print(s[i]);
+		}
 		
 		ArrayList<TypeRoom> typeRoomMaxPrice = TypeRoomDAOimpl.getInstance().selectTypeRoomMaxPrice(1);
 		ArrayList<TypeRoom> typeRoomMinPrice = TypeRoomDAOimpl.getInstance().selectTypeRoomMinPrice(1);
 		
+		int maxP = typeRoomMaxPrice != null ? typeRoomMaxPrice.get(0).getPrice() : 0;
+		int minP = typeRoomMinPrice != null ? typeRoomMinPrice.get(0).getPrice() : 0;
+		
+		int MinPrice = strMinPrice != null ? Integer.parseInt(strMinPrice.substring(1).replace(",", "")) : minP;
+		int MaxPrice = strMaxPrice != null ? Integer.parseInt(strMaxPrice.substring(1).replace(",", "")) : maxP;
+		
+		req.setAttribute("minPrice", MinPrice);
+		req.setAttribute("maxPrice", MaxPrice);
+		
+		ArrayList<TypeRoom> listFindRoom = RoomBO.getInstance().findRoom(MinPrice, MaxPrice, maxAdult, maxChild, timeStart, timeEnd, listTypeRoomName);
+		
 		req.setAttribute("listTypeRoom", listFindRoom);
-		req.setAttribute("MaxPrice", typeRoomMaxPrice != null ? typeRoomMaxPrice.get(0).getPrice() : 0); 
-		req.setAttribute("MinPrice", typeRoomMinPrice != null ? typeRoomMinPrice.get(0).getPrice() : 0);
+		req.setAttribute("listTypeRoomName", listTypeRoomName);
+		req.setAttribute("MaxPrice", maxP); 
+		req.setAttribute("MinPrice", minP);
 		
 		System.out.println("DO GET /rooms");
 		RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/rooms/rooms.jsp");
@@ -65,16 +87,6 @@ public class rooms extends HttpServlet{
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 }

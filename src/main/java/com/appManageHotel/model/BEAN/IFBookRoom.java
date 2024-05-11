@@ -9,14 +9,16 @@ public class IFBookRoom {
 	private LocalDate ComeOutDate;
 	private int NumberAdult;
 	private int NumberChild;
+	private boolean State;
 	
-	public IFBookRoom(String id,String idr,LocalDate inn,LocalDate outt,int nA,int nC) {
+	public IFBookRoom(String id,String idr,LocalDate inn,LocalDate outt,int nA,int nC, boolean state) {
 		IDIFBookRoom=id;
 		IDRoom=idr;
 		ComeInDate=inn;
 		ComeOutDate=outt;
 		NumberAdult=nA;
 		NumberChild=nC;
+		setState(state);
 	}
 	public String getIDIFBookRoom() {
 		return IDIFBookRoom;
@@ -53,6 +55,12 @@ public class IFBookRoom {
 	}
 	public void setNumberChild(int nC) {
 		NumberChild=nC;
+	}
+	public boolean isState() {
+		return State;
+	}
+	public void setState(boolean state) {
+		State = state;
 	}
 }
 

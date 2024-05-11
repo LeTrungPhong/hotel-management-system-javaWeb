@@ -32,6 +32,7 @@ public class signUp extends HttpServlet{
 		String IDAccount = uuid.toString();
 		
 		// Check username
+		String show = "";
 		if(AccountDAOImpl.getInstance().selectByUserName(username) == null) {
 			// account not exits 
 			// insert new account
@@ -42,12 +43,15 @@ public class signUp extends HttpServlet{
 			Cookie cookieIDAccount = new Cookie("IDSession", session.getId());
 			cookieIDAccount.setMaxAge(2400 * 60 * 60); 
 			resp.addCookie(cookieIDAccount);
+			show = "Dang ki thanh cong";
 		} else {
 			// account exits
 			// show error
 			System.out.println("Tai khoan da ton tai");
+			show = "Dang ki that bai, Tai khoan da ton tai";
 		}
-		resp.sendRedirect(url.urlServer + "home");
+		
+		resp.sendRedirect(url.urlServer + "home?show=" + show);
 	}
 
 }

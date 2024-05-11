@@ -3,6 +3,7 @@ package com.appManageHotel.controller.user;
 import java.io.IOException;
 import com.appManageHotel.controller.cookie.*;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import com.appManageHotel.controller.url.url;
@@ -11,6 +12,8 @@ import com.appManageHotel.model.BEAN.IFBookRoom;
 import com.appManageHotel.model.BEAN.TypeRoom;
 import com.appManageHotel.model.BO.IFBookRoomBO;
 import com.appManageHotel.model.DAO.CustomerDAOimpl;
+import com.appManageHotel.model.DAO.IFBookRoomDAOimpl;
+import com.appManageHotel.model.DAO.RoomDAOimpl;
 import com.appManageHotel.model.DAO.TypeRoomDAOimpl;
 
 import jakarta.servlet.RequestDispatcher;
@@ -63,15 +66,41 @@ public class bookRoom extends HttpServlet{
 		int NumberAdult = Integer.parseInt(req.getParameter("NumberAdult"));
 		int NumberChild = Integer.parseInt(req.getParameter("NumberChild"));
 		int total = Integer.parseInt(req.getParameter("payPrice"));
-		
+		int totalPrice = Integer.parseInt(req.getParameter("total-price"));
+		int Price = Integer.parseInt(req.getParameter("Price"));
+		String show = "";
 		if(!IDAccount.equals("")) {
 			Customer customer = CustomerDAOimpl.getInstance().selectByIDAccount(IDAccount);
 			if(customer != null) {
-				IFBookRoomBO.getInstance().bookRoomByAccount(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild), IDTypeRoom , customer, total);
+				if(IFBookRoomBO.getInstance().bookRoomByAccount(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true), IDTypeRoom , customer, totalPrice,total)) {
+					System.out.println("Dat phong thanh cong");
+					show = "Dat phong thanh cong";
+				} else {
+					System.out.println("Da het loai phong nay");
+					show = "Da het loai phong nay";
+				}
 			}
 		} else {
-			IFBookRoomBO.getInstance().bookRoom(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild), IDTypeRoom , new Customer(IDCustomer,FullName,null,null,SDT,null,null), total);
+			if(IFBookRoomBO.getInstance().bookRoom(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true), IDTypeRoom , new Customer(IDCustomer,FullName,null,null,SDT,null,null), totalPrice,total)) {
+				System.out.println("Dat phong thanh cong");
+				show = "Dat phong thanh cong";
+			} else {
+				System.out.println("Da het loai phong nay");
+				show = "Da het loai phong nay";
+			}
 		}
-		resp.sendRedirect(url.urlServer + "bookRoom");
+		session.setAttribute("FullName",FullName);
+		session.setAttribute("SDT", SDT);
+		session.setAttribute("TypeRoomName", TypeRoomDAOimpl.getInstance().selectByID(IDTypeRoom).getTypeRoomName());
+		session.setAttribute("RoomName", RoomDAOimpl.getInstance().selectByID(IFBookRoomDAOimpl.getInstance().selectByID(IDIFBookRoom).getIDRoom()).getRoomName());
+		session.setAttribute("CheckIn", strtimeStart);
+		session.setAttribute("CheckOut", strtimeEnd);
+		session.setAttribute("pay", total);
+		session.setAttribute("Price", Price);
+		session.setAttribute("total-price", totalPrice);
+		session.setAttribute("NumberAdult", NumberAdult);
+		session.setAttribute("NumberChild", NumberChild);
+		
+		resp.sendRedirect(url.urlServer + "bookRoom?show=" + show);
 	}
 }

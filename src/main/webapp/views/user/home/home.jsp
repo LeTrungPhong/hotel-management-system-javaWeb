@@ -200,7 +200,7 @@
             AMENITIES & SERVICES
         </h1>
 
-        <button class="viewAllRooms">
+        <button class="viewAllRooms" onclick="window.location.href='<%= url.urlServer + "services" %>'">
             <span class="circle1"></span>
             <span class="circle2"></span>
             <span class="circle3"></span>

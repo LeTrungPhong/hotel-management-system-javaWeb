@@ -21,7 +21,7 @@ public class IFBookRoomBO {
 		return new IFBookRoomBO();
 	}
 	
-	public void bookRoom(IFBookRoom t,String IDTypeRoom,Customer r, int totalBill) {
+	public boolean bookRoom(IFBookRoom t,String IDTypeRoom,Customer r, int totalBill, int PrepaymentBill) {
 		try {
 			Connection con = ConnectDatabase.getConnection();
 			String sql="select IDRoom from Room where IDTypeRoom=? except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?)  ";
@@ -37,22 +37,24 @@ public class IFBookRoomBO {
 			
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println("Thuc thi: " + pstmt.toString());
-			while (rs.next()) {
+			if (rs.next()) {
 				String IDRoom=rs.getString("IDRoom");
 				t.setIDRoom(IDRoom);
-				break;
+				
 			}
+			else return false;
 			IFBookRoomDAOimpl.getInstance().insert(t);
 			CustomerDAOimpl.getInstance().insert(r);
 			String id = UUID.randomUUID().toString();
-			Bill b = new Bill(id, "Staffweb", r.getIDCustomer(), totalBill, t.getIDIFBookRoom());
+			Bill b = new Bill(id, "Staffweb", r.getIDCustomer(),PrepaymentBill, totalBill, t.getIDIFBookRoom());
 			BillDAOimpl.getInstance().insert(b);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 	
-	public void bookRoomByAccount(IFBookRoom t,String IDTypeRoom,Customer r, int totalBill) {
+	public boolean bookRoomByAccount(IFBookRoom t,String IDTypeRoom,Customer r, int totalBill, int PrepaymentBill) {
 		try {
 			Connection con = ConnectDatabase.getConnection();
 			String sql="select IDRoom from Room where IDTypeRoom=? except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?)  ";
@@ -68,17 +70,23 @@ public class IFBookRoomBO {
 			
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println("Thuc thi: " + pstmt.toString());
-			while (rs.next()) {
+			if (rs.next()) {
 				String IDRoom=rs.getString("IDRoom");
 				t.setIDRoom(IDRoom);
-				break;
+				
 			}
+			else return false;
 			IFBookRoomDAOimpl.getInstance().insert(t);
 			String id = UUID.randomUUID().toString();
-			Bill b = new Bill(id, "Staffweb", r.getIDCustomer(), totalBill, t.getIDIFBookRoom());
+			Bill b = new Bill(id, "Staffweb", r.getIDCustomer(),PrepaymentBill, totalBill, t.getIDIFBookRoom());
 			BillDAOimpl.getInstance().insert(b);
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return true;
+	}
+	public void cancelling(IFBookRoom t) {
+		t.setState(false);
+		IFBookRoomDAOimpl.getInstance().update(t);
 	}
 }

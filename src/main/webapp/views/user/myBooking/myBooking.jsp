@@ -3,6 +3,8 @@
     pageEncoding="UTF-8"%>
 <%@ page import="com.appManageHotel.model.BEAN.*" %>
 <%@ page import="com.appManageHotel.model.DAO.*" %>
+<%@ page import="java.time.LocalDate" %>
+<%@ page import="com.appManageHotel.controller.url.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -161,12 +163,15 @@
     <table>
             <tr>
             	<th>Số thứ tự</th>
+            	<th>Loại phòng</th>
                 <th>Tên Phòng</th>
                 <th>Ngày đến</th>
                 <th>Ngày đi</th>
                 <th>Số người lớn</th>
                 <th>Số trẻ em</th>
                 <th>Số tiền đã thanh toán</th>
+                <th>Trạng thái</th>
+                <th>Chức năng</th>
             </tr>
             <%
             	if(listBill != null){
@@ -178,12 +183,41 @@
         						%>
         							<tr>
         								<td><%= i %></td>
+        								<td><%= TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()).getTypeRoomName() %></td>
     									<td><%= room.getRoomName() %></td>
     									<td><%= infor.getComeInDate() %></td>
     									<td><%= infor.getComeOutDate() %></td>
     									<td><%= infor.getNumberAdult() %></td>
     									<td><%= infor.getNumberChild() %></td>
     									<td><%= listBill.get(i).getTotal() %></td>
+    									<td>
+    										<%
+    										if(!infor.isState()){
+												%>Đã hủy<%
+											} else {
+												LocalDate currentDate = LocalDate.now();
+												if(currentDate.isBefore(infor.getComeInDate())){
+													 %>Đã đặt<%
+												} else if(currentDate.isAfter(infor.getComeOutDate())){
+													%>Đã trả phòng<%
+												} else {
+													%>Đang nhận phòng<%
+												}
+											}
+    										%>
+    									</td>
+    									<td>
+    										<%
+    											if(infor.isState()){
+    												LocalDate currentDate = LocalDate.now();
+    												if(currentDate.isBefore(infor.getComeInDate())){
+    													 %>
+    													 	<button onclick="cancleRoom('<%= infor.getIDIFBookRoom() %>')">Hủy phòng</button>
+    													 <%
+    												}
+    											}
+    										%>
+    									</td>
     								</tr>
         						<%
         					}
@@ -192,5 +226,15 @@
             	}
             %>
     </table>
+    <form action="<%= url.urlServer + "myBooking" %>" method="post" style="display: none">
+    	<input type="text" id="IDIFBookRoom" name="IDIFBookRoom">
+    	<input type="submit" id="submitCancle">
+    </form>
 </body>
+<script>
+	function cancleRoom(IDIFBookRoom){
+		document.getElementById('IDIFBookRoom').value = IDIFBookRoom;
+		document.getElementById('submitCancle').click();
+	}
+</script>
 </html>

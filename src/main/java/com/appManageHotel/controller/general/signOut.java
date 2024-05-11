@@ -26,6 +26,7 @@ public class signOut extends HttpServlet{
 		cookie.setMaxAge(0);
 		
 		resp.addCookie(cookie);
-		resp.sendRedirect(url.urlServer + "home");
+		String show = "Dang xuat thanh cong";
+		resp.sendRedirect(url.urlServer + "home?show=" + show);
 	}
 }

@@ -42,6 +42,7 @@ public class changePassWord extends HttpServlet{
 		// TODO Auto-generated method stub
 		System.out.println("Post in changePassWord");
 		String typeRequest = req.getParameter("type");
+		String show = "";
 		if(typeRequest.equals("changePassWord")) {
 			System.out.println("changePassWord");
 			
@@ -57,12 +58,13 @@ public class changePassWord extends HttpServlet{
 				System.out.println(IDAccount + " " + UserName + " " + PassWord + " " + NewPassWord);
 				if(AccountBO.getInstance().updateAccount(new Account(IDAccount, UserName, PassWord, ""), NewPassWord)) {
 					 System.out.println("Cap nhat mat khau thanh cong");
+					 show = "Cap nhat mat khau thanh cong";
 				} else {
 					System.out.println("Loi khong the cap nhat mat khau");
+					show = "Loi khong the cap nhat mat khau";
 				}
 			}
 		}
-		resp.sendRedirect(url.urlServer + "changePassWord");
+		resp.sendRedirect(url.urlServer + "changePassWord?show=" + show);
 	}
-
 }

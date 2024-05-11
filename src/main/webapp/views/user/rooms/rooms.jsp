@@ -55,7 +55,7 @@
                     </div>
                     <input readonly name="start" type="text"
                         class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Check in" id="timeStartValue">
+                        placeholder="Check in" id="timeStartValue" value="<%= request.getAttribute("timeStart") != null ? request.getAttribute("timeStart") : "" %>">
                 </div>
                 <div class="relative">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -67,13 +67,13 @@
                     </div>
                     <input readonly name="end" type="text"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Check out" id="timeEndValue">
+                        placeholder="Check out" id="timeEndValue" value="<%= request.getAttribute("timeEnd") != null ? request.getAttribute("timeEnd") : "" %>">
                 </div>
                 <div class="relative">
                     <ion-icon class="icon_user" name="person-sharp"></ion-icon>
                     <input id="user_options" name="end" type="text"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="1 adults, 0 child">
+                        placeholder="<%= request.getAttribute("maxAdult") != null ? request.getAttribute("maxAdult") : 1 %> adults, <%= request.getAttribute("maxChild") != null ? request.getAttribute("maxChild") : 0 %> child">
                     <div class="QuantityPerson">
                         <div class="QuantityPerson__detail">
                             <div class="QuantityPerson__item">
@@ -82,7 +82,7 @@
                                     <button class="QuantityPerson__operator__sub">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <span id="maxAdultValue" class="QuantityPerson__amount">1</span>
+                                    <span id="maxAdultValue" class="QuantityPerson__amount"><%= request.getAttribute("maxAdult") != null ? request.getAttribute("maxAdult") : 1 %></span>
                                     <button class="QuantityPerson__operator__plus">
                                         <i class="fas fa-plus"></i>
                                     </button>
@@ -94,7 +94,7 @@
                                     <button class="QuantityPerson__operator__sub">
                                         <i class="fas fa-minus"></i>
                                     </button>
-                                    <span id="maxChildValue" class="QuantityPerson__amount">0</span>
+                                    <span id="maxChildValue" class="QuantityPerson__amount"><%= request.getAttribute("maxChild") != null ? request.getAttribute("maxChild") : 0 %></span>
                                     <button class="QuantityPerson__operator__plus">
                                         <i class="fas fa-plus"></i>
                                     </button>
@@ -270,7 +270,10 @@
 <script src="views/user/rooms/rooms.js"></script>
 <script src="views/user/rooms/rangeCost.js"></script>
 <script>
- 
+
+	 
+	
+	
 /* <form method="post" id="findSuitableRoom">
 <input type="hidden" id="min-value" name="min-value" value="">
 <input type="hidden" id="max-value" name="max-value" value="">
@@ -331,7 +334,7 @@ $(document).ready(function() {
       prefix: '$'
     });
     noUiSlider.create(rangeSlider, {
-      start: [<%= MinPrice %>, <%= MaxPrice %>],
+      start: [<%= request.getAttribute("minPrice") != null ? request.getAttribute("minPrice") : MinPrice %>, <%= request.getAttribute("maxPrice") != null ? request.getAttribute("maxPrice") : MaxPrice %>],
       step: 1,
       range: {
         'min': [<%= MinPrice %>],

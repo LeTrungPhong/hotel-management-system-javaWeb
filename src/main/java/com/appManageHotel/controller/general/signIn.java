@@ -27,6 +27,7 @@ public class signIn extends HttpServlet{
 		String password = req.getParameter("password");
 		
 		// check username, password
+		String show = "";
 		Account account = AccountDAOImpl.getInstance().selectByUserNameAndPassWord(username, password);
 		if(account != null) {
 			// success
@@ -37,11 +38,13 @@ public class signIn extends HttpServlet{
 			Cookie cookie = new Cookie("IDSession", session.getId());
 			cookie.setMaxAge(2400 * 60 * 60);	
 			resp.addCookie(cookie);
-			
+			show = "Dang nhap thanh cong";
 		} else {
 			// fail
+			show = "Dang nhap that bai, sai tai khoan hoac mat khau";
 		}
-		resp.sendRedirect(url.urlServer + "home");
+		
+		resp.sendRedirect(url.urlServer + "home?show=" + show);
 	}
 	
 }

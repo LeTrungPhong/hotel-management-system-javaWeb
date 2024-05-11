@@ -19,8 +19,8 @@ public class BillDAOimpl implements BillDAO {
 		try {
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "INSERT INTO Bill(IDBill,IDStaff,IDCustomer,Total, IDIFBookRoom) "
-					+ " VALUES (?,?,?,?,?)";
+			String sql = "INSERT INTO Bill(IDBill,IDStaff,IDCustomer,Total, IDIFBookRoom, Prepayment) "
+					+ " VALUES (?,?,?,?,?,?)";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, t.getIDBill());
@@ -28,6 +28,7 @@ public class BillDAOimpl implements BillDAO {
 			pstmt.setString(3, t.getIDCustomer());
 			pstmt.setInt(4, t.getTotal());
 			pstmt.setString(5, t.getIDIFBookRoom());
+			pstmt.setInt(6, t.getPrepayment());
 			
 			int kq = pstmt.executeUpdate();
 			System.out.println("Thuc thi: " + sql);
@@ -50,6 +51,7 @@ public class BillDAOimpl implements BillDAO {
 					+ " IDCustomer = ?," 
 					+ " Total = ?,"
 					+ " IDIFBookRoom = ?,"
+					+ " Prepayment = ?"
 					+ " WHERE IDBill = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -57,7 +59,8 @@ public class BillDAOimpl implements BillDAO {
 			pstmt.setString(2, t.getIDCustomer());
 			pstmt.setInt(3, t.getTotal());
 			pstmt.setString(4, t.getIDIFBookRoom());
-			pstmt.setString(5, t.getIDBill());
+			pstmt.setInt(5, t.getPrepayment());
+			pstmt.setString(6,t.getIDBill());
 			
 			int kq = pstmt.executeUpdate();
 			
@@ -111,7 +114,8 @@ public class BillDAOimpl implements BillDAO {
 				String IDCustomer = rs.getString("IDCustomer");
 				int Total = rs.getInt("Total");
 				String IDIFBookRoom = rs.getString("IDIFBookRoom");
-				result.add(new Bill(IDBill, IDStaff, IDCustomer, Total, IDIFBookRoom));
+				int Prepayment = rs.getInt("Prepayment");
+				result.add(new Bill(IDBill, IDStaff, IDCustomer,Prepayment, Total, IDIFBookRoom));
 			}
 			return result;
 		}

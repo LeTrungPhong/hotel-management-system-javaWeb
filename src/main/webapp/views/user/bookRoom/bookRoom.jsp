@@ -78,6 +78,7 @@
         	all: unset;
         	background-color: white;
         }
+        
     </style>
 </head>
 <body class="container">
@@ -148,6 +149,13 @@
         <input type="submit" value="Tiến hành thanh toán">
     </form>
 <script>
+
+const urlParams = new URLSearchParams(window.location.search);
+const paramValue = urlParams.get('show');
+if(paramValue){
+	alert(paramValue);
+	window.location.href="<%= url.urlServer + "receipt" %>"
+}
 
 function validateInput() {
     var inputCCCD = document.getElementById("CCCD").value;
