@@ -154,10 +154,13 @@
         	background-color: rgba(0,0,0,0.2);
         	z-index: 4;
         }
+        .dp-n {
+        	display: none;
+        }
     </style>
 </head>
 <body class="container">
-<jsp:include page="../general/header/header.jsp"/> 
+<jsp:include page="navBarAdmin.jsp"/> 
 	<%
 		TypeRoom tr = (TypeRoom)request.getAttribute("TypeRoom");
 		ArrayList<Room> listRoom = request.getAttribute("listRoom") != null ? (ArrayList<Room>)request.getAttribute("listRoom") : null;

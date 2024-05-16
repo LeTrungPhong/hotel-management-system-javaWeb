@@ -3,24 +3,17 @@ package com.appManageHotel.model.BEAN;
 public class Facility {
 	private String IDFacility;
 	private String FacilityName;
-	private String IDRoom;
-	private boolean State;
+	private String IDTypeRoom;
+	private int Number;
 	
-	public Facility(String IDFacility, String FacilityName, String IDRoom, boolean State) {
+	public Facility(String IDFacility, String FacilityName, String IDTypeRoom, int Number ) {
 		this.IDFacility = IDFacility;
 		this.FacilityName = FacilityName;
-		this.IDRoom = IDRoom;
-		this.State = State;
+		this.IDTypeRoom = IDTypeRoom;
+		this.Number = Number;
 	}
 	
-	public Facility(String IDFacility, String FacilityName, boolean State) {
-		this.IDFacility = IDFacility;
-		this.FacilityName = FacilityName;
-		this.IDRoom = null;
-		this.State = State;
-	}
-	
-	public String getIDFacility() {
+	public String getIDFacility() { 
 		return IDFacility;
 	}
 	public void setIDFacility(String iDFacility) {
@@ -32,16 +25,17 @@ public class Facility {
 	public void setFacilityName(String facilityName) {
 		FacilityName = facilityName;
 	}
-	public String getIDRoom() {
-		return IDRoom;
+	public String getIDTypeRoom() {
+		return IDTypeRoom;
 	}
 	public void setIDRoom(String iDRoom) {
-		IDRoom = iDRoom;
+		IDTypeRoom = iDRoom;
 	}
-	public boolean isState() {
-		return State;
+	public int getNumber() {
+		return Number;
 	}
-	public void setState(boolean state) {
-		State = state;
+	public void setState(int Numberr) {
+		Number = Numberr;
 	}
 }
+

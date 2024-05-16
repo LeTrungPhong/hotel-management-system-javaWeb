@@ -30,7 +30,7 @@ public class myBooking extends HttpServlet{
 		HttpSession session = req.getSession();
 		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
 		Customer customer = !IDAccount.equals("") ? CustomerDAOimpl.getInstance().selectByIDAccount(IDAccount) : null;
-		ArrayList<Bill> listBill = customer != null ? BillDAOimpl.getInstance().selectByIDCustomer(customer.getIDCustomer()) : null;
+		ArrayList<Bill> listBill = customer != null ? BillDAOimpl.getInstance().selectByIDCustomerComeInDateDESC(customer.getIDCustomer()) : null;
 		req.setAttribute("listBill", listBill);
 		
 		RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/myBooking/myBooking.jsp");
@@ -46,5 +46,4 @@ public class myBooking extends HttpServlet{
 		
 		resp.sendRedirect(url.urlServer + "myBooking");
 	}
-	
 }

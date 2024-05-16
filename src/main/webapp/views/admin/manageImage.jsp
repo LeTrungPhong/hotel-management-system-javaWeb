@@ -148,6 +148,9 @@
         #PathOld {
         	background-color: rgba(0,0,0,0.1);
         }
+        .dp-n {
+        	display: none;
+        }
     </style>
 </head>
 <!-- https://i.ibb.co/x21gkf7/introduce.jpg
@@ -157,7 +160,7 @@ https://i.ibb.co/KD4pV89/bike-rental.jpg
 https://i.ibb.co/b2NqFWP/beach-view-suite.jpg
 https://i.ibb.co/PhyGC7n/beach-view-single.jpg -->
 <body class="container">
-<jsp:include page="../general/header/header.jsp"/> 
+<jsp:include page="navBarAdmin.jsp"/>
 <div class="background-shadow dp-n"></div>
 <div class="image-container">
     <%

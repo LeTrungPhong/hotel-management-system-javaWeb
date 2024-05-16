@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class ConnectDatabase {
 	
-	public static Connection getConnection(){
+	public static Connection getConnection(){ 
 		String Server = "LAPTOP-DBU555O6";
 		String databaseName = "HMS";
 		String password = "123";

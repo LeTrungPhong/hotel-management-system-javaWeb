@@ -125,5 +125,61 @@ public class BillDAOimpl implements BillDAO {
 		return null;
 	}
 
+	@Override
+	public Bill selectByIDIFBookRoom(String idIFBookRoom) {
+		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			String sql = "SELECT * FROM Bill WHERE IDIFBookRoom = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, idIFBookRoom);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String IDBill = rs.getString("IDBill");
+				String IDStaff = rs.getString("IDStaff");
+				String IDCustomer = rs.getString("IDCustomer");
+				int Total = rs.getInt("Total");
+				String IDIFBookRoom = rs.getString("IDIFBookRoom");
+				int Prepayment = rs.getInt("Prepayment");
+				return (new Bill(IDBill, IDStaff, IDCustomer,Prepayment, Total, IDIFBookRoom));
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public ArrayList<Bill> selectByIDCustomerComeInDateDESC(String idCustomer) {
+		// TODO Auto-generated method stub
+		try {
+			ArrayList<Bill> result = new ArrayList<Bill>();
+			Connection con = ConnectDatabase.getConnection();
+			String sql = "SELECT * FROM Bill JOIN IFBookRoom ON Bill.IDIFBookRoom = IFBookRoom.IDIFBookRoom "
+					+ " WHERE Bill.IDCustomer = ? "
+					+ " ORDER BY IFBookRoom.ComeInDate DESC ";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, idCustomer);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String IDBill = rs.getString("IDBill");
+				String IDStaff = rs.getString("IDStaff");
+				String IDCustomer = rs.getString("IDCustomer");
+				int Total = rs.getInt("Total");
+				String IDIFBookRoom = rs.getString("IDIFBookRoom");
+				int Prepayment = rs.getInt("Prepayment");
+				result.add(new Bill(IDBill, IDStaff, IDCustomer,Prepayment, Total, IDIFBookRoom));
+			}
+			return result;
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }
 

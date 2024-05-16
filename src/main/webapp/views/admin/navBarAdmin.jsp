@@ -35,15 +35,22 @@
         .menu button:hover {
             background-color: #45a049;
         }
+        .dp-n {
+        	display: none;
+        }
     </style>
 </head>
 <body class="container">
 	<div class="menu">
-		<button onclick="window.location.href='<%= url.urlServer + "home-admin" %>'">Home</button>
     	<button onclick="window.location.href='<%= url.urlServer + "manageTypeRoom" %>'">Danh sách các loại phòng</button>
     	<button onclick="window.location.href='<%= url.urlServer + "manageService" %>'">Danh sách các dịch vụ</button>
     	<button onclick="window.location.href='<%= url.urlServer + "manageStaff" %>'">Danh sách các nhân viên</button>
     	<button onclick="window.location.href='<%= url.urlServer + "manageImage" %>'">Danh sách hinh anh</button>
+    	<button style="background: red;" onclick="document.getElementById('signOutAdmin').click()">Đăng xuất</button>
 	</div>
+	<form class="dp-n" method="post" action="<%= url.urlServer + "signOut" %>">
+		<input type="submit" id="signOutAdmin">
+	</form>
+	<script></script>
 </body>
 </html>

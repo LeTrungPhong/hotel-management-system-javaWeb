@@ -64,21 +64,21 @@ public class RoomBO {
 		
 		ArrayList<String> idTypeRoomCondition = FindRoomByCondition(listTypeRoomName, MinPrice, MaxPrice, maxAdult, maxChild);
 		
-		if(idTypeRoomCondition != null) {
-			for(String s : idTypeRoomCondition) {
-				System.out.println(s);
-			}
-		}
+//		if(idTypeRoomCondition != null) {
+//			for(String s : idTypeRoomCondition) {
+//				System.out.println(s);
+//			}
+//		}
 		
 		ArrayList<String> idTypeRoomFree = FindRoomFree(
 				timeStart != null ? timeStart : null, 
 				timeEnd != null ? timeEnd : null);
 		
-		if(idTypeRoomFree != null) {
-			for(String s : idTypeRoomFree) {
-				System.out.println(s);
-			}
-		}
+//		if(idTypeRoomFree != null) {
+//			for(String s : idTypeRoomFree) {
+//				System.out.println(s);
+//			}
+//		}
 		
 		ArrayList<String> mergedList = new ArrayList<>();
 		if(idTypeRoomCondition != null && idTypeRoomFree != null) {

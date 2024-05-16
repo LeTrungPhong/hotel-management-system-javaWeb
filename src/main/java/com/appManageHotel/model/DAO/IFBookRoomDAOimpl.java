@@ -139,11 +139,9 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 	public IFBookRoom selectByID(String ID) {
 		// TODO Auto-generated method stub
 		try {
-			IFBookRoom result = null ;
-			
 			Connection con = ConnectDatabase.getConnection();
 			
-			String sql = "SELECT * FROM IFBookRoom where IDIFBookRoom=?";
+			String sql = "SELECT * FROM IFBookRoom where IDIFBookRoom = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, ID);

@@ -15,7 +15,6 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -42,24 +41,29 @@
         }
 
         table {
-            width: 700px;
+            width: 80%;
             border-collapse: collapse;
             margin-bottom: 20px;
+            background-color: #fff;
         }
 
         th,
         td {
-            padding: 12px 15px;
+            padding: 20px;
             text-align: left;
             border-bottom: 1px solid #ddd;
         }
 
         th {
-            background-color: #f2f2f2;
+        
+        }
+        
+        tr:nth-child(even){
+        	background-color: #f9f9f9;
         }
 
         tr:hover {
-            background-color: #f5f5f5;
+            background-color: #ddd;
         }
 
         button {
@@ -193,15 +197,15 @@
     									<td>
     										<%
     										if(!infor.isState()){
-												%>Đã hủy<%
-											} else {
+												%><p style="color: #db0000;">Đã hủy</p><%
+											} else { 
 												LocalDate currentDate = LocalDate.now();
 												if(currentDate.isBefore(infor.getComeInDate())){
-													 %>Đã đặt<%
-												} else if(currentDate.isAfter(infor.getComeOutDate())){
+													 %><p style="color: green;">Đã đặt</p><%
+												} else if(currentDate.isAfter(infor.getComeOutDate())){ 
 													%>Đã trả phòng<%
 												} else {
-													%>Đang nhận phòng<%
+													%><p>Đang nhận phòng</p><%
 												}
 											}
     										%>
@@ -212,7 +216,7 @@
     												LocalDate currentDate = LocalDate.now();
     												if(currentDate.isBefore(infor.getComeInDate())){
     													 %>
-    													 	<button onclick="cancleRoom('<%= infor.getIDIFBookRoom() %>')">Hủy phòng</button>
+    													 	<button style="background-color: #ffa6a6;" onclick="cancleRoom('<%= infor.getIDIFBookRoom() %>')">Hủy phòng</button>
     													 <%
     												}
     											}

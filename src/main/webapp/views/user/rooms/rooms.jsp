@@ -10,6 +10,7 @@
 <%@ page import="com.appManageHotel.model.DAO.TypeRoomDAO" %>
 <%@ page import="com.appManageHotel.model.DAO.*" %>
 <%@ page import="com.appManageHotel.controller.url.*"%>
+<%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -55,7 +56,7 @@
                     </div>
                     <input readonly name="start" type="text"
                         class="border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Check in" id="timeStartValue" value="<%= request.getAttribute("timeStart") != null ? request.getAttribute("timeStart") : "" %>">
+                        placeholder="Check in" id="timeStartValue" value="<%= request.getAttribute("timeStart") != null ? request.getAttribute("timeStart") : "" %>" required>
                 </div>
                 <div class="relative">
                     <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -67,7 +68,7 @@
                     </div>
                     <input readonly name="end" type="text"
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Check out" id="timeEndValue" value="<%= request.getAttribute("timeEnd") != null ? request.getAttribute("timeEnd") : "" %>">
+                        placeholder="Check out" id="timeEndValue" value="<%= request.getAttribute("timeEnd") != null ? request.getAttribute("timeEnd") : "" %>" required>
                 </div>
                 <div class="relative">
                     <ion-icon class="icon_user" name="person-sharp"></ion-icon>
@@ -113,7 +114,7 @@
                 		for(int i = 0; i < listAllTypeRoom.size(); ++i){
                 			%>
                 				<button class="option__item" onclick="addInputTypeRoomName('<%= listAllTypeRoom.get(i).getTypeRoomName() %>')">
-                    				<span><%= listAllTypeRoom.get(i).getTypeRoomName() %></span> 
+                    				<span class="option__item-text"><%= listAllTypeRoom.get(i).getTypeRoomName() %></span> 
                 				</button>
                 			<%
                 		}
@@ -177,7 +178,7 @@
                     </p>
                 </div>
                 <h3 class="room__item__title"><%= listTypeRoom.get(i).getTypeRoomName() %></h3>
-                <button class="book_now" onclick="bookRoom('<%= listTypeRoom.get(i).getIDTypeRoom() %>')">
+                <button class="book_now" onclick="bookRoom('<%= listTypeRoom.get(i).getIDTypeRoom() %>',<%= listTypeRoom.get(i).getPrice() %>)">
                     BOOK NOW
                     <div class="star-1">
                         <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"
@@ -258,7 +259,6 @@
                         </svg>
                     </div>
                 </button>
-
             </div>
             			<%
             		}
@@ -271,8 +271,9 @@
 <script src="views/user/rooms/rangeCost.js"></script>
 <script>
 
-	 
-	
+
+
+
 	
 /* <form method="post" id="findSuitableRoom">
 <input type="hidden" id="min-value" name="min-value" value="">
@@ -284,9 +285,21 @@
 <input type="hidden" id="amongAdult" name="amongAdult" value="">
 </form> */
 
-function bookRoom(IDTypeRoom){
-	document.cookie = "IDTypeRoom=" + IDTypeRoom + ";max-age=" + (24 * 60 * 60);
-	window.location.href = '<%= url.urlServer + "bookRoom" %>';
+function bookRoom(IDTypeRoom,Price){
+
+	document.getElementById('MinPrice').value = document.getElementById('slider-range-value1').textContent;
+	document.getElementById('MaxPrice').value = document.getElementById('slider-range-value2').textContent;
+	document.getElementById('maxAdult').value = document.getElementById('maxAdultValue').textContent;
+	document.getElementById('maxChild').value = document.getElementById('maxChildValue').textContent;
+	document.getElementById('timeStart').value = document.getElementById('timeStartValue').value;
+	document.getElementById('timeEnd').value = document.getElementById('timeEndValue').value; 
+	
+	const timeStart = document.getElementById('timeStartValue').value;
+	const timeEnd = document.getElementById('timeEndValue').value;
+	const numberAdult = document.getElementById('maxAdultValue').textContent;
+	const numberChild = document.getElementById('maxChildValue').textContent;
+
+	window.location.href = '<%= url.urlServer + "bookRoom?IDTypeRoom=" %>' + IDTypeRoom + "&timeStart=" + timeStart + "&timeEnd=" + timeEnd + "&NumberAdult=" + numberAdult + "&NumberChild=" + numberChild;
 }
 
 function submitFindRoom(){	
@@ -303,11 +316,10 @@ function submitFindRoom(){
  
 
 function addInputTypeRoomName(TypeRoomName){
+	console.log(TypeRoomName)
 	var listTypeRoomName = document.getElementsByClassName('inputTypeRoomName');
-	console.log(listTypeRoomName.length)
 
 	for(let i = 0; i < listTypeRoomName.length; ++i){
-		console.log(listTypeRoomName[i].value + " " + TypeRoomName);
 		if(listTypeRoomName[i].value === TypeRoomName){
 			listTypeRoomName[i].remove();
 			return;
@@ -2298,5 +2310,35 @@ $(document).ready(function() {
       /** @export */
     window.wNumb = wNumb;
  }());
+
+
+  <%
+	String[] listTypeRoomName = request.getAttribute("listTypeRoomName") != null ? (String[])request.getAttribute("listTypeRoomName") : null;
+
+	StringBuilder jsArray = new StringBuilder();
+	jsArray.append("[");
+	if(listTypeRoomName != null){
+		for (int i = 0; i < listTypeRoomName.length; i++) {
+	    	jsArray.append("'" + listTypeRoomName[i] + "'");
+	    	if (i < listTypeRoomName.length - 1) {
+	        	jsArray.append(", ");
+	    	}
+		}
+	}
+	jsArray.append("]");
+%>
+
+const listTR = <%= jsArray.toString() %>
+
+const optionItemClick = document.getElementsByClassName('option__item');
+const optionItemText = document.getElementsByClassName('option__item-text');
+for(let i = 0; i < listTR.length; ++i){
+	for(let j = 0; j < optionItemText.length; ++j){
+		if(listTR[i] === optionItemText[j].textContent){
+			optionItemClick[j].click();
+		}
+	}
+}
+  
 </script>
 </html>

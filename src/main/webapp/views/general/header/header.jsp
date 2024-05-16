@@ -22,17 +22,6 @@
 	<%
 		Cookie cookieIDSession = cookie.findCookieByName((HttpServletRequest)request, "IDSession");
 		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
-		if (cookieIDSession != null) { 
-			if(session.getId().equals(cookieIDSession.getValue())){
-				if(!IDAccount.equals("")){
-					if(AccountDAOImpl.getInstance().selectByID(IDAccount).getRole().equals("Admin")){
-						%>
-			    			<jsp:include page="navBarAdmin.jsp"/>
-						<%
-					}
-				}
-			}
-		} 
 	%>
 	<header class='header'>
         <div class='header__logo'>

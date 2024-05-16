@@ -23,6 +23,8 @@ public class rooms extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		System.out.println("DO GET /rooms");
+		
 		String strMinPrice = req.getParameter("MinPrice");
 		String strMaxPrice = req.getParameter("MaxPrice");
 		String strmaxAdult = req.getParameter("maxAdult"); 
@@ -55,11 +57,17 @@ public class rooms extends HttpServlet{
 		
 		String[] listTypeRoomName = req.getParameterValues("TypeRoomName") != null ? req.getParameterValues("TypeRoomName") : null;
 		
+		System.out.println();
+		
 		String[] s = listTypeRoomName;
-		if(s != null)
-		for(int i = 0; i < s.length; i++){
-			System.out.print(s[i]);
+		if(s != null) {
+			for(int i = 0; i < s.length; i++){
+				System.out.print(s[i] + "\n");
+			}
 		}
+		System.out.println();
+		System.out.println();
+		
 		
 		ArrayList<TypeRoom> typeRoomMaxPrice = TypeRoomDAOimpl.getInstance().selectTypeRoomMaxPrice(1);
 		ArrayList<TypeRoom> typeRoomMinPrice = TypeRoomDAOimpl.getInstance().selectTypeRoomMinPrice(1);
@@ -80,7 +88,6 @@ public class rooms extends HttpServlet{
 		req.setAttribute("MaxPrice", maxP); 
 		req.setAttribute("MinPrice", minP);
 		
-		System.out.println("DO GET /rooms");
 		RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/rooms/rooms.jsp");
 		rd1.forward(req, resp);
 	}

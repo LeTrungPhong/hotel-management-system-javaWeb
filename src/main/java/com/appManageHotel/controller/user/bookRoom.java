@@ -75,32 +75,23 @@ public class bookRoom extends HttpServlet{
 				if(IFBookRoomBO.getInstance().bookRoomByAccount(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true), IDTypeRoom , customer, totalPrice,total)) {
 					System.out.println("Dat phong thanh cong");
 					show = "Dat phong thanh cong";
+					resp.sendRedirect(url.urlServer + "bookRoom?show=" + show + "&IDIFBookRoom=" + IDIFBookRoom);
 				} else {
 					System.out.println("Da het loai phong nay");
 					show = "Da het loai phong nay";
+					resp.sendRedirect(url.urlServer + "rooms?show=" + show);
 				}
 			}
 		} else {
 			if(IFBookRoomBO.getInstance().bookRoom(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true), IDTypeRoom , new Customer(IDCustomer,FullName,null,null,SDT,null,null), totalPrice,total)) {
 				System.out.println("Dat phong thanh cong");
 				show = "Dat phong thanh cong";
+				resp.sendRedirect(url.urlServer + "bookRoom?show=" + show + "&IDIFBookRoom=" + IDIFBookRoom);
 			} else {
 				System.out.println("Da het loai phong nay");
 				show = "Da het loai phong nay";
+				resp.sendRedirect(url.urlServer + "rooms?show=" + show);
 			}
 		}
-		session.setAttribute("FullName",FullName);
-		session.setAttribute("SDT", SDT);
-		session.setAttribute("TypeRoomName", TypeRoomDAOimpl.getInstance().selectByID(IDTypeRoom).getTypeRoomName());
-		session.setAttribute("RoomName", RoomDAOimpl.getInstance().selectByID(IFBookRoomDAOimpl.getInstance().selectByID(IDIFBookRoom).getIDRoom()).getRoomName());
-		session.setAttribute("CheckIn", strtimeStart);
-		session.setAttribute("CheckOut", strtimeEnd);
-		session.setAttribute("pay", total);
-		session.setAttribute("Price", Price);
-		session.setAttribute("total-price", totalPrice);
-		session.setAttribute("NumberAdult", NumberAdult);
-		session.setAttribute("NumberChild", NumberChild);
-		
-		resp.sendRedirect(url.urlServer + "bookRoom?show=" + show);
 	}
 }

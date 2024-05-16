@@ -25,7 +25,7 @@ public class ServiceDAOimpl implements ServiceDAO{
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, t.getIDService());
-			pstmt.setString(2, t.GetServiceName());
+			pstmt.setString(2, t.GetServiceName()); 
 			pstmt.setInt(3, t.getPrice());
 			pstmt.setString(4, t.getDescription());
 			pstmt.setString(5, t.getIDImage());

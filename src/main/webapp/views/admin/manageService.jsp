@@ -156,10 +156,13 @@
         	height: 100%;
         	background-color: rgba(0,0,0,0.2);
         }
+        .dp-n {
+        	display: none;
+        }
     </style>
 </head>
 <body class="container">
-<jsp:include page="../general/header/header.jsp"/> 
+<jsp:include page="navBarAdmin.jsp"/> 
 <div class="service-container">
     <%
     	ArrayList<Service> listService = request.getAttribute("listService") != null ? (ArrayList<Service>)request.getAttribute("listService") : null;

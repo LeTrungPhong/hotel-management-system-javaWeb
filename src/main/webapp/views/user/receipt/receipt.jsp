@@ -22,6 +22,7 @@
         }
         h2 {
             text-align: center;
+            margin-bottom: 20px; 
         }
         label {
             font-weight: bold;
@@ -78,37 +79,42 @@
 
 	<h2>Thông Tin Đặt Phòng Khách Sạn</h2>
     <form action="#" method="post">
-        <img class="img_room_booking" src="https://cdn3.ivivu.com/2014/01/SUPER-DELUXE2.jpg" alt="">
 
         <label for="name">Họ và Tên:</label>
-        <input type="text" id="name" name="name" value="<%= (String)request.getSession().getAttribute("FullName") %>" readonly>
+        <input type="text" id="name" name="name" value="<%= request.getAttribute("FullName") != null ? (String)request.getAttribute("FullName") : "" %>" readonly>
 
         <label for="phone">Số Điện Thoại:</label>
-        <input type="text" id="phone" name="phone" value="<%= (String)request.getSession().getAttribute("SDT") %>" readonly>
+        <input type="text" id="phone" name="phone" value="<%= request.getAttribute("SDT") != null ? (String)request.getAttribute("SDT") : "" %>" readonly>
+        
+        <label for="gender">Giới tính:</label>
+        <input type="text" id="gender" name="gender" value="<%= request.getAttribute("Gender") != null ? (String)request.getAttribute("Gender") : "" %>" readonly>
 
         <label for="checkin">Ngày Nhận Phòng:</label>
-        <input type="text" id="checkin" name="checkin" value="<%= (String)request.getSession().getAttribute("CheckIn") %>" readonly>
+        <input type="text" id="checkin" name="checkin" value="<%= request.getAttribute("timeStart") != null ? (String)request.getAttribute("timeStart") : "" %>" readonly>
 
         <label for="checkout">Ngày Trả Phòng:</label>
-        <input type="text" id="checkout" name="checkout" value="<%= (String)request.getSession().getAttribute("CheckOut") %>" readonly>
+        <input type="text" id="checkout" name="checkout" value="<%= request.getAttribute("timeEnd") != null ? (String)request.getAttribute("timeEnd") : "" %>" readonly>
 
         <label for="room-type">Loại Phòng:</label>
-        <input type="text" id="room-type" name="room-type" value="<%= (String)request.getSession().getAttribute("TypeRoomName") %>" readonly>
+        <input type="text" id="room-type" name="room-type" value="<%= request.getAttribute("TypeRoomName") != null ? (String)request.getAttribute("TypeRoomName") : "" %>" readonly>
         
         <label for="NumberAdult">Số người lớn:</label>
-        <input type="text" id="NumberAdult" name="NumberAdult" value="<%= (int)request.getSession().getAttribute("NumberAdult") %>" readonly>
+        <input type="text" id="NumberAdult" name="NumberAdult" value="<%= request.getAttribute("NumberAdult") != null ? (int)request.getAttribute("NumberAdult") : "" %>" readonly>
         
         <label for="NumberChild">Số trẻ em:</label>
-        <input type="text" id="NumberChild" name="NumberChild" value="<%= (int)request.getSession().getAttribute("NumberChild") %>" readonly>
+        <input type="text" id="NumberChild" name="NumberChild" value="<%= request.getAttribute("NumberChild") != null ? (int)request.getAttribute("NumberChild") : "" %>" readonly>
         
         <label for="total-price">Đơn Giá 1 Đêm: </label>
-        <input type="text" id="total-price" name="total-price" value="<%= (int)request.getSession().getAttribute("Price") %>" readonly>
+        <input type="text" id="total-price" name="total-price" value="<%= request.getAttribute("Price") != null ? (int)request.getAttribute("Price") : "" %>" readonly>
+        
+        <label for="surchange">Phụ thu: </label>
+        <input type="text" id="surchange" name="surchange" value="<%= request.getAttribute("surchange") != null ? (int)request.getAttribute("surchange") : "" %>" readonly>
         
         <label for="pay">Da thanh toan:</label>
-        <input type="text" id="pay" name="pay" value="<%= (int)request.getSession().getAttribute("pay") %>" readonly>
+        <input type="text" id="pay" name="pay" value="<%= request.getAttribute("Prepayment") != null ? (int)request.getAttribute("Prepayment") : "" %>" readonly>
 
         <label for="total-price">Tổng Tiền:</label>
-        <input type="text" id="total-price" name="total-price" value="<%= (int)request.getSession().getAttribute("total-price") %>" readonly>
+        <input type="text" id="total-price" name="total-price" value="<%= request.getAttribute("total") != null ? (int)request.getAttribute("total") : "" %>" readonly>
 
         <input type="submit" value="Tai ve may">
     </form>

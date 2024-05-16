@@ -38,13 +38,19 @@ public class signIn extends HttpServlet{
 			Cookie cookie = new Cookie("IDSession", session.getId());
 			cookie.setMaxAge(2400 * 60 * 60);	
 			resp.addCookie(cookie);
-			show = "Dang nhap thanh cong";
+			if(account.getRole().equals("Admin")) {
+				resp.sendRedirect(url.urlServer + "manageTypeRoom");
+			} else if(account.getRole().equals("Staff")) {
+				resp.sendRedirect(url.urlServer + "");
+			} else {
+				show = "Dang nhap thanh cong";
+				resp.sendRedirect(url.urlServer + "home?show=" + show);
+			}
 		} else {
 			// fail
 			show = "Dang nhap that bai, sai tai khoan hoac mat khau";
+			resp.sendRedirect(url.urlServer + "home?show=" + show);
 		}
-		
-		resp.sendRedirect(url.urlServer + "home?show=" + show);
 	}
 	
 }
