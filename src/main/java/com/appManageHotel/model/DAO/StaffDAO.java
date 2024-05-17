@@ -8,4 +8,6 @@ public interface StaffDAO extends DAOInterface<Staff>{
 	
 	public Staff selectByCCCDExceptID(String IDStaff, String CCCD);
 	
+	public Staff selectByIDAccount(String idAccount);
+	
 }

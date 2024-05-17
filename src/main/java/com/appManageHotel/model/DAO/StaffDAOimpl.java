@@ -207,4 +207,35 @@ public class StaffDAOimpl implements StaffDAO{
 		}
 		return null;
 	}
+
+	@Override
+	public Staff selectByIDAccount(String idAccount) {
+		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT * FROM Staff WHERE IDAccount = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, idAccount);
+			
+
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("Thuc thi: " + pstmt.toString());
+			
+			while(rs.next()) {
+				String IDStaff = rs.getString("IDStaff");
+				String FullName = rs.getString("FullName");
+				String CCCD = rs.getString("CCCD");
+				String IDAccount = rs.getString("IDAccount");
+				boolean State = rs.getBoolean("State");
+				return new Staff(IDStaff,FullName,CCCD,IDAccount,State);
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

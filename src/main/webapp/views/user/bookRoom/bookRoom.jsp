@@ -46,6 +46,7 @@
         input[type="text"],
         input[type="email"],
         input[type="number"],
+        input[type="date"],
         select,
         textarea {
             width: calc(100% - 5px);
@@ -149,7 +150,7 @@
     </style>
 </head>
 <body>
-	<jsp:include page="../../general/header/header.jsp"/> 
+	<jsp:include page="../header/header.jsp"/> 
 	
 	<% 
 		Customer customer = request.getAttribute("Customer") != null ? (Customer)request.getAttribute("Customer") : null; 
@@ -381,9 +382,6 @@ function changeTotal (){
 		check = true;
 	}
 	if(year == yearS && month == monthS && day > dayS){
-		check = true;
-	}
-	if(year == yearS && month == monthS && day == dayS){
 		check = true;
 	}
 	

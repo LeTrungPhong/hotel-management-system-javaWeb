@@ -74,7 +74,7 @@
 </style>
 </head>
 <body class="container">
-	<jsp:include page="../../general/header/header.jsp"/>
+	<jsp:include page="../header/header.jsp"/>
 			<%
             	Account account = request.getAttribute("Account") != null ? (Account)request.getAttribute("Account"): null;
             %>

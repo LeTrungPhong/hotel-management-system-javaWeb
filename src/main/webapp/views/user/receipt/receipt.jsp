@@ -75,7 +75,7 @@
     </style>
 </head>
 <body class="container">
-<jsp:include page="../../general/header/header.jsp"/> 
+<jsp:include page="../header/header.jsp"/> 
 
 	<h2>Thông Tin Đặt Phòng Khách Sạn</h2>
     <form action="#" method="post">

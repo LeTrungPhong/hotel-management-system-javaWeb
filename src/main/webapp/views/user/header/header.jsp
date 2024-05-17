@@ -13,7 +13,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="views/user/home/style.css">
-<link rel="stylesheet" href="views/general/header/style.css">
+<link rel="stylesheet" href="views/user/header/style.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
@@ -110,5 +110,5 @@
         </div>
     </article>
 </body>
-<script src="views/general/header/index.js"></script>
+<script src="views/user/header/index.js"></script>
 </html>

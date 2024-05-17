@@ -89,6 +89,16 @@
             border-bottom-left-radius: 8px;
             border-bottom-right-radius: 8px;
         }
+        #form-submit{
+        	position: fixed;
+        	padding: 20px; 
+        	border-radius: 5px;
+        	background-color: #fff;
+        	z-index: 5;
+        	top: 50%;
+        	left: 50%;
+        	transform: translate(-50%,-50%);
+        }
         label {
             font-weight: bold;
             display: block;
@@ -101,12 +111,17 @@
         input[type="date"],
         select,
         textarea {
-            width: calc(100% - 5px);
+            width: calc(100% - 5px); 
             padding: 10px;
             margin: 5px 0;
             border: 1px solid #ccc;
             border-radius: 4px;
             box-sizing: border-box;
+        }
+        
+        .select {
+            padding: 10px !important;
+            margin: 5px 0 !important;
         }
 
         input[type="submit"] {
@@ -144,16 +159,7 @@
             border-radius: 10px;
             margin-bottom: 15px;
         } 
-        #form-submit{
-        	position: fixed;
-        	padding: 20px; 
-        	border-radius: 5px;
-        	background-color: #fff;
-        	z-index: 5;
-        	top: 50%;
-        	left: 50%;
-        	transform: translate(-50%,-50%);
-        }
+        
         .background-shadow {
         	background-color: rgba(0,0,0,0.2);
         	position: fixed;
@@ -173,7 +179,7 @@
     </style>
 </head>
 <body class="container">
-	<jsp:include page="../../general/header/header.jsp"/> 
+	<jsp:include page="../header/header.jsp"/> 
 	<%
 		ArrayList<Service> listService = request.getAttribute("listService") != null ? (ArrayList<Service>)request.getAttribute("listService") : null;
 	
@@ -208,11 +214,6 @@
 	<form class="dp-n" action="<%= url.urlServer + "services" %>" id="form-submit" method="post" onsubmit="return validateInput()">
         <img style="max-width: 400px;" class="img_room_booking" src="https://cdn3.ivivu.com/2014/01/SUPER-DELUXE2.jpg" alt="">
         
-        <%
-        	Account account = session.getAttribute("IDAccount") != null ? AccountDAOImpl.getInstance().selectByID((String)session.getAttribute("IDAccount")) : null;
-        	Customer customer = account != null ? CustomerDAOimpl.getInstance().selectByIDAccount(account.getIDAccount()) : null;
-        %>
-        
       <div style="display: flex; flex-direction: columns; gap: 10px;">
     <div style="min-width: 350px;">
         <label for="FullName">Họ và tên: </label>
@@ -220,8 +221,7 @@
         	type="text" 
         	id="FullName" 
         	name="FullName" 
-        	value="<%= customer != null ? customer.getFullName() : "" %>"
-        	<%= customer != null ? "readonly" : "" %>
+        	value=""
         	required>
         
         <label for="SDT">Số điện thoại: </label>
@@ -229,8 +229,6 @@
         	type="text"  
         	id="SDT" 
         	name="SDT" 
-        	value="<%= customer != null ? customer.getSDT() : "" %>"
-        	<%= customer != null ? "readonly" : "" %>
         	required>
         
         <label for="SDT">CCCD: </label>
@@ -238,21 +236,17 @@
         	type="text" 
         	id="CCCD" 
         	name="CCCD" 
-        	value="<%= customer != null ? customer.getCCCD() : "" %>"
-        	<%= customer != null ? "readonly" : "" %>
         	required>
         <label for="Birth">Ngày sinh: </label>
         <input 
         	type="date" 
         	id="Birth" 
         	name="Birth" 
-        	value="<%= customer != null ? customer.getBirth() : "" %>"
-        	<%= customer != null ? "readonly" : "" %>
         	required>
         <label for="Gender">Giới tính: </label>
-        <select name="Gender">
-        	<option value="male" <%= customer != null ? customer.getGender().equals("male") ? "selected" : "" : "" %>>Male</option>
-        	<option value="female" <%= customer != null ? customer.getGender().equals("female") ? "selected" : "" : "" %>>Female</option>
+        <select class="select" name="Gender">
+        	<option value="male">Male</option>
+        	<option value="female">Female</option>
         </select>
      </div>
         

@@ -61,8 +61,14 @@ public class bookRoom extends HttpServlet{
 		String IDIFBookRoom = UUID.randomUUID().toString();
 		String strtimeStart = req.getParameter("ComeInDate");
 		String strtimeEnd = req.getParameter("ComeOutDate");
-		LocalDate timeStart = LocalDate.of(Integer.parseInt(strtimeStart.substring(0, 4)), Integer.parseInt(strtimeStart.substring(5, 7)), Integer.parseInt(strtimeStart.substring(8, 10)));
-		LocalDate timeEnd = LocalDate.of(Integer.parseInt(strtimeEnd.substring(0, 4)), Integer.parseInt(strtimeEnd.substring(5, 7)), Integer.parseInt(strtimeEnd.substring(8, 10)));
+		LocalDate timeStart = LocalDate.of(
+				Integer.parseInt(strtimeStart.substring(0, 4)), 
+				Integer.parseInt(strtimeStart.substring(5, 7)), 
+				Integer.parseInt(strtimeStart.substring(8, 10)));
+		LocalDate timeEnd = LocalDate.of(
+				Integer.parseInt(strtimeEnd.substring(0, 4)), 
+				Integer.parseInt(strtimeEnd.substring(5, 7)), 
+				Integer.parseInt(strtimeEnd.substring(8, 10)));
 		int NumberAdult = Integer.parseInt(req.getParameter("NumberAdult"));
 		int NumberChild = Integer.parseInt(req.getParameter("NumberChild"));
 		int total = Integer.parseInt(req.getParameter("payPrice"));
@@ -72,7 +78,7 @@ public class bookRoom extends HttpServlet{
 		if(!IDAccount.equals("")) {
 			Customer customer = CustomerDAOimpl.getInstance().selectByIDAccount(IDAccount);
 			if(customer != null) {
-				if(IFBookRoomBO.getInstance().bookRoomByAccount(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true), IDTypeRoom , customer, totalPrice,total)) {
+				if(IFBookRoomBO.getInstance().bookRoomByAccount(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true,false), IDTypeRoom , customer, totalPrice,total)) {
 					System.out.println("Dat phong thanh cong");
 					show = "Dat phong thanh cong";
 					resp.sendRedirect(url.urlServer + "bookRoom?show=" + show + "&IDIFBookRoom=" + IDIFBookRoom);
@@ -83,7 +89,7 @@ public class bookRoom extends HttpServlet{
 				}
 			}
 		} else {
-			if(IFBookRoomBO.getInstance().bookRoom(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true), IDTypeRoom , new Customer(IDCustomer,FullName,null,null,SDT,null,null), totalPrice,total)) {
+			if(IFBookRoomBO.getInstance().bookRoom(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true,false), IDTypeRoom , new Customer(IDCustomer,FullName,null,null,SDT,null,null), totalPrice,total)) {
 				System.out.println("Dat phong thanh cong");
 				show = "Dat phong thanh cong";
 				resp.sendRedirect(url.urlServer + "bookRoom?show=" + show + "&IDIFBookRoom=" + IDIFBookRoom);

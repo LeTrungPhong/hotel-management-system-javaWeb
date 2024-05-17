@@ -41,7 +41,7 @@ public class signIn extends HttpServlet{
 			if(account.getRole().equals("Admin")) {
 				resp.sendRedirect(url.urlServer + "manageTypeRoom");
 			} else if(account.getRole().equals("Staff")) {
-				resp.sendRedirect(url.urlServer + "");
+				resp.sendRedirect(url.urlServer + "selectRoom");
 			} else {
 				show = "Dang nhap thanh cong";
 				resp.sendRedirect(url.urlServer + "home?show=" + show);

@@ -10,15 +10,17 @@ public class IFBookRoom {
 	private int NumberAdult;
 	private int NumberChild;
 	private boolean State;
+	private boolean CheckIn;
 	
-	public IFBookRoom(String id,String idr,LocalDate inn,LocalDate outt,int nA,int nC, boolean state) {
+	public IFBookRoom(String id,String idr,LocalDate inn,LocalDate outt,int nA,int nC, boolean State,boolean check) {
 		IDIFBookRoom=id;
 		IDRoom=idr;
 		ComeInDate=inn;
 		ComeOutDate=outt;
 		NumberAdult=nA;
 		NumberChild=nC;
-		setState(state);
+		this.State=State;
+		this.CheckIn=check;
 	}
 	public String getIDIFBookRoom() {
 		return IDIFBookRoom;
@@ -59,8 +61,14 @@ public class IFBookRoom {
 	public boolean isState() {
 		return State;
 	}
-	public void setState(boolean state) {
-		State = state;
+	public void setState(boolean st) {
+		State=st;
+	}
+	public boolean getCheckIn() {
+		return CheckIn;
+	}
+	public void setCheckIn(boolean i) {
+		CheckIn=i;
 	}
 }
 

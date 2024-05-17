@@ -1,13 +1,14 @@
-package com.appManageHotel.controller.user;
+package com.appManageHotel.controller.staff;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
+import com.appManageHotel.model.BEAN.IFBookRoom;
+import com.appManageHotel.model.BEAN.Room;
 import com.appManageHotel.model.BEAN.TypeRoom;
+import com.appManageHotel.model.BO.IFBookRoomBO;
 import com.appManageHotel.model.BO.RoomBO;
-import com.appManageHotel.model.BO.TypeRoomBO;
 import com.appManageHotel.model.DAO.TypeRoomDAOimpl;
 
 import jakarta.servlet.RequestDispatcher;
@@ -17,14 +18,13 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet(urlPatterns = {"/rooms"})
-public class rooms extends HttpServlet{
+@WebServlet(urlPatterns = {"/selectRoom"})
+public class selectRoom extends HttpServlet{
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
-		System.out.println("DO GET /rooms");
+		System.out.println("DO GET /selectRoom");
 		
 		String strMinPrice = req.getParameter("MinPrice");
 		String strMaxPrice = req.getParameter("MaxPrice");
@@ -66,8 +66,6 @@ public class rooms extends HttpServlet{
 				System.out.print(s[i] + "\n");
 			}
 		}
-		System.out.println();
-		System.out.println();
 		
 		
 		ArrayList<TypeRoom> typeRoomMaxPrice = TypeRoomDAOimpl.getInstance().selectTypeRoomMaxPrice(1);
@@ -82,19 +80,23 @@ public class rooms extends HttpServlet{
 		req.setAttribute("minPrice", MinPrice);
 		req.setAttribute("maxPrice", MaxPrice);
 		
-		ArrayList<TypeRoom> listFindRoom = TypeRoomBO.getInstance().findTypeRoom(MinPrice, MaxPrice, maxAdult, maxChild, timeStart, timeEnd, listTypeRoomName);
+		ArrayList<Room> listFindRoom = RoomBO.getInstance().findRoom(MinPrice, MaxPrice, maxAdult, maxChild, timeStart, timeEnd, listTypeRoomName);
 		
-		req.setAttribute("listTypeRoom", listFindRoom);
-		req.setAttribute("listTypeRoomName", listTypeRoomName);
+		ArrayList<IFBookRoom> listIFBookRoom = IFBookRoomBO.getInstance().findIFBookRoom(MinPrice, MaxPrice, maxAdult, maxChild, timeStart, timeEnd, listTypeRoomName);
+		
+		req.setAttribute("listRoom", listFindRoom);
+		req.setAttribute("listTypeRoomName", listTypeRoomName); 
+		req.setAttribute("listIFBookRoom", listIFBookRoom);
 		req.setAttribute("MaxPrice", maxP); 
 		req.setAttribute("MinPrice", minP);
 		
-		RequestDispatcher rd1 = req.getRequestDispatcher("/views/user/rooms/rooms.jsp");
-		rd1.forward(req, resp);
+		RequestDispatcher r1 = req.getRequestDispatcher("/views/staff/selectRoom/selectRoom.jsp");
+		r1.forward(req, resp);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 	}
 }

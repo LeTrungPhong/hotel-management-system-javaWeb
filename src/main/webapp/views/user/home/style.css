@@ -76,8 +76,6 @@
 .body__rooms {
   margin: 0 auto;
   transform: translateY(-50px);
-  width: 1200px;
-  height: 700px;
   text-align: center;
 }
 

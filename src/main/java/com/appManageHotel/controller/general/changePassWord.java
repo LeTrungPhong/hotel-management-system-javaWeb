@@ -31,7 +31,7 @@ public class changePassWord extends HttpServlet{
 			Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
 			if(account != null) {
 				request.setAttribute("Account", account);
-				RequestDispatcher rd1 = request.getRequestDispatcher("/views/general/changePassWord/changePassWord.jsp");
+				RequestDispatcher rd1 = request.getRequestDispatcher("/views/user/changePassWord/changePassWord.jsp");
 				rd1.forward(request, response);
 			}
 		}

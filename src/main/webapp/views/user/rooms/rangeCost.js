@@ -1,3 +1,0 @@
-// Requires jQuery
-
-// Initialize slider:

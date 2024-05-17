@@ -26,7 +26,7 @@
 <title>Trang chu</title>
 </head>
 <body class="container">
-    <jsp:include page="../../general/header/header.jsp"/> 
+    <jsp:include page="../header/header.jsp"/> 
     <div class="body__image">
         <img class="body__image__instance" src="<%= url.urlImgHome %>" alt="">
         <div class="body__background__pattern">

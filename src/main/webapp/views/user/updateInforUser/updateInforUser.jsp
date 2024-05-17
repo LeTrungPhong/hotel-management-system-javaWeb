@@ -66,7 +66,7 @@
 </style>
 </head>
 <body class="container">
-	<jsp:include page="../../general/header/header.jsp"/>
+	<jsp:include page="../header/header.jsp"/>
 			<%
             	Customer customer = request.getAttribute("Customer") != null ? (Customer)request.getAttribute("Customer") : null;
             %>

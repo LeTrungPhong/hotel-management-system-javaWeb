@@ -1,9 +1,15 @@
 package com.appManageHotel.model.BO;
 
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import com.appManageHotel.database.ConnectDatabase;
 import com.appManageHotel.model.BEAN.Room;
-import com.appManageHotel.model.BEAN.TypeRoom;
 import com.appManageHotel.model.DAO.RoomDAOimpl;
 import com.appManageHotel.model.DAO.TypeRoomDAOimpl;
 
@@ -35,34 +41,78 @@ public class RoomBO {
 		}
 	}
 	
-	public ArrayList<String> FindRoomByCondition(String[] typeRoom,int PriceMin, int PriceMax,int maxAdult,int maxChild) {
-		if(typeRoom == null) {
-			return TypeRoomDAOimpl.getInstance().selectIDTypeRoomByPriceAndNumberPeople(PriceMin, PriceMax, maxAdult, maxChild);
-		} else {
-			return TypeRoomDAOimpl.getInstance().selectIDTypeRoomByIDTypeRoomAndPriceAndNumberPeople(typeRoom, PriceMin, PriceMax, maxAdult, maxChild);
-		}
-	}
-	
-	public ArrayList<String> FindRoomFree(LocalDate inn, LocalDate outt){
-		if(inn == null || outt == null) {
-			ArrayList<TypeRoom> allTypeRoom = TypeRoomDAOimpl.getInstance().selectAll();
-			ArrayList<String> listIDTypeRoom = new ArrayList<String>();
-			for(TypeRoom i : allTypeRoom) {
-				listIDTypeRoom.add(i.getIDTypeRoom());
+	public ArrayList<Room> ListAllRoomFree(LocalDate inn,LocalDate outt) {
+		ArrayList<Room> a=new ArrayList<Room>();
+		try {
+			Connection c = ConnectDatabase.getConnection();
+			String sql="Select * From Room where IDRoom in (select IDRoom from Room except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?))  ";
+			PreparedStatement pstmt;
+				pstmt = c.prepareStatement(sql);
+			pstmt.setDate(1, Date.valueOf(inn));
+			pstmt.setDate(2, Date.valueOf(outt));
+			pstmt.setDate(3, Date.valueOf(inn));
+			pstmt.setDate(4, Date.valueOf(outt));
+			pstmt.setDate(5,  Date.valueOf(inn));
+			pstmt.setDate(6,  Date.valueOf(outt));
+			ResultSet rs=pstmt.executeQuery();
+			while (rs.next()) {
+				String id=rs.getString("IDRoom");
+				String idtypeRoom=rs.getString("IDTypeRoom");
+				String roomName=rs.getString("RoomName");
+				a.add(new Room(id, idtypeRoom, roomName));
 			}
-			return listIDTypeRoom;
-		} else {
-			return TypeRoomDAOimpl.getInstance().selectIDTypeRoomByTime(inn, outt);
+			return a;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return a;
 	}
 	
-	public ArrayList<TypeRoom> findRoom(int MinPrice, int MaxPrice, int maxAdult, int maxChild, LocalDate timeStart, LocalDate timeEnd, String[] listTypeRoomName){
+	public ArrayList<Room> ListRoomByCondition(LocalDate inn,LocalDate outt,int MinPrice,int MaxPrice,int Adult,int Child) {
+		ArrayList<Room> a=new ArrayList<Room>();
+		try {
+			Connection c = ConnectDatabase.getConnection();
+			String sql = "Select * From Room where IDRoom in (select IDRoom from Room except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?))  "
+					+" and IDTypeRoom in (select IDTypeRoom From TypeRoom where (Price>=? and Price<=?) and (MaxAdult>=?) and (MaxChild>=?)) "
+					+ " ORDER BY IDTypeRoom DESC";
+			PreparedStatement pstmt; 
+				pstmt = c.prepareStatement(sql);
+			pstmt.setDate(1, Date.valueOf(inn));
+			pstmt.setDate(2, Date.valueOf(outt));
+			pstmt.setDate(3, Date.valueOf(inn));
+			pstmt.setDate(4, Date.valueOf(outt));
+			pstmt.setDate(5,  Date.valueOf(inn));
+			pstmt.setDate(6,  Date.valueOf(outt));
+			pstmt.setInt(7, MinPrice);
+			pstmt.setInt(8, MaxPrice);
+			pstmt.setInt(9, Adult);
+			pstmt.setInt(10, Child);
+			ResultSet rs=pstmt.executeQuery();
+			while (rs.next()) {
+				String id = rs.getString("IDRoom");
+				String idtypeRoom = rs.getString("IDTypeRoom");
+				String roomName = rs.getString("RoomName");
+				a.add(new Room(id, idtypeRoom, roomName));
+			}
+			return a;
 		
-		if(MinPrice == 0 && MaxPrice == 0 && maxAdult == 0 && maxChild == 0 && timeStart == null && timeEnd == null && listTypeRoomName == null) {
-			return TypeRoomDAOimpl.getInstance().selectAll();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		return a;
+	}
+	
+	
+	public ArrayList<Room> findRoom(int MinPrice, int MaxPrice, int maxAdult, int maxChild, LocalDate inn, LocalDate outt, String[] listTypeRoomName){
 		
-		ArrayList<String> idTypeRoomCondition = FindRoomByCondition(listTypeRoomName, MinPrice, MaxPrice, maxAdult, maxChild);
+		inn = inn != null ? inn : LocalDate.now();
+		outt = outt != null ? outt : LocalDate.now().plusDays(1);
+		
+		ArrayList<Room> listRoomCondition = ListRoomByCondition(inn, outt, MinPrice, MaxPrice, maxAdult, maxChild);
+		
+		ArrayList<Room> listRoomFree = ListAllRoomFree(inn, outt);
 		
 //		if(idTypeRoomCondition != null) {
 //			for(String s : idTypeRoomCondition) {
@@ -70,34 +120,36 @@ public class RoomBO {
 //			}
 //		}
 		
-		ArrayList<String> idTypeRoomFree = FindRoomFree(
-				timeStart != null ? timeStart : null, 
-				timeEnd != null ? timeEnd : null);
+		ArrayList<Room> listRoom = new ArrayList<Room>();
 		
-//		if(idTypeRoomFree != null) {
-//			for(String s : idTypeRoomFree) {
-//				System.out.println(s);
-//			}
-//		}
-		
-		ArrayList<String> mergedList = new ArrayList<>();
-		if(idTypeRoomCondition != null && idTypeRoomFree != null) {
-			for(String str1 : idTypeRoomCondition) {
-				for(String str2 : idTypeRoomFree) {
-					if(str1.equals(str2)) {
-						mergedList.add(str1);
-					}
+		if(listRoomCondition != null) {
+			for(int i = 0; i < listRoomCondition.size(); ++i) {
+				if(listRoomFree != null) {
+					for(int j = 0; j < listRoomFree.size(); ++j) {
+						if(listRoomFree.get(j).getIDRoom().equals(listRoomCondition.get(i).getIDRoom())) {
+							listRoom.add(listRoomFree.get(j));
+						}
+					} 
 				}
 			}
 		}
 		
-		ArrayList<TypeRoom> listTypeRoom = new ArrayList<TypeRoom>();
-		if(mergedList != null) {
-			for(int i = 0; i < mergedList.size(); ++i) {
-				listTypeRoom.add(TypeRoomDAOimpl.getInstance().selectByID(mergedList.get(i)));
-			}
+		if(listTypeRoomName == null) { 
+			return listRoom; 
 		}
 		
-		return listTypeRoom;
+		ArrayList<Room> listRoomLast = new ArrayList<Room>();
+		
+		if(listRoom != null) {
+			for(int i = 0; i < listRoom.size(); ++i) {
+				for(int j = 0; j < listTypeRoomName.length; j++) {
+					if(listRoom.get(i).getIDTypeRoom().equals(TypeRoomDAOimpl.getInstance().selectByTypeRoomName(listTypeRoomName[j]).getIDTypeRoom())) {
+						listRoomLast.add(listRoom.get(i));
+						break;
+					}
+				}
+			}
+		}
+		return listRoomLast;
 	}
 }

@@ -159,7 +159,7 @@
        </style>
 </head>
 <body class="container">
-	<jsp:include page="../../general/header/header.jsp"/> 
+	<jsp:include page="../header/header.jsp"/> 
 	<%
 		ArrayList<Bill> listBill = request.getAttribute("listBill") != null ? (ArrayList<Bill>)request.getAttribute("listBill") : null;
 	%>
