@@ -153,6 +153,7 @@
 }
 
 .header__dashboard-account {
+  line-height: 1.2;
   padding: 5px;
   width: 220px;
   flex-basis: 250px;

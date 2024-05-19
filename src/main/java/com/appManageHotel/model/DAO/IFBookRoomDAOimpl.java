@@ -21,8 +21,8 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 		// TODO Auto-generated method stub
 		try {
 			Connection c=ConnectDatabase.getConnection();
-			String sql="INSERT INTO IFBookRoom (IDIFBookRoom, IDRoom, ComeInDate, ComeOutDate, NumberAdult, NumberChild, State,checkIn) "
-					+ "VALUES (?,?,?,?,?,?,?,?)";
+			String sql="INSERT INTO IFBookRoom (IDIFBookRoom, IDRoom, ComeInDate, ComeOutDate, NumberAdult, NumberChild, State, CheckIn, ComeInDateReal, ComeOutDateReal, BookRoomDate) "
+					+ " VALUES (?,?,?,?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt = c.prepareStatement(sql);
 			pstmt.setString(1, t.getIDIFBookRoom());
 			pstmt.setString(2, t.getIDRoom());
@@ -32,6 +32,9 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 			pstmt.setInt(6, t.getNumberChild());
 			pstmt.setBoolean(7, t.isState());
 			pstmt.setBoolean(8, t.getCheckIn());
+			pstmt.setDate(9, t.getComeInDateReal() != null ? Date.valueOf(t.getComeInDateReal()) : null);
+			pstmt.setDate(10, t.getComeOutDateReal() != null ? Date.valueOf(t.getComeOutDateReal()) : null);
+			pstmt.setDate(11, t.getBookRoomDate() != null ? Date.valueOf(t.getBookRoomDate()) : null);
 			
 			int kq=pstmt.executeUpdate();
 			System.out.println("Thuc thi: " + sql);
@@ -55,8 +58,11 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 					+ "	ComeOutDate = ?,"
 					+ "	NumberAdult = ?,"
 					+ "	NumberChild = ?,"
-					+ " State = ?"
-					+ " CheckIn = ?"
+					+ " State = ?,"
+					+ " CheckIn = ?,"
+					+ " ComeInDateReal = ?,"
+					+ " ComeOutDateReal = ?,"
+					+ " BookRoomDate = ?"
 					+ " WHERE IDIFBookRoom = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -66,8 +72,11 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 			pstmt.setInt(4, t.getNumberAdult());
 			pstmt.setInt(5, t.getNumberChild());
 			pstmt.setBoolean(6, t.isState());
-			pstmt.setString(7, t.getIDIFBookRoom());
-			pstmt.setBoolean(8, t.getCheckIn());
+			pstmt.setBoolean(7, t.getCheckIn());
+			pstmt.setString(8, t.getIDIFBookRoom());
+			pstmt.setDate(9, t.getComeInDate() != null ? Date.valueOf(t.getComeInDateReal()) : null);
+			pstmt.setDate(10, t.getComeOutDate() != null ? Date.valueOf(t.getComeOutDateReal()) : null);
+			pstmt.setDate(11, t.getBookRoomDate() != null ? Date.valueOf(t.getBookRoomDate()) : null);
 			
 			int kq = pstmt.executeUpdate();
 			
@@ -127,7 +136,10 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 				int nC=rs.getInt("NumberChild");
 				boolean state = rs.getBoolean("State");
 				boolean check=rs.getBoolean("CheckIn");
-				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state,check));
+				LocalDate ComeInDateReal = rs.getDate("ComeInDateReal") != null ? rs.getDate("ComeInDateReal").toLocalDate() : null;
+				LocalDate ComeOutDateReal = rs.getDate("ComeOutDateReal") != null ? rs.getDate("ComeOutDateReal").toLocalDate() : null;
+				LocalDate BookRoomDate = rs.getDate("BookRoomDate") != null ? rs.getDate("BookRoomDate").toLocalDate() : null;
+				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC, state, check, ComeInDateReal, ComeOutDateReal, BookRoomDate));
 			}
 			
 			System.out.println("Thuc thi: " + pstmt.toString());
@@ -161,7 +173,10 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 				int nC=rs.getInt("NumberChild");
 				boolean state = rs.getBoolean("State");
 				boolean check=rs.getBoolean("CheckIn");
-				return new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state,check);
+				LocalDate ComeInDateReal = rs.getDate("ComeInDateReal") != null ? rs.getDate("ComeInDateReal").toLocalDate() : null;
+				LocalDate ComeOutDateReal = rs.getDate("ComeOutDateReal") != null ? rs.getDate("ComeOutDateReal").toLocalDate() : null;
+				LocalDate BookRoomDate = rs.getDate("BookRoomDate") != null ? rs.getDate("BookRoomDate").toLocalDate() : null;
+				return new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state,check, ComeInDateReal, ComeOutDateReal, BookRoomDate);
 			}
 		} 
 		catch (Exception e) {
@@ -197,7 +212,10 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 				int nC=rs.getInt("NumberChild");
 				boolean state = rs.getBoolean("State");
 				boolean check=rs.getBoolean("CheckIn");
-				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state,check));
+				LocalDate ComeInDateReal = rs.getDate("ComeInDateReal") != null ? rs.getDate("ComeInDateReal").toLocalDate() : null;
+				LocalDate ComeOutDateReal = rs.getDate("ComeOutDateReal") != null ? rs.getDate("ComeOutDateReal").toLocalDate() : null;
+				LocalDate BookRoomDate = rs.getDate("BookRoomDate") != null ? rs.getDate("BookRoomDate").toLocalDate() : null;
+				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state,check, ComeInDateReal, ComeOutDateReal, BookRoomDate));
 			}
 			
 			System.out.println("Thuc thi: " + pstmt.toString());
@@ -230,5 +248,36 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 		}
 		return true;
 	}
-
+	@Override
+	public ArrayList<IFBookRoom> selectByStateAndCheckIn(boolean stateInput, boolean checkInInput) {
+		// TODO Auto-generated method stub
+		try {
+			ArrayList<IFBookRoom> result = new ArrayList<IFBookRoom>(); 
+			Connection con = ConnectDatabase.getConnection();
+			String sql = "SELECT * FROM IFBookRoom WHERE State = ? AND CheckIn = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setBoolean(1, stateInput);
+			pstmt.setBoolean(2, checkInInput);
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("Thuc thi: " + pstmt.toString());
+			while(rs.next()) {
+				String IDIFBookRoom = rs.getString("IDIFBookRoom");
+				String IDRoom = rs.getString("IDRoom");
+				LocalDate dayin = rs.getDate("ComeInDate").toLocalDate();
+				LocalDate dayout = rs.getDate("ComeOutDate").toLocalDate();
+				int nA = rs.getInt("NumberAdult");
+				int nC = rs.getInt("NumberChild");
+				boolean state = rs.getBoolean("State");
+				boolean check = rs.getBoolean("CheckIn");
+				LocalDate ComeInDateReal = rs.getDate("ComeInDateReal") != null ? rs.getDate("ComeInDateReal").toLocalDate() : null;
+				LocalDate ComeOutDateReal = rs.getDate("ComeOutDateReal") != null ? rs.getDate("ComeOutDateReal").toLocalDate() : null;
+				LocalDate BookRoomDate = rs.getDate("BookRoomDate") != null ? rs.getDate("BookRoomDate").toLocalDate() : null;
+				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state,check, ComeInDateReal, ComeOutDateReal, BookRoomDate));
+			}
+			return result;
+		} catch(Exception exception) {
+			exception.printStackTrace();
+		}
+		return null;
+	}
 }

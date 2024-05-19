@@ -69,7 +69,6 @@ public class IFBookRoomBO {
 			pstmt.setDate(6, Date.valueOf(t.getComeInDate()));
 			pstmt.setDate(7, Date.valueOf(t.getComeOutDate()));
 
-			
 			ResultSet rs = pstmt.executeQuery();
 			System.out.println("Thuc thi: " + pstmt.toString());
 			if (rs.next()) {
@@ -112,7 +111,10 @@ public class IFBookRoomBO {
 				int nC = rs.getInt("NumberChild");
 				boolean state = rs.getBoolean("State");
 				boolean CheckIn = rs.getBoolean("CheckIn");
-				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state,CheckIn));
+				LocalDate ComeInDateReal = rs.getDate("ComeInDateReal") != null ? rs.getDate("ComeInDateReal").toLocalDate() : null;
+				LocalDate ComeOutDateReal = rs.getDate("ComeOutDateReal") != null ? rs.getDate("ComeOutDateReal").toLocalDate() : null;
+				LocalDate BookRoomDate = rs.getDate("BookRoomDate") != null ? rs.getDate("BookRoomDate").toLocalDate() : null;
+				result.add(new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state,CheckIn, ComeInDateReal, ComeOutDateReal, BookRoomDate));
 			}
 			return result;
 		} catch(Exception exception) {

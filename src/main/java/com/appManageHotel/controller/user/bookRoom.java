@@ -78,7 +78,7 @@ public class bookRoom extends HttpServlet{
 		if(!IDAccount.equals("")) {
 			Customer customer = CustomerDAOimpl.getInstance().selectByIDAccount(IDAccount);
 			if(customer != null) {
-				if(IFBookRoomBO.getInstance().bookRoomByAccount(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true,false), IDTypeRoom , customer, totalPrice,total)) {
+				if(IFBookRoomBO.getInstance().bookRoomByAccount(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true,false, null, null, LocalDate.now()), IDTypeRoom , customer, totalPrice,total)) {
 					System.out.println("Dat phong thanh cong");
 					show = "Dat phong thanh cong";
 					resp.sendRedirect(url.urlServer + "bookRoom?show=" + show + "&IDIFBookRoom=" + IDIFBookRoom);
@@ -89,7 +89,7 @@ public class bookRoom extends HttpServlet{
 				}
 			}
 		} else {
-			if(IFBookRoomBO.getInstance().bookRoom(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true,false), IDTypeRoom , new Customer(IDCustomer,FullName,null,null,SDT,null,null), totalPrice,total)) {
+			if(IFBookRoomBO.getInstance().bookRoom(new IFBookRoom(IDIFBookRoom, null, timeStart, timeEnd, NumberAdult, NumberChild,true,false, null, null, LocalDate.now()), IDTypeRoom , new Customer(IDCustomer,FullName,null,null,SDT,null,null), totalPrice,total)) {
 				System.out.println("Dat phong thanh cong");
 				show = "Dat phong thanh cong";
 				resp.sendRedirect(url.urlServer + "bookRoom?show=" + show + "&IDIFBookRoom=" + IDIFBookRoom);

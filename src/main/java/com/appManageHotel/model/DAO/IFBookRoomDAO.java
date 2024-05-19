@@ -12,4 +12,6 @@ public interface IFBookRoomDAO extends DAOInterface<IFBookRoom> {
 	
 	public boolean checkRoomByTimeAndIDRoom(String IDRoom, LocalDate inn, LocalDate outt);
 	
+	public ArrayList<IFBookRoom> selectByStateAndCheckIn(boolean state, boolean checkIn);
+	
 }

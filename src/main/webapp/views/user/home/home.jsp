@@ -24,6 +24,12 @@
 	src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 <title>Trang chu</title>
+<style>
+	.flex-direction-column {
+		flex-direction: column !important;
+		gap: 5px;
+	}
+</style>
 </head>
 <body class="container">
     <jsp:include page="../header/header.jsp"/> 
@@ -85,7 +91,7 @@
                     <img src="<%= listImage != null ? listImage.get(0).getPath() : "https://i.ibb.co/RbVrNbX/default-image.png" %>" alt="">
                     <div class="bottom__infor">
                         <span><%= listTypeRoomMaxBooked.get(i).getDescription() %></span>
-                        <p class="infor__cost__maxPeople">
+                        <p class="infor__cost__maxPeople flex-direction-column">
                             <button class="infor__cost">
                                 Price: <%= listTypeRoomMaxBooked.get(i).getPrice() %>$
                             </button>

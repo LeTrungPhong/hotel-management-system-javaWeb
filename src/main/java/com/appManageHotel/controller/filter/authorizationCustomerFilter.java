@@ -2,7 +2,11 @@ package com.appManageHotel.controller.filter;
 
 import java.io.IOException;
 
+import com.appManageHotel.controller.url.url;
+import com.appManageHotel.model.BEAN.Account;
+import com.appManageHotel.model.BEAN.Customer;
 import com.appManageHotel.model.DAO.AccountDAOImpl;
+import com.appManageHotel.model.DAO.CustomerDAOimpl;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -11,9 +15,10 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter
+@WebFilter(urlPatterns = {"/bookRoom"})
 public class authorizationCustomerFilter implements Filter{
 
 	@Override
@@ -24,16 +29,19 @@ public class authorizationCustomerFilter implements Filter{
 		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
 		
 		if(!IDAccount.equals("")) {
-			if(AccountDAOImpl.getInstance().selectByID(IDAccount).getRole().equals("Admin")) {
-				System.out.println("Authen admin filter");
-				chain.doFilter(request, response);
+			Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
+			if(account != null) {
+				Customer customer = CustomerDAOimpl.getInstance().selectByIDAccount(IDAccount);
+				if(customer != null) {
+					chain.doFilter(request, response);
+				} else {
+					((HttpServletResponse)response).sendRedirect(url.urlServer + "updateInforUser");
+				}
 			} else {
-				System.out.println("Tai khoan khong duoc phan quyen Admin");
+				chain.doFilter(request, response);
 			}
 		} else {
-			System.out.println("Tai khoan chua duoc dang nhap");
+			chain.doFilter(request, response);
 		}
-		chain.doFilter(request, response);
 	}
-
 }

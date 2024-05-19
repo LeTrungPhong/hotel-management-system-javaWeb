@@ -2,7 +2,7 @@ package com.appManageHotel.controller.filter;
 
 import java.io.IOException;
 
-import com.appManageHotel.controller.cookie.cookie;
+import com.appManageHotel.controller.url.url;
 import com.appManageHotel.model.DAO.AccountDAOImpl;
 
 import jakarta.servlet.Filter;
@@ -12,8 +12,8 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.annotation.WebFilter;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @WebFilter(urlPatterns = {"/home-admin","/manageImage", "/manageRoom","/manageService","/manageStaff","/manageTypeRoom"})
@@ -32,9 +32,11 @@ public class authorizationAdminFilter implements Filter{
 				chain.doFilter(request, response);
 			} else {
 				System.out.println("Tai khoan khong duoc phan quyen Admin");
+				((HttpServletResponse)response).sendRedirect(url.urlServer + "home");
 			}
 		} else {
 			System.out.println("Tai khoan chua duoc dang nhap");
+			((HttpServletResponse)response).sendRedirect(url.urlServer + "home");
 		}
 	}
 

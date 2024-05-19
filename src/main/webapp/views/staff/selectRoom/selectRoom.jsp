@@ -47,6 +47,7 @@
 
 .body__rooms {
     width: 100%; 
+    transform: unset;
 }
 
 .room__item{
@@ -309,6 +310,9 @@ i{
   .noUi-target {
     border-radius: 2px;
   }
+  .container_option__filter{
+  	margin-top: 150px;
+  }
   
   
   /* Handles and cursors;
@@ -507,6 +511,7 @@ i{
 </style>
 </head>
 <body class="main">
+<jsp:include page="../navBarStaff.jsp"/> 
     <div class="body__rooms">
     	<% 
     		ArrayList<TypeRoom> listTypeRoom = (ArrayList<TypeRoom>)request.getAttribute("listTypeRoom");
@@ -632,7 +637,7 @@ i{
             </div>
         </div>
         
-    <div style="margin: 20px;">
+    <div style="margin: 20px;" class="dp-n">
     	<button style="background-color: rgb(255,127,127);" onclick="unBooked()" class="buttonUnCheckIn btnUnBooked">Phòng chưa đặt</button>
     	<button style="background-color: rgb(255,127,127);" onclick="booked()" class="buttonUnCheckIn btnBooked">Phòng đã check in</button>
     	<button style="background-color: rgb(255,127,127);" onclick="nonCheckIn()" class="buttonUnCheckIn btnNonCheckIn">Phòng chưa check in</button>
@@ -680,7 +685,7 @@ i{
                 </tbody>
             </table>
         </div>
-        <div class="room-list booked bookedCheckIn">
+        <div class="room-list booked bookedCheckIn dp-n">
             <h2>Phòng đã check in</h2>
             <table>
                 <thead>
@@ -691,74 +696,110 @@ i{
                         <th>Số trẻ em</th>
                         <th>Ngày đến</th>
                         <th>Ngày trả phòng</th>
+                        <th>Ngày Check In</th>
+                        <th>Tổng tiền</th>
+                        <th>Số tiền đã trả</th>
                         <th>Trả phòng</th>
                     </tr>
                 </thead>
                 <tbody> 
                     <%
-                    	ArrayList<IFBookRoom> listIFBookRoom = request.getAttribute("listIFBookRoom") != null ? (ArrayList<IFBookRoom>)request.getAttribute("listIFBookRoom") : null;
-                    	if(listIFBookRoom != null){
-                    		for(int i = 0; i < listIFBookRoom.size(); ++i){
-                    			if(listIFBookRoom.get(i).getCheckIn()){
-                    				Room room = RoomDAOimpl.getInstance().selectByID(listIFBookRoom.get(i).getIDRoom());
-                        			TypeRoom tr = room != null ? TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()) : null;
-                        			%>
-                        				<tr>
-                            				<td><%= tr != null ? tr.getTypeRoomName() : "" %></td>
-                            				<td><%= room != null ? room.getRoomName() : "" %></td>
-                            				<td><%= listIFBookRoom.get(i).getNumberAdult() %></td>
-                            				<td><%= listIFBookRoom.get(i).getNumberChild() %></td>
-                            				<td><%= listIFBookRoom.get(i).getComeInDate() %></td>
-                            				<td><%= listIFBookRoom.get(i).getComeOutDate() %></td>
-                            				<td><button style="background-color: #cfcfcf;" class="buttonUnCheckIn">Trả phòng</button></td>
-                        				</tr>
-                        			<%
-                    			}
+                    	ArrayList<IFBookRoom> listIFBookRoomCheckIn = request.getAttribute("listIFBookRoomCheckIn") != null ? (ArrayList<IFBookRoom>)request.getAttribute("listIFBookRoomCheckIn") : null;
+                    	if(listIFBookRoomCheckIn != null){
+                    		for(int i = 0; i < listIFBookRoomCheckIn.size(); ++i){
+                    			Room room = RoomDAOimpl.getInstance().selectByID(listIFBookRoomCheckIn.get(i).getIDRoom());
+                    			TypeRoom tr = room != null ? TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()) : null;
+                    			Bill bill = BillDAOimpl.getInstance().selectByIDIFBookRoom(listIFBookRoomCheckIn.get(i).getIDIFBookRoom());
+                    			%>
+                    				<tr>
+                        				<td><%= tr != null ? tr.getTypeRoomName() : "" %></td>
+                        				<td><%= room != null ? room.getRoomName() : "" %></td>
+                        				<td><%= listIFBookRoomCheckIn.get(i).getNumberAdult() %></td>
+                        				<td><%= listIFBookRoomCheckIn.get(i).getNumberChild() %></td>
+                        				<td><%= listIFBookRoomCheckIn.get(i).getComeInDate() %></td>
+                        				<td><%= listIFBookRoomCheckIn.get(i).getComeOutDate() %></td>
+                        				<td><%= listIFBookRoomCheckIn.get(i).getComeInDateReal() %></td>
+                        				<td><%= bill != null ? bill.getTotal() : "Khong ton tai"  %></td>
+                        				<td><%= bill != null ? bill.getPrepayment() : "Khong ton tai" %></td>
+                        				<td>
+                        					<button style="background-color: #cfcfcf;" class="buttonUnCheckIn">Trả phòng</button>
+                        					<%
+                        						if(LocalDate.now().isAfter(listIFBookRoomCheckIn.get(i).getComeOutDate())){
+                        							%>
+                        								<button style="background-color: rgb(255, 99, 99);" class="buttonUnCheckIn">Quá hạn</button>
+                        							<%
+                        						}
+                        					%>
+                        				</td>
+                    				</tr>
+                    			<%
                     		}
                     	}
                     %>
                 </tbody>
             </table>
         </div>
-        <div class="room-list booked unCheckIn">
+        <div class="room-list booked unCheckIn dp-n">
             <h2>Phòng chưa check in</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Loại phòng</th>
                         <th>Tên phòng</th>
-                        <th>Tên người đặt</th>
                         <th>Số người lớn</th>
                         <th>Số trẻ em</th>
                         <th>Ngày đến</th>
                         <th>Ngày trả phòng</th>
+                        <th>Ngày đặt phòng</th>
+                        <th>Tổng tiền</th>
+                        <th>Số tiền đã trả</th>
                         <th>Chức năng</th>
                     </tr>
                 </thead>
                 <tbody> 
                     <%
-                    	if(listIFBookRoom != null){
-                    		for(int i = 0; i < listIFBookRoom.size(); ++i){
-                    			if(!listIFBookRoom.get(i).getCheckIn() && listIFBookRoom.get(i).isState()){
-                    				Room room = RoomDAOimpl.getInstance().selectByID(listIFBookRoom.get(i).getIDRoom());
-                        			TypeRoom tr = room != null ? TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()) : null;
-                        			Bill bill = listIFBookRoom != null ? BillDAOimpl.getInstance().selectByIDIFBookRoom(listIFBookRoom.get(i).getIDIFBookRoom()) : null;
-                        			
-                        			%>
-                        				<tr>
-                            				<td><%= tr != null ? tr.getTypeRoomName() : "" %></td>
-                            				<td><%= room != null ? room.getRoomName() : "" %></td>
-                            				<td><%= listIFBookRoom.get(i).getNumberAdult() %></td>
-                            				<td><%= listIFBookRoom.get(i).getNumberChild() %></td>
-                            				<td><%= listIFBookRoom.get(i).getComeInDate() %></td>
-                            				<td><%= listIFBookRoom.get(i).getComeOutDate() %></td>
-                            				<td>
-                            					<button class="buttonUnCheckIn" style="background-color: #e0ffe0;">Check in</button>
-                            					<button class="buttonUnCheckIn" style="background-color: #ffe0e0;">Hủy phòng</button>
-                            				</td>
-                        				</tr>
-                        			<%
-                    			}
+                    	ArrayList<IFBookRoom> listIFBookRoomNonCheckIn = request.getAttribute("listIFBookRoomNonCheckIn") != null ? (ArrayList<IFBookRoom>)request.getAttribute("listIFBookRoomNonCheckIn") : null;
+                    	if(listIFBookRoomNonCheckIn != null){
+                    		for(int i = 0; i < listIFBookRoomNonCheckIn.size(); ++i){
+                    			Room room = RoomDAOimpl.getInstance().selectByID(listIFBookRoomNonCheckIn.get(i).getIDRoom());
+                    			TypeRoom tr = room != null ? TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()) : null;
+                    			Bill bill = listIFBookRoomNonCheckIn != null ? BillDAOimpl.getInstance().selectByIDIFBookRoom(listIFBookRoomNonCheckIn.get(i).getIDIFBookRoom()) : null;
+                    			Customer ctm = bill != null ? CustomerDAOimpl.getInstance().selectByID(bill.getIDCustomer()) : null;
+                    			%>
+                    				<tr>
+                        				<td><%= tr != null ? tr.getTypeRoomName() : "" %></td>
+                        				<td><%= room != null ? room.getRoomName() : "" %></td>
+                        				<td><%= listIFBookRoomNonCheckIn.get(i).getNumberAdult() %></td>
+                        				<td><%= listIFBookRoomNonCheckIn.get(i).getNumberChild() %></td>
+                        				<td><%= listIFBookRoomNonCheckIn.get(i).getComeInDate() %></td>
+                        				<td><%= listIFBookRoomNonCheckIn.get(i).getComeOutDate() %></td>
+                        				<td><%= listIFBookRoomNonCheckIn.get(i).getBookRoomDate() %></td>
+                        				<td><%= bill != null ? bill.getTotal() : "Khong ton tai" %></td>
+                        				<td><%= bill != null ? bill.getPrepayment() : "Khong ton tai" %></td>
+                        				<td>
+                        					<%
+                        						if(bill != null){
+                        							if((bill.getTotal() > bill.getPrepayment() && LocalDate.now().isAfter(listIFBookRoomNonCheckIn.get(i).getComeInDate())) 
+                        									|| LocalDate.now().isAfter(listIFBookRoomNonCheckIn.get(i).getComeOutDate())){
+                        								
+                        							} else {
+                        								%>
+                        									<button onclick="checkIn()" class="buttonUnCheckIn" style="background-color: #e0ffe0;">Check in</button>
+                        								<%
+                        							}
+                        						}
+                        					%>
+                        					<button class="buttonUnCheckIn" style="background-color: #ffe0e0;" onclick="cancleRoom('<%= listIFBookRoomNonCheckIn.get(i).getIDIFBookRoom() %>')">Hủy phòng</button>
+                        					<%
+                        						if(LocalDate.now().isAfter(listIFBookRoomNonCheckIn.get(i).getComeInDate())){
+                        							%>
+                        								<button class="buttonUnCheckIn" style="background-color: rgb(255, 99, 99);">Quá hạn</button>
+                        							<%
+                        						}
+                        					%>
+                        				</td>
+                    				</tr>
+                    			<%
                     		}
                     	}
                     %>
@@ -767,7 +808,7 @@ i{
         </div>
     </div>
     
-    <form class="dp-n" action="<%= url.urlServer + "bookRoomStaff" %>" id="form-submit" method="post" onsubmit="return validateInput()">
+    <form class="dp-n" action="" id="form-submit" method="post" onsubmit="return validateInput()">
         
         <%
         	Account account = session.getAttribute("IDAccount") != null ? AccountDAOImpl.getInstance().selectByID((String)session.getAttribute("IDAccount")) : null;
@@ -819,6 +860,12 @@ i{
         	<option value="male" <%= customer != null ? customer.getGender().equals("male") ? "selected" : "" : "" %>>Male</option>
         	<option value="female" <%= customer != null ? customer.getGender().equals("female") ? "selected" : "" : "" %>>Female</option>
         </select>
+        
+        <label for="ComeInDate">Thời điểm check in: </label>
+        <input class="input" type="date" id="ComeInDate" name="ComeInDate" required readonly>
+        
+        <label for="ComeOutDate">Thời điểm check out: </label>
+        <input class="input" type="date" id="ComeOutDate" name="ComeOutDate" required readonly>
      </div>
         
      <div style="min-width: 350px;">
@@ -839,11 +886,7 @@ i{
         <label for="Price">Giá tiền mỗi đêm: </label>
         <input class="input" type="text" id="Price" name="Price" required readonly>
         
-        <label for="ComeInDate">Thời điểm check in: </label>
-        <input class="input" type="date" id="ComeInDate" name="ComeInDate" required readonly>
-        
-        <label for="ComeOutDate">Thời điểm check out: </label>
-        <input class="input" type="date" id="ComeOutDate" name="ComeOutDate" required readonly>
+    
         
         <label for="surcharge">Phụ thu: </label>
         <input class="input" type="text" id="surcharge" name="surcharge" required readonly>
@@ -856,11 +899,42 @@ i{
         <input type="submit" value="Xác nhận đặt dịch vụ">
     </form>
     
+    <form class="dp-n" action="<%= url.urlServer + "cancleRoom" %>" method="post">
+    	<input type=text name="IDIFBookRoom" id="IDIFBookRoom">
+    	<input type="submit" id="submitCancleRoom" >
+    </form>
+    
     <div class="background-shadow dp-n"></div>
         
     </div>
 <script src="views/staff/selectRoom/index.js"></script>
 <script>
+
+function freeRoom(){
+	event.preventDefault();
+	document.querySelector('.unbooked').classList.remove('dp-n');
+	document.querySelector('.bookedCheckIn').classList.add('dp-n');
+	document.querySelector('.unCheckIn').classList.add('dp-n');
+}
+
+function checkInRoom(){
+	event.preventDefault();
+	document.querySelector('.unbooked').classList.add('dp-n');
+	document.querySelector('.bookedCheckIn').classList.remove('dp-n');
+	document.querySelector('.unCheckIn').classList.add('dp-n');
+}
+
+function nonCheckInRoom(){
+	event.preventDefault();
+	document.querySelector('.unbooked').classList.add('dp-n');
+	document.querySelector('.bookedCheckIn').classList.add('dp-n');
+	document.querySelector('.unCheckIn').classList.remove('dp-n');
+}
+
+function cancleRoom(IDIFBookRoom){
+	document.getElementById('IDIFBookRoom').value = IDIFBookRoom;
+	document.getElementById('submitCancleRoom').click();
+}
 
 
 function unBooked(){
@@ -1007,6 +1081,7 @@ document.getElementById('ComeOutDate').addEventListener('input', () => {
 
 function formSubmitClick(TypeRoomName, IDRoom, RoomName, Price, MaxAdult, MaxChild){
 	formSubmit.classList.remove('dp-n');
+	formSubmit.action = '<%= url.urlServer + "bookRoomStaff" %>';
 	backgroundShadow.classList.remove('dp-n');
 
 	document.getElementById('IDRoom').value = IDRoom;
@@ -1020,6 +1095,12 @@ function formSubmitClick(TypeRoomName, IDRoom, RoomName, Price, MaxAdult, MaxChi
 	document.getElementById('NumberChild').max = MaxChild + 2;
 
 	changeTotal();
+}
+
+function checkIn(){
+	formSubmit.classList.remove('dp-n');
+	formSubmit.action = '<%= url.urlServer + "confirmCheckIn" %>';
+	backgroundShadow.classList.remove('dp-n');
 }
 
 backgroundShadow.addEventListener('click', () => {

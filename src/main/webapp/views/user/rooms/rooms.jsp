@@ -23,10 +23,15 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <title>Trang chu</title>
+<style>
+	.rooms {
+		width: 100% !important;
+	}
+</style>
 </head>
 <body class="main">
 	<jsp:include page="../header/header.jsp"/>
-    <div class="body__rooms">
+    <div class="body__rooms rooms">
     	<% 
     		ArrayList<TypeRoom> listTypeRoom = (ArrayList<TypeRoom>)request.getAttribute("listTypeRoom");
     		ArrayList<TypeRoom> listAllTypeRoom = TypeRoomDAOimpl.getInstance().selectAll();

@@ -35,7 +35,7 @@ public class RoomBO {
 			return false;
 		} else {
 			Room r = RoomDAOimpl.getInstance().selectByID(IDRoom);
-			r.setRoomName(newName);
+			r.setRoomName(newName); 
 			RoomDAOimpl.getInstance().update(r);
 			return true;
 		}

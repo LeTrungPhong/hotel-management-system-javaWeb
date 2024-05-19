@@ -1,13 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ page import="com.appManageHotel.controller.url.*" %>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Menu</title>
-    <link rel="stylesheet" href="views/user/header/style.css">
-    <style>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="views/user/header/style.css">
+<title>Insert title here</title>
+	<style>
         body {
             font-family: Arial, sans-serif;
             position: relative;
@@ -54,18 +54,21 @@
 <body class="container">
 	<header class='header'>
         <div class='header__logo'>
-            <a href="<%= url.urlServer + "manageTypeRoom" %>" class='header__sign-button'>
-                <span>Danh sách các loại phòng</span>
-            </a>
-            <a href="<%= url.urlServer + "manageService" %>" class='header__sign-button'>
-                <span>Danh sách các dịch vụ</span>
-            </a>
-            <a href="<%= url.urlServer + "manageStaff" %>" class='header__sign-button'>
-                <span>Danh sách các nhân viên</span>
-            </a>
-            <a href="<%= url.urlServer + "manageImage" %>" class='header__sign-button'>
-                <span>Danh sách hinh anh</span>
-            </a>
+            <button>
+            	<a onclick="freeRoom()" class='header__sign-button'>
+                	<span>Danh sách phòng trống</span>
+            	</a>
+            </button>
+            <button>
+            	<a onclick="checkInRoom()" class='header__sign-button'>
+                	<span>Danh sách phòng đã được Check In</span>
+            	</a>
+            </button>
+            <button>
+            	<a onclick="nonCheckInRoom()" class='header__sign-button'>
+                	<span>Danh sách phòng chưa được Check In</span>
+            	</a>
+            </button>
         </div>
         <button class="button-signout" style="background: red;" onclick="document.getElementById('signOutAdmin').click()">Đăng xuất</button>
      </header>

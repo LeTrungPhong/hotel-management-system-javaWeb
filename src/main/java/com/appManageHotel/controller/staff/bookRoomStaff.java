@@ -79,7 +79,7 @@ public class bookRoomStaff extends HttpServlet{
 			if(account.getRole().equals("Staff")) {
 				Staff staff = account != null ? StaffDAOimpl.getInstance().selectByIDAccount(account.getIDAccount()) : null;
 				if(staff != null) {
-					if(IFBookRoomBO.getInstance().bookRoomStaff(new IFBookRoom(IDIFBookRoom, IDRoom, ComeInDate, ComeOutDate, NumberAdult, NumberChild, true, true), new Customer(UUID.randomUUID().toString(),FullName,CCCD,Gender,SDT,Birth,null), staff.getIDStaff(), Prepayment, Total)) {
+					if(IFBookRoomBO.getInstance().bookRoomStaff(new IFBookRoom(IDIFBookRoom, IDRoom, ComeInDate, ComeOutDate, NumberAdult, NumberChild, true, true, LocalDate.now(), null, LocalDate.now()), new Customer(UUID.randomUUID().toString(),FullName,CCCD,Gender,SDT,Birth,null), staff.getIDStaff(), Prepayment, Total)) {
 						System.out.println("Dat phong thanh cong.");
 					} else {
 						System.out.println("Dat phong that bai");
