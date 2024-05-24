@@ -18,7 +18,7 @@ public class cancleRoom extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		System.out.println("DO POST /cancleRoom");
 		String IDIFBookRoom = req.getParameter("IDIFBookRoom");
 		IFBookRoomBO.getInstance().cancelling(IFBookRoomDAOimpl.getInstance().selectByID(IDIFBookRoom));
 		

@@ -316,6 +316,7 @@ showSlide(currentIndex);
 
 
 const urlParams = new URLSearchParams(window.location.search);
+
 const paramValue = urlParams.get('show');
 if(paramValue){
 	alert(paramValue);

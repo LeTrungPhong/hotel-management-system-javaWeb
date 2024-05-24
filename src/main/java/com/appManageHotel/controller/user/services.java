@@ -59,22 +59,27 @@ public class services extends HttpServlet{
 				Integer.parseInt(birthStr.substring(8, 10)));
 				
 		
-		System.out.println(CCCD);
-		System.out.println(FullName);
-		System.out.println(SDT);
-		System.out.println(IDService);
-		System.out.println(Number);
-		System.out.println(UseDate.toString());
-		System.out.println(Total);
-		System.out.println(Gender);
-		System.out.println(Birth);
+//		System.out.println(CCCD);
+//		System.out.println(FullName);
+//		System.out.println(SDT);
+//		System.out.println(IDService);
+//		System.out.println(Number);
+//		System.out.println(UseDate.toString());
+//		System.out.println(Total);
+//		System.out.println(Gender);
+//		System.out.println(Birth);
 		
 		UseServiceBO.getInstance().bookService(
 				new Customer(IDCustomer, FullName, CCCD, Gender, SDT, Birth, ""), 
 				new UseService(IDUseService, IDService, UseDate, IDCustomer, Number, true, Total)
 		);
 		
-		resp.sendRedirect(url.urlServer + "services");
+		Service service = ServiceDAOimpl.getInstance().selectByID(IDService);
+		
+		String show = "";
+		show = "Dat dich vu thanh cong";
+		
+		resp.sendRedirect(url.urlServer + "services?show=" + show);
 	}
 	
 }

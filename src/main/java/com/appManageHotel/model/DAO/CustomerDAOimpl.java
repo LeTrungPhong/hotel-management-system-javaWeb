@@ -27,7 +27,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 			pstmt.setString(1, t.getIDCustomer());
 			pstmt.setString(2, t.getCCCD());
 			pstmt.setString(3, t.getFullName());
-			pstmt.setDate(4, java.sql.Date.valueOf(LocalDate.of(2004, 2, 11))); 
+			pstmt.setDate(4, t.getBirth() != null ? java.sql.Date.valueOf(t.getBirth()) : null); 
 			pstmt.setString(5, t.getSDT());
 			pstmt.setString(6, t.getIDAccount());
 			pstmt.setString(7, t.getGender());
@@ -60,7 +60,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, t.getCCCD());
 			pstmt.setString(2, t.getFullName());
-			pstmt.setDate(3, java.sql.Date.valueOf(t.getBirth()));
+			pstmt.setDate(3, t.getBirth() != null ? java.sql.Date.valueOf(t.getBirth()): null);
 			pstmt.setString(4, t.getSDT());
 			pstmt.setString(5, t.getIDAccount());
 			pstmt.setString(6, t.getGender());
@@ -80,6 +80,20 @@ public class CustomerDAOimpl implements CustomerDAO{
 	@Override
 	public int delete(String ID) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			String sql = "DELETE FROM Customer WHERE IDCustomer = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, ID);
+			
+			int kq = pstmt.executeUpdate();
+			System.out.println("Thuc thi: " + pstmt.toString());
+			System.out.println("Co" + kq + "Ket qua thay doi");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return 0;
 	}
 
@@ -111,7 +125,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 				String Gender = rs.getString("Gender");
 				String SDT = rs.getString("SDT");
 				String IDAccount = rs.getString("IDAccount");
-				LocalDate Birth = rs.getDate("Birth").toLocalDate();
+				LocalDate Birth = rs.getDate("Birth") != null ? rs.getDate("Birth").toLocalDate() : null;
 				return new Customer(IDCustomer,FullName,CCCD,Gender,SDT,Birth,IDAccount);
 			}
 			
@@ -150,7 +164,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 				String Gender = rs.getString("Gender");
 				String SDT = rs.getString("SDT");
 				String IDAccount = rs.getString("IDAccount");
-				LocalDate Birth = rs.getDate("Birth").toLocalDate();
+				LocalDate Birth = rs.getDate("Birth") != null ? rs.getDate("Birth").toLocalDate() : null;
 				return new Customer(IDCustomer,FullName,CCCD,Gender,SDT,Birth,IDAccount);
 			}
 			
@@ -183,7 +197,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 				String Gender = rs.getString("Gender");
 				String SDT = rs.getString("SDT");
 				String IDAccount = rs.getString("IDAccount");
-				LocalDate Birth = rs.getDate("Birth").toLocalDate();
+				LocalDate Birth = rs.getDate("Birth") != null ? rs.getDate("Birth").toLocalDate() : null;
 				return new Customer(IDCustomer,FullName,CCCD,Gender,SDT,Birth,IDAccount);
 			}
 			
@@ -217,7 +231,7 @@ public class CustomerDAOimpl implements CustomerDAO{
 				String Gender = rs.getString("Gender");
 				String SDT = rs.getString("SDT");
 				String IDAccount = rs.getString("IDAccount");
-				LocalDate Birth = rs.getDate("Birth").toLocalDate();
+				LocalDate Birth = rs.getDate("Birth") != null ? rs.getDate("Birth").toLocalDate() : null;
 				return new Customer(IDCustomer,FullName,CCCD,Gender,SDT,Birth,IDAccount);
 			}
 			

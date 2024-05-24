@@ -99,6 +99,14 @@
 	</div>
 </body>
 <script>
+
+	const urlParams = new URLSearchParams(window.location.search);
+	const paramValue = urlParams.get('show');
+	if(paramValue){
+		alert(paramValue);
+	}
+	
+
 	function refuseData(){
 		if(document.getElementById('lname').value.length != 12){
 			alert("CCCD phai nhap 12 so");

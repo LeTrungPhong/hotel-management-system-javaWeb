@@ -24,17 +24,20 @@ public class authenticationAccountFilter implements Filter{
 		// TODO Auto-generated method stub
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+		String show = "";
 		if(!IDAccount.equals("")) {
 			if(AccountDAOImpl.getInstance().selectByID(IDAccount) != null) {
 				System.out.println("Xac nhan tai khoan thanh cong");
 				chain.doFilter(request, response);
 			} else {
 				System.out.println("Can dang nhap de tiep tuc");
-				((HttpServletResponse)response).sendRedirect(url.urlServer + "home");
+				show = "Can dang nhap de tiep tuc";
+				((HttpServletResponse)response).sendRedirect(url.urlServer + "home?show=" + show);
 			}
 		} else {
 			System.out.println("Tai khoan chua duoc dang nhap");
-			((HttpServletResponse)response).sendRedirect(url.urlServer + "home");
+			show = "Tai khoan chua duoc dang nhap";
+			((HttpServletResponse)response).sendRedirect(url.urlServer + "home?show=" + show);
 		}
 	}
 }

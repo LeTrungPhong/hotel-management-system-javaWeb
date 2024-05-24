@@ -274,6 +274,13 @@
     </form>
     
 <script>
+
+	const urlParams = new URLSearchParams(window.location.search);
+	const paramValue = urlParams.get('show');
+	if(paramValue){
+		alert(paramValue);
+	}
+
 	var formSubmit = document.getElementById('form-submit');
 	var backgroundShadow = document.querySelector('.background-shadow');
 

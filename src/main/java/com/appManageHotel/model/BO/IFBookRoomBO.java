@@ -167,4 +167,32 @@ public class IFBookRoomBO {
 			return false;
 		}
 	}
+	
+	public boolean confirmCheckIn(Customer t, String IDIFBookRoom) {
+		IFBookRoom ifBookRoom = IFBookRoomDAOimpl.getInstance().selectByID(IDIFBookRoom);
+		Customer customer = CustomerDAOimpl.getInstance().selectByCCCD(t.getCCCD());
+		Bill bill = BillDAOimpl.getInstance().selectByIDIFBookRoom(IDIFBookRoom);
+		if(ifBookRoom != null) {
+			if(customer == null) {
+				CustomerDAOimpl.getInstance().update(t);
+				ifBookRoom.setCheckIn(true);
+				ifBookRoom.setComeInDateReal(LocalDate.now());
+				IFBookRoomDAOimpl.getInstance().update(ifBookRoom);
+			} else {
+				if(customer.getIDCustomer().equals(t.getIDCustomer())) {
+					ifBookRoom.setCheckIn(true);
+					ifBookRoom.setComeInDateReal(LocalDate.now());
+					IFBookRoomDAOimpl.getInstance().update(ifBookRoom);
+				} else {
+					ifBookRoom.setCheckIn(true);
+					ifBookRoom.setComeInDateReal(LocalDate.now());
+					bill.setIDCustomer(customer.getIDCustomer());
+					BillDAOimpl.getInstance().update(bill);
+					IFBookRoomDAOimpl.getInstance().update(ifBookRoom);
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 }

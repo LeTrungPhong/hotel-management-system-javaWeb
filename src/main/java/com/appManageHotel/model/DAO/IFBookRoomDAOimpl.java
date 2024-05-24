@@ -73,10 +73,10 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 			pstmt.setInt(5, t.getNumberChild());
 			pstmt.setBoolean(6, t.isState());
 			pstmt.setBoolean(7, t.getCheckIn());
-			pstmt.setString(8, t.getIDIFBookRoom());
-			pstmt.setDate(9, t.getComeInDate() != null ? Date.valueOf(t.getComeInDateReal()) : null);
-			pstmt.setDate(10, t.getComeOutDate() != null ? Date.valueOf(t.getComeOutDateReal()) : null);
-			pstmt.setDate(11, t.getBookRoomDate() != null ? Date.valueOf(t.getBookRoomDate()) : null);
+			pstmt.setDate(8, t.getComeInDateReal() != null ? Date.valueOf(t.getComeInDateReal()) : null);
+			pstmt.setDate(9, t.getComeOutDateReal() != null ? Date.valueOf(t.getComeOutDateReal()) : null);
+			pstmt.setDate(10, t.getBookRoomDate() != null ? Date.valueOf(t.getBookRoomDate()) : null);
+			pstmt.setString(11, t.getIDIFBookRoom());
 			
 			int kq = pstmt.executeUpdate();
 			

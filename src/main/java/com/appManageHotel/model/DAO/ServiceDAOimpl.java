@@ -114,6 +114,31 @@ public class ServiceDAOimpl implements ServiceDAO{
 	@Override
 	public Service selectByID(String ID) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT * FROM Service WHERE IDService = ?";
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, ID);
+
+			ResultSet rs = pstmt.executeQuery();
+			System.out.println("Thuc thi: " + pstmt.toString());
+	
+			while(rs.next()) {
+				String IDService = rs.getString("IDService");
+				String ServiceName = rs.getString("ServiceName");
+				int Price = rs.getInt("Price");
+				String Description = rs.getString("Description");
+				String IDImage = rs.getString("IDImage");
+				int NumberUse = rs.getInt("NumberUse");
+				return new Service( IDService,ServiceName,Price,Description,IDImage,NumberUse);
+			}
+			
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

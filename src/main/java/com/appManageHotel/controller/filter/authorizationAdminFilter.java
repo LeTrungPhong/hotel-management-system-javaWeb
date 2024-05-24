@@ -25,18 +25,20 @@ public class authorizationAdminFilter implements Filter{
 		// TODO Auto-generated method stub
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
-		
+		String show = "";
 		if(!IDAccount.equals("")) {
 			if(AccountDAOImpl.getInstance().selectByID(IDAccount).getRole().equals("Admin")) {
 				System.out.println("Authen admin filter");
 				chain.doFilter(request, response);
 			} else {
 				System.out.println("Tai khoan khong duoc phan quyen Admin");
-				((HttpServletResponse)response).sendRedirect(url.urlServer + "home");
+				show = "Tai khoan khong duoc phan quyen Admin";
+				((HttpServletResponse)response).sendRedirect(url.urlServer + "home?show=" + show);
 			}
 		} else {
 			System.out.println("Tai khoan chua duoc dang nhap");
-			((HttpServletResponse)response).sendRedirect(url.urlServer + "home");
+			show = "Tai khoan chua duoc dang nhap";
+			((HttpServletResponse)response).sendRedirect(url.urlServer + "home?show=" + show);
 		}
 	}
 

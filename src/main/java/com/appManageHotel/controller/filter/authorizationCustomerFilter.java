@@ -27,7 +27,7 @@ public class authorizationCustomerFilter implements Filter{
 		// TODO Auto-generated method stub
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
-		
+		String show = "";
 		if(!IDAccount.equals("")) {
 			Account account = AccountDAOImpl.getInstance().selectByID(IDAccount);
 			if(account != null) {
@@ -35,7 +35,8 @@ public class authorizationCustomerFilter implements Filter{
 				if(customer != null) {
 					chain.doFilter(request, response);
 				} else {
-					((HttpServletResponse)response).sendRedirect(url.urlServer + "updateInforUser");
+					show = "Ban can cap nhat thong tin ca nhan de tiep tuc";
+					((HttpServletResponse)response).sendRedirect(url.urlServer + "updateInforUser?show=" + show);
 				}
 			} else {
 				chain.doFilter(request, response);

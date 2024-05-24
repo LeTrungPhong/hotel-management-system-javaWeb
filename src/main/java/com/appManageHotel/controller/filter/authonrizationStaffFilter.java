@@ -25,18 +25,20 @@ public class authonrizationStaffFilter implements Filter{
 		// TODO Auto-generated method stub
 		HttpSession session = ((HttpServletRequest)request).getSession();
 		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
-		
+		String show = "";
 		if(!IDAccount.equals("")) {
 			if(AccountDAOImpl.getInstance().selectByID(IDAccount).getRole().equals("Staff")) {
 				System.out.println("Authen staff filter");
 				chain.doFilter(request, response);
 			} else {
-				System.out.println("Tai khoan khong duoc phan quyen staff");
-				((HttpServletResponse)response).sendRedirect(url.urlServer + "home");
+				System.out.println("Tai khoan khong duoc phan quyen nhan vien");
+				show = "Tai khoan khong duoc phan quyen nhan vien";
+				((HttpServletResponse)response).sendRedirect(url.urlServer + "home?show=" + show);
 			}
 		} else {
 			System.out.println("Tai khoan chua duoc dang nhap");
-			((HttpServletResponse)response).sendRedirect(url.urlServer + "home");
+			show = "Tai khoan chua duoc dang nhap";
+			((HttpServletResponse)response).sendRedirect(url.urlServer + "home?show=" + show);
 		}
 	}
 

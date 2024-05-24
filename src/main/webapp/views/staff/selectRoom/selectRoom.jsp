@@ -10,6 +10,7 @@
 <%@ page import="com.appManageHotel.model.DAO.TypeRoomDAO" %>
 <%@ page import="com.appManageHotel.model.DAO.*" %>
 <%@ page import="com.appManageHotel.controller.url.*"%>
+<%@ page import="java.time.temporal.ChronoUnit" %>
 <%@ page import="java.time.LocalDate" %>
 <!DOCTYPE html>
 <html>
@@ -374,7 +375,7 @@ i{
             padding: 20px;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 80%;
+            width: 90%;
         }
         .room-list h2 {
             margin-top: 0;
@@ -697,6 +698,8 @@ i{
                         <th>Ngày đến</th>
                         <th>Ngày trả phòng</th>
                         <th>Ngày Check In</th>
+                        <th>Giá phòng</th>
+                        <th>Phụ thu</th>
                         <th>Tổng tiền</th>
                         <th>Số tiền đã trả</th>
                         <th>Trả phòng</th>
@@ -710,6 +713,11 @@ i{
                     			Room room = RoomDAOimpl.getInstance().selectByID(listIFBookRoomCheckIn.get(i).getIDRoom());
                     			TypeRoom tr = room != null ? TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()) : null;
                     			Bill bill = BillDAOimpl.getInstance().selectByIDIFBookRoom(listIFBookRoomCheckIn.get(i).getIDIFBookRoom());
+                    			
+                    			LocalDate comeInDate = listIFBookRoomCheckIn.get(i).getComeInDate();
+                    			LocalDate comeOutDate = listIFBookRoomCheckIn.get(i).getComeOutDate();
+                    			long daysBetween = ChronoUnit.DAYS.between(comeInDate, comeOutDate);
+                    	        int surcharge = bill.getTotal() - (int)(daysBetween * tr.getPrice());
                     			%>
                     				<tr>
                         				<td><%= tr != null ? tr.getTypeRoomName() : "" %></td>
@@ -719,6 +727,8 @@ i{
                         				<td><%= listIFBookRoomCheckIn.get(i).getComeInDate() %></td>
                         				<td><%= listIFBookRoomCheckIn.get(i).getComeOutDate() %></td>
                         				<td><%= listIFBookRoomCheckIn.get(i).getComeInDateReal() %></td>
+                        				<td><%= tr != null ? tr.getPrice() : "Khong ton tai" %></td>
+                        				<td><%= surcharge %></td>
                         				<td><%= bill != null ? bill.getTotal() : "Khong ton tai"  %></td>
                         				<td><%= bill != null ? bill.getPrepayment() : "Khong ton tai" %></td>
                         				<td>
@@ -751,6 +761,8 @@ i{
                         <th>Ngày đến</th>
                         <th>Ngày trả phòng</th>
                         <th>Ngày đặt phòng</th>
+                        <th>Giá phòng</th>
+                        <th>Phụ thu</th>
                         <th>Tổng tiền</th>
                         <th>Số tiền đã trả</th>
                         <th>Chức năng</th>
@@ -764,7 +776,22 @@ i{
                     			Room room = RoomDAOimpl.getInstance().selectByID(listIFBookRoomNonCheckIn.get(i).getIDRoom());
                     			TypeRoom tr = room != null ? TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()) : null;
                     			Bill bill = listIFBookRoomNonCheckIn != null ? BillDAOimpl.getInstance().selectByIDIFBookRoom(listIFBookRoomNonCheckIn.get(i).getIDIFBookRoom()) : null;
+                    			String IDIFBookRoom = listIFBookRoomNonCheckIn.get(i).getIDIFBookRoom();
                     			Customer ctm = bill != null ? CustomerDAOimpl.getInstance().selectByID(bill.getIDCustomer()) : null;
+                    			String IDCustomer = ctm != null ? ctm.getIDCustomer() : "";
+                    			String CCCD = ctm != null ? ctm.getCCCD() : "";
+                    			String SDT = ctm != null ? ctm.getSDT() : "";
+                    			String FullName = ctm != null ? ctm.getFullName() : "";
+                    			LocalDate birth = ctm != null ? ctm.getBirth() : null;
+                    			String Gender = ctm != null ? ctm.getGender() : "";
+                    			String strBirth = birth != null ? String.format("%d-%02d-%02d", birth.getYear(), birth.getMonthValue(), birth.getDayOfMonth()) : "";
+                    			LocalDate comeInDate = listIFBookRoomNonCheckIn.get(i).getComeInDate();
+                    			LocalDate comeOutDate = listIFBookRoomNonCheckIn.get(i).getComeOutDate();
+                    			String strComeInDate = String.format("%d-%02d-%02d", comeInDate.getYear(), comeInDate.getMonthValue(), comeInDate.getDayOfMonth());
+                    			String strComeOutDate = String.format("%d-%02d-%02d", comeOutDate.getYear(), comeOutDate.getMonthValue(), comeOutDate.getDayOfMonth());
+                    			
+                    	        long daysBetween = ChronoUnit.DAYS.between(comeInDate, comeOutDate);
+                    	        int surcharge = bill.getTotal() - (int)(daysBetween * tr.getPrice());
                     			%>
                     				<tr>
                         				<td><%= tr != null ? tr.getTypeRoomName() : "" %></td>
@@ -774,6 +801,8 @@ i{
                         				<td><%= listIFBookRoomNonCheckIn.get(i).getComeInDate() %></td>
                         				<td><%= listIFBookRoomNonCheckIn.get(i).getComeOutDate() %></td>
                         				<td><%= listIFBookRoomNonCheckIn.get(i).getBookRoomDate() %></td>
+                        				<td><%= tr != null ? tr.getPrice() : "Khong ton tai" %></td>
+                        				<td><%= surcharge %></td>
                         				<td><%= bill != null ? bill.getTotal() : "Khong ton tai" %></td>
                         				<td><%= bill != null ? bill.getPrepayment() : "Khong ton tai" %></td>
                         				<td>
@@ -781,22 +810,42 @@ i{
                         						if(bill != null){
                         							if((bill.getTotal() > bill.getPrepayment() && LocalDate.now().isAfter(listIFBookRoomNonCheckIn.get(i).getComeInDate())) 
                         									|| LocalDate.now().isAfter(listIFBookRoomNonCheckIn.get(i).getComeOutDate())){
-                        								
-                        							} else {
                         								%>
-                        									<button onclick="checkIn()" class="buttonUnCheckIn" style="background-color: #e0ffe0;">Check in</button>
+                        									<button class="buttonUnCheckIn" style="background-color: rgb(255, 99, 99);">Quá hạn</button>
                         								<%
+                        							} else {
+                        								if(LocalDate.now().isBefore(listIFBookRoomNonCheckIn.get(i).getComeInDate())){
+                        									%>
+                        										<button class="buttonUnCheckIn" style="background-color: #ffffac;">Chưa đến ngày Check in</button>
+                        									<%
+                        								} else {
+                        									%>
+                        										<button onclick="checkIn('<%= IDCustomer %>'
+                        																,'<%= FullName %>'
+                        																,'<%= SDT %>'
+                        																,'<%= CCCD %>'
+                        																,'<%= strBirth %>'
+                        																,'<%= Gender %>'
+                        																,'<%= IDIFBookRoom %>'
+                        																,'<%= strComeInDate %>'
+                        																,'<%= strComeOutDate %>'
+                        																,'<%= tr != null ? tr.getTypeRoomName() : "" %>'
+                        																,'<%= room != null ? room.getRoomName() : "" %>'
+                        																,<%= listIFBookRoomNonCheckIn.get(i).getNumberAdult() %>
+                        																,<%= listIFBookRoomNonCheckIn.get(i).getNumberChild() %>
+                        																,<%= tr != null ? tr.getPrice() : "0" %>
+                        																,<%= bill != null ? bill.getTotal() : "0" %>
+                        																,<%= surcharge %>)"
+                        												class="buttonUnCheckIn" 
+                        												style="background-color: #e0ffe0;">
+                        													Check in
+                        										</button>
+                        									<%
+                        								}
                         							}
                         						}
                         					%>
                         					<button class="buttonUnCheckIn" style="background-color: #ffe0e0;" onclick="cancleRoom('<%= listIFBookRoomNonCheckIn.get(i).getIDIFBookRoom() %>')">Hủy phòng</button>
-                        					<%
-                        						if(LocalDate.now().isAfter(listIFBookRoomNonCheckIn.get(i).getComeInDate())){
-                        							%>
-                        								<button class="buttonUnCheckIn" style="background-color: rgb(255, 99, 99);">Quá hạn</button>
-                        							<%
-                        						}
-                        					%>
                         				</td>
                     				</tr>
                     			<%
@@ -893,10 +942,13 @@ i{
         
         <label for="total">Tổng Tiền:</label>
         <input class="input" type="text" id="total" name="Total" readonly required>
+        
+        <input class="dp-n" type="text" id="IDIFBookRoomCheckIn" name="IDIFBookRoomCheckIn">
+        <input class="dp-n" type="text" id="IDCustomer" name="IDCustomer">
      </div>
       </div>
 		
-        <input type="submit" value="Xác nhận đặt dịch vụ">
+        <input type="submit" id="submitInput" value="Xác nhận đặt dịch vụ">
     </form>
     
     <form class="dp-n" action="<%= url.urlServer + "cancleRoom" %>" method="post">
@@ -909,6 +961,26 @@ i{
     </div>
 <script src="views/staff/selectRoom/index.js"></script>
 <script>
+
+const urlParams = new URLSearchParams(window.location.search);
+const paramValue = urlParams.get('show');
+if(paramValue){
+	alert(paramValue);
+}
+
+function validateInput() {
+    var inputCCCD = document.getElementById("CCCD").value;
+    if(inputCCCD.length != 12) {
+        alert("Vui lòng nhập CCCD 12 số.");
+        return false;
+    }
+    var inputSDT = document.getElementById("SDT").value;
+    if(inputSDT.length != 10){
+    	alert("Vui lòng nhập SDT 10 số.");
+    	return false;
+    }
+    return true;
+}
 
 function freeRoom(){
 	event.preventDefault();
@@ -1093,14 +1165,33 @@ function formSubmitClick(TypeRoomName, IDRoom, RoomName, Price, MaxAdult, MaxChi
 	document.getElementById('NumberChild').value = 0;
 	document.getElementById('NumberAdult').max = MaxAdult + 2;
 	document.getElementById('NumberChild').max = MaxChild + 2;
+	document.getElementById('submitInput').value = 'Xác nhận đặt phòng';
 
 	changeTotal();
 }
 
-function checkIn(){
+function checkIn(IDCustomer,FullName,SDT,CCCD,Birth,Gender,IDIFBookRoom,ComeInDate,ComeOutDate,TypeRoomName,RoomName,NumberAdult,NumberChild,Price,Total,surcharge){
 	formSubmit.classList.remove('dp-n');
 	formSubmit.action = '<%= url.urlServer + "confirmCheckIn" %>';
 	backgroundShadow.classList.remove('dp-n');
+	document.getElementById('submitInput').value = 'Xác nhận check in';
+
+	document.getElementById('RoomName').value = RoomName;
+	document.getElementById('TypeRoomName').value = TypeRoomName;
+	document.getElementById('Price').value = Price;
+
+	document.getElementById('NumberAdult').value = NumberAdult;
+	document.getElementById('NumberChild').value = NumberChild;
+	document.getElementById('IDCustomer').value = IDCustomer;
+	document.getElementById('FullName').value = FullName;
+	document.getElementById('SDT').value = SDT;
+	document.getElementById('CCCD').value = CCCD;
+	document.getElementById('Birth').value = Birth;
+	document.getElementById('IDIFBookRoomCheckIn').value = IDIFBookRoom;
+	document.getElementById('ComeInDate').value = ComeInDate;
+	document.getElementById('ComeOutDate').value = ComeOutDate;
+	document.getElementById('total').value = Total;
+	document.getElementById('surcharge').value = surcharge;
 }
 
 backgroundShadow.addEventListener('click', () => {
