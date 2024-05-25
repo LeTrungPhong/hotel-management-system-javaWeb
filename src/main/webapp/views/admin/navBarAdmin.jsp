@@ -66,6 +66,9 @@
             <a href="<%= url.urlServer + "manageImage" %>" class='header__sign-button'>
                 <span>Danh sách hinh anh</span>
             </a>
+            <a href="<%= url.urlServer + "chart" %>" class='header__sign-button'>
+                <span>Thống kê</span>
+            </a>
         </div>
         <button class="button-signout" style="background: red;" onclick="document.getElementById('signOutAdmin').click()">Đăng xuất</button>
      </header>

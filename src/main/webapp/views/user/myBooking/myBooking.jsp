@@ -41,7 +41,7 @@
         }
 
         table {
-            width: 80%;
+            width: 90%;
             border-collapse: collapse;
             margin-bottom: 20px;
             background-color: #fff;
@@ -166,13 +166,15 @@
 	<h1>Quản lý đặt phòng của tôi</h1> 
     <table>
             <tr>
-            	<th>Số thứ tự</th>
+            	<th>STT</th>
             	<th>Loại phòng</th>
                 <th>Tên Phòng</th>
+                <th>Ngày đặt phòng</th>
                 <th>Ngày đến</th>
                 <th>Ngày đi</th>
                 <th>Số người lớn</th>
                 <th>Số trẻ em</th>
+                <th>Tổng tiền</th>
                 <th>Số tiền đã thanh toán</th>
                 <th>Trạng thái</th>
                 <th>Chức năng</th>
@@ -189,35 +191,40 @@
         								<td><%= i %></td>
         								<td><%= TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()).getTypeRoomName() %></td>
     									<td><%= room.getRoomName() %></td>
+    									<td><%= infor.getBookRoomDate() %></td>
     									<td><%= infor.getComeInDate() %></td>
     									<td><%= infor.getComeOutDate() %></td>
     									<td><%= infor.getNumberAdult() %></td>
     									<td><%= infor.getNumberChild() %></td>
     									<td><%= listBill.get(i).getTotal() %></td>
+    									<td><%= listBill.get(i).getPrepayment() %></td>
     									<td>
     										<%
     										if(!infor.isState()){
-												%><p style="color: #db0000;">Đã hủy</p><%
+												if(infor.getCheckIn()){
+													%><p style="color: #db0000;">Đã trả phòng</p><%
+												} else {
+													%><p style="color: #db0000;">Đã hủy</p><%
+												}
 											} else { 
 												LocalDate currentDate = LocalDate.now();
-												if(currentDate.isBefore(infor.getComeInDate())){
-													 %><p style="color: green;">Đã đặt</p><%
-												} else if(currentDate.isAfter(infor.getComeOutDate())){ 
-													%>Đã trả phòng<%
-												} else {
-													%><p>Đang nhận phòng</p><%
-												}
-											}
+												if(infor.getCheckIn()){
+													 %><p style="color: green;">Đã Check In</p><%
+												} else if(currentDate.isBefore(infor.getComeInDate()) || currentDate.isBefore(infor.getComeOutDate()) && listBill.get(i).getTotal() == listBill.get(i).getPrepayment()){ 
+													%><p>Chưa Check In</p><%
+												} 											}
     										%>
     									</td>
     									<td>
     										<%
-    											if(infor.isState()){
+    											if(infor.isState() && !infor.getCheckIn()){
     												LocalDate currentDate = LocalDate.now();
-    												if(currentDate.isBefore(infor.getComeInDate())){
+    												if(currentDate.isBefore(infor.getComeInDate()) || currentDate.isBefore(infor.getComeOutDate()) && listBill.get(i).getTotal() == listBill.get(i).getPrepayment()){
     													 %>
     													 	<button style="background-color: #ffa6a6;" onclick="cancleRoom('<%= infor.getIDIFBookRoom() %>')">Hủy phòng</button>
     													 <%
+    												} else {
+    													%>Phòng quá hạn<%
     												}
     											}
     										%>

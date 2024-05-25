@@ -54,7 +54,8 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 					+ " Price = ?," 
 					+ " MaxAdult = ?,"
 					+ " MaxChild = ?,"
-					+ " Description = ?"
+					+ " Description = ?,"
+					+ " NumberBook = ?"
 					+ " WHERE IDTypeRoom = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -63,7 +64,8 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 			pstmt.setInt(3, t.getMaxAdult());
 			pstmt.setInt(4, t.getMaxChild());
 			pstmt.setString(5, t.getDescription());
-			pstmt.setString(6, t.getIDTypeRoom());
+			pstmt.setInt(6, t.getNumberBook());
+			pstmt.setString(7, t.getIDTypeRoom());
 			
 			int kq = pstmt.executeUpdate();
 			

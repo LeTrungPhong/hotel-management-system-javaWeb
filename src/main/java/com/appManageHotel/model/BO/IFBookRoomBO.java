@@ -13,10 +13,12 @@ import com.appManageHotel.database.ConnectDatabase;
 import com.appManageHotel.model.BEAN.Bill;
 import com.appManageHotel.model.BEAN.Customer;
 import com.appManageHotel.model.BEAN.IFBookRoom;
+import com.appManageHotel.model.BEAN.TypeRoom;
 import com.appManageHotel.model.DAO.BillDAOimpl;
 import com.appManageHotel.model.DAO.CustomerDAOimpl;
 import com.appManageHotel.model.DAO.IFBookRoomDAOimpl;
 import com.appManageHotel.model.DAO.RoomDAOimpl;
+import com.appManageHotel.model.DAO.TypeRoomDAOimpl;
 
 public class IFBookRoomBO {
 	
@@ -42,10 +44,12 @@ public class IFBookRoomBO {
 			if (rs.next()) {
 				String IDRoom=rs.getString("IDRoom");
 				t.setIDRoom(IDRoom);
-				
 			}
 			else return false;
 			IFBookRoomDAOimpl.getInstance().insert(t);
+			TypeRoom typeRoomUpdate = TypeRoomDAOimpl.getInstance().selectByID(IDTypeRoom);
+			typeRoomUpdate.setNumberBook(typeRoomUpdate.getNumberBook() + 1);
+			TypeRoomDAOimpl.getInstance().update(typeRoomUpdate);
 			CustomerDAOimpl.getInstance().insert(r);
 			String id = UUID.randomUUID().toString();
 			Bill b = new Bill(id, "Staffweb", r.getIDCustomer(),PrepaymentBill, totalBill, t.getIDIFBookRoom());
@@ -77,6 +81,9 @@ public class IFBookRoomBO {
 			}
 			else return false;
 			IFBookRoomDAOimpl.getInstance().insert(t);
+			TypeRoom typeRoomUpdate = TypeRoomDAOimpl.getInstance().selectByID(IDTypeRoom);
+			typeRoomUpdate.setNumberBook(typeRoomUpdate.getNumberBook() + 1);
+			TypeRoomDAOimpl.getInstance().update(typeRoomUpdate);
 			String id = UUID.randomUUID().toString();
 			Bill b = new Bill(id, "Staffweb", r.getIDCustomer(),PrepaymentBill, totalBill, t.getIDIFBookRoom());
 			BillDAOimpl.getInstance().insert(b);

@@ -51,7 +51,8 @@ public class ServiceDAOimpl implements ServiceDAO{
 					+ " SET ServiceName = ?,"
 					+ " Price = ?,"
 					+ " Description = ?,"
-					+ " IDImage = ?"
+					+ " IDImage = ?,"
+					+ " NumberUse = ?"
 					+ " WHERE IDService = ?";
 			
 			PreparedStatement pstmt = con.prepareStatement(sql);
@@ -59,7 +60,8 @@ public class ServiceDAOimpl implements ServiceDAO{
 			pstmt.setInt(2, t.getPrice());
 			pstmt.setString(3, t.getDescription());
 			pstmt.setString(4, t.getIDImage());
-			pstmt.setString(5, t.getIDService());
+			pstmt.setInt(5, t.getNumberUse());
+			pstmt.setString(6, t.getIDService());
 			
 			int kq = pstmt.executeUpdate();
 			

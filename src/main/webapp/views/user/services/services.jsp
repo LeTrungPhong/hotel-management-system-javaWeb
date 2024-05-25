@@ -182,7 +182,7 @@
 	<jsp:include page="../header/header.jsp"/> 
 	<%
 		ArrayList<Service> listService = request.getAttribute("listService") != null ? (ArrayList<Service>)request.getAttribute("listService") : null;
-	
+
 		if(listService != null){
 			for(int i = 0; i < listService.size(); ++i){
 				String IDService = listService.get(i).getIDService();
@@ -210,6 +210,10 @@
 	%>
 	
 	<div class="background-shadow dp-n"></div>
+	
+	<%
+		
+	%>
 	
 	<form class="dp-n" action="<%= url.urlServer + "services" %>" id="form-submit" method="post" onsubmit="return validateInput()">
         <img style="max-width: 400px;" class="img_room_booking" src="https://cdn3.ivivu.com/2014/01/SUPER-DELUXE2.jpg" alt="">

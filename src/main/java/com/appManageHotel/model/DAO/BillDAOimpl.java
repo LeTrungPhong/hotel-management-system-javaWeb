@@ -159,7 +159,7 @@ public class BillDAOimpl implements BillDAO {
 			Connection con = ConnectDatabase.getConnection();
 			String sql = "SELECT * FROM Bill JOIN IFBookRoom ON Bill.IDIFBookRoom = IFBookRoom.IDIFBookRoom "
 					+ " WHERE Bill.IDCustomer = ? "
-					+ " ORDER BY IFBookRoom.ComeInDate DESC ";
+					+ " ORDER BY IFBookRoom.State DESC,IFBookRoom.ComeInDate DESC ";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, idCustomer);
 			

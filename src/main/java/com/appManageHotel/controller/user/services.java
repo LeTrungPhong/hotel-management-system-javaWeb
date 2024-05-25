@@ -70,11 +70,9 @@ public class services extends HttpServlet{
 //		System.out.println(Birth);
 		
 		UseServiceBO.getInstance().bookService(
-				new Customer(IDCustomer, FullName, CCCD, Gender, SDT, Birth, ""), 
+				new Customer(IDCustomer, FullName, CCCD, Gender, SDT, Birth, null),
 				new UseService(IDUseService, IDService, UseDate, IDCustomer, Number, true, Total)
 		);
-		
-		Service service = ServiceDAOimpl.getInstance().selectByID(IDService);
 		
 		String show = "";
 		show = "Dat dich vu thanh cong";
