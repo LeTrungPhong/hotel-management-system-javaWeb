@@ -27,9 +27,14 @@
 	.rooms {
 		width: 100% !important;
 	}
+	.container {
+		position: relative;
+		width: 100%;
+		height: 100%;
+	}
 </style>
 </head>
-<body class="main">
+<body class="container">
 	<jsp:include page="../header/header.jsp"/>
     <div class="body__rooms rooms">
     	<% 

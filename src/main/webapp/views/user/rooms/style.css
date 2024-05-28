@@ -30,14 +30,16 @@
     font-weight: 700;
 }
 
-.main {
+.container {
 	position: relative;
 	width: 100%;
+	height: 100%;
 }
 
 .body__rooms {
+	position: absolute;
     width: 100%;
-    transform: translateY(100px);
+    height: 100%;
 }
 
 .container_option__filter{

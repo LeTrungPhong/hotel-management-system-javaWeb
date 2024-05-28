@@ -23,17 +23,18 @@
         
         .container {
         	position: relative;
-        	margin-top: 150px;
+        	width: 100%;
+        	height: 100%; 
+        	
         }
-
-        /* .formModify {
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        } */
+        
+        .container-content {
+        	position: absolute;
+        	width: 90%;
+        	top: 20%;
+        	left: 50%;
+        	transform: translateX(-50%);
+        }
 
         h1 {
             text-align: center;
@@ -41,7 +42,8 @@
         }
 
         table {
-            width: 90%;
+        	margin-top: 20px;
+            width: 100%;
             border-collapse: collapse;
             margin-bottom: 20px;
             background-color: #fff;
@@ -96,29 +98,6 @@
             background-color: #45a049;
         }
 
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-
-        input[type="submit"] {
-            background-color: #4CAF50;
-            color: white;
-            padding: 10px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
         #form {
             position: absolute;
             top: 50%;
@@ -160,11 +139,12 @@
 </head>
 <body class="container">
 	<jsp:include page="../header/header.jsp"/> 
+	<div class="container-content">
 	<%
 		ArrayList<Bill> listBill = request.getAttribute("listBill") != null ? (ArrayList<Bill>)request.getAttribute("listBill") : null;
 	%>
 	<h1>Quản lý đặt phòng của tôi</h1> 
-    <table>
+    <table class="table">
             <tr>
             	<th>STT</th>
             	<th>Loại phòng</th>
@@ -241,6 +221,7 @@
     	<input type="text" id="IDIFBookRoom" name="IDIFBookRoom">
     	<input type="submit" id="submitCancle">
     </form>
+	</div>
 </body>
 <script>
 	function cancleRoom(IDIFBookRoom){

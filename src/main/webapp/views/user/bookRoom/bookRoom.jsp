@@ -20,13 +20,17 @@
         }
         
         .container {
+        	position: relative;
         	background-color: #f4f4f4;
-        	margin: 100px;
+        	display: flex;
+        	justify-content: center;
+        	align-items: center;
         }
 
         .container-content {
-            max-width: 500px;
-            margin: 50px auto;
+        	max-width: 550px;
+        	top: 15%;
+        	position: absolute;
             background: #fff;
             padding: 20px;
             border-radius: 5px;
@@ -43,12 +47,7 @@
             margin-bottom: 5px;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="number"],
-        input[type="date"],
-        select,
-        textarea {
+        .input-style {
             width: calc(100% - 5px);
             padding: 10px;
             margin: 5px 0;
@@ -57,7 +56,7 @@
             box-sizing: border-box;
         }
 
-        input[type="submit"] {
+        .input-submit {
             background-color: #4caf50;
             color: white;
             padding: 14px 20px;
@@ -68,7 +67,7 @@
             width: 100%;
         }
 
-        input[type="submit"]:hover {
+        .input-submit:hover {
             background-color: #45a049;
         }
 
@@ -95,7 +94,8 @@
         
         .sidebar {
             position: fixed;
-            width: 400px;
+            top: 15%;
+            width: 440px;
             height: 100%;
             background-color: white;
             overflow-y: auto;
@@ -109,6 +109,34 @@
         .sidebar-right {
             border-top-left-radius: 5px;
             right: 0;
+        }
+        .sidebar-right h2 {
+        	display: block;
+    		font-size: 1.5em;
+    		margin-block-start: 0.83em;
+    		margin-block-end: 0.83em;
+    		margin-inline-start: 0px;
+    		margin-inline-end: 0px;
+    		font-weight: bold;
+    		unicode-bidi: isolate;
+        }
+        .sidebar-right p {
+        	display: block;
+   			margin-block-start: 1em;
+    		margin-block-end: 1em;
+    		margin-inline-start: 0px;
+    		margin-inline-end: 0px;
+    		unicode-bidi: isolate;
+        }
+        .sidebar-right ul {
+        	display: block;
+    		list-style-type: disc;
+    		margin-block-start: 1em;
+    		margin-block-end: 1em;
+    		margin-inline-start: 0px;
+    		margin-inline-end: 0px;
+    		padding-inline-start: 40px;
+    		unicode-bidi: isolate;
         }
         .slider {
             position: relative;
@@ -146,6 +174,14 @@
         }
         .room-info h2, .room-details h2 {
             margin-top: 0;
+        }
+        .room-info p {
+        	display: block;
+   			margin-block-start: 1em;
+    		margin-block-end: 1em;
+    		margin-inline-start: 0px;
+    		margin-inline-end: 0px;
+    		unicode-bidi: isolate;
         }
     </style>
 </head>
@@ -194,7 +230,7 @@
             <h2>Deluxe Room</h2>
             <p>Giá: $200/đêm</p>
             <p>Diện tích: 50m²</p>
-            <h3 style="margin: 2px 0px;">Cơ sở vật chất:</h3>
+            <h3 style="margin: 2px 0px;">Tiện nghi:</h3>
             <%
             	if(typeRoom != null){
             		ArrayList<Facility> listFacility = FacilityDAOimpl.getInstance().selectByIDTypeRoom(typeRoom.getIDTypeRoom());
@@ -218,6 +254,7 @@
         <label for="FullName">Họ và Tên:</label>
         <input 
         	type="text" 
+        	class="input-style"
         	id="FullName" 
         	name="FullName" 
         	value="<%= customer != null ? customer.getFullName() : "" %>" 
@@ -228,6 +265,7 @@
         <label for="SDT">Số Điện Thoại:</label>
         <input 
         	type="text" 
+        	class="input-style"
         	id="SDT" 
         	name="SDT" 
         	value="<%= customer != null ? customer.getSDT() : "" %>" 
@@ -235,7 +273,7 @@
         	<%= customer != null ? "readonly" : "" %>
         >
          
-        <select  name="Gender">
+        <select  name="Gender" class="input-style">
         	<option <%= (customer != null && customer.getGender().equals("female")) ? "selected" : "" %> value="female">Female</option>
         	<option <%= (customer != null && customer.getGender().equals("male")) ? "selected" : "" %> value="male">Male</option>
         </select>
@@ -249,39 +287,39 @@
 		%>
 
         <label for="ComeInDate">Ngày Nhận Phòng:</label>
-        <input type="date" id="ComeInDate" name="ComeInDate" value="<%= timeStart %>" required>
+        <input class="input-style" type="date" id="ComeInDate" name="ComeInDate" value="<%= timeStart %>" required>
 
         <label for="ComeOutDate">Ngày Trả Phòng:</label>
-        <input type="date" id="ComeOutDate" name="ComeOutDate" value="<%= timeEnd %>" required>
+        <input class="input-style" type="date" id="ComeOutDate" name="ComeOutDate" value="<%= timeEnd %>" required>
 
         <label for="TypeRoomName">Loại Phòng:</label> 
-        <input type="text" id="TypeRoomName" name="TypeRoomName" value="<%= typeRoom != null ? typeRoom.getTypeRoomName() : "" %>" required readonly >
+        <input class="input-style" type="text" id="TypeRoomName" name="TypeRoomName" value="<%= typeRoom != null ? typeRoom.getTypeRoomName() : "" %>" required readonly >
 
         <div class="input-group">
             <label for="NumberAdult">Người Lớn:</label>
-            <input type="number" id="NumberAdult" name="NumberAdult" value="1" min="1" max="<%= typeRoom != null ? typeRoom.getMaxAdult() + 2 : 1 %>">
+            <input class="input-style" type="number" id="NumberAdult" name="NumberAdult" value="1" min="1" max="<%= typeRoom != null ? typeRoom.getMaxAdult() + 2 : 1 %>">
         </div>
         
         <div class="input-group">
             <label for="NumberChild">Trẻ Em:</label>
-            <input type="number" id="NumberChild" name="NumberChild" value="0" min="0" max="<%= typeRoom != null ? typeRoom.getMaxChild() + 2 : 0 %>">
+            <input class="input-style" type="number" id="NumberChild" name="NumberChild" value="0" min="0" max="<%= typeRoom != null ? typeRoom.getMaxChild() + 2 : 0 %>">
         </div>
         
         <label for="Price">Đơn Giá 1 Đêm: </label>
-        <input type="text" id="Price" name="Price" readonly value="<%= typeRoom != null ? typeRoom.getPrice() : "" %>" readonly required>
+        <input class="input-style" type="text" id="Price" name="Price" readonly value="<%= typeRoom != null ? typeRoom.getPrice() : "" %>" readonly required>
         
         <label for="surcharge">Phụ thu: </label>
-        <input type="text" id="surcharge" name="surcharge" readonly value="0" readonly required>
+        <input class="input-style" type="text" id="surcharge" name="surcharge" readonly value="0" readonly required>
 
         <label for="total-price">Tổng Tiền:</label>
-        <input type="text" id="total-price" readonly name="total-price" readonly required>
+        <input class="input-style" type="text" id="total-price" readonly name="total-price" readonly required>
 
-		<select name="payPrice">
+		<select name="payPrice" class="input-style">
 			<option selected id="pay25"></option>
 			<option id="pay100"></option>
 		</select>
 		
-        <input type="submit" value="Tiến hành thanh toán">
+        <input class="input-submit" type="submit" value="Tiến hành thanh toán">
     </form>
 	</div>
 <script>

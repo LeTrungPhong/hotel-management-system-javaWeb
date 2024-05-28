@@ -22,8 +22,17 @@
             box-sizing: border-box;
         }
         .container {
+        	position: relative;
+        	width: 100%;
+        	height: 100%;
+        	display: flex;
+        	justify-content: center;
+        	align-items: center;
+        }
+        .container-service {
+        	position: absolute;
             max-width: 1300px;
-            margin: 150px auto;
+			top: 20%;
             padding: 20px;
             background-color: #fff;
             border-radius: 8px;
@@ -105,12 +114,7 @@
             margin-bottom: 5px;
         }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="number"],
-        input[type="date"],
-        select,
-        textarea {
+        .input-style {
             width: calc(100% - 5px); 
             padding: 10px;
             margin: 5px 0;
@@ -124,7 +128,7 @@
             margin: 5px 0 !important;
         }
 
-        input[type="submit"] {
+        .input-submit {
             background-color: #4caf50;
             color: white;
             padding: 14px 20px;
@@ -135,14 +139,14 @@
             width: 100%;
         }
 
-        input[type="submit"]:hover {
+        .input-submit:hover {
             background-color: #45a049;
         }
 
-        input[readonly] {
+/*         input[readonly] {
             background-color: #f4f4f4;
             cursor: not-allowed;
-        }
+        } */
 
         .input-group {
             display: flex;
@@ -180,6 +184,8 @@
 </head>
 <body class="container">
 	<jsp:include page="../header/header.jsp"/> 
+	
+	<div class="container-service">
 	<%
 		ArrayList<Service> listService = request.getAttribute("listService") != null ? (ArrayList<Service>)request.getAttribute("listService") : null;
 
@@ -208,6 +214,7 @@
 			}
 		}
 	%>
+	</div>
 	
 	<div class="background-shadow dp-n"></div>
 	
@@ -222,6 +229,7 @@
     <div style="min-width: 350px;">
         <label for="FullName">Họ và tên: </label>
         <input 
+        	class="input-style"
         	type="text" 
         	id="FullName" 
         	name="FullName" 
@@ -230,6 +238,7 @@
         
         <label for="SDT">Số điện thoại: </label>
         <input 
+        	class="input-style"
         	type="text"  
         	id="SDT" 
         	name="SDT" 
@@ -237,18 +246,20 @@
         
         <label for="SDT">CCCD: </label>
         <input 
+        	class="input-style"
         	type="text" 
         	id="CCCD" 
         	name="CCCD" 
         	required>
         <label for="Birth">Ngày sinh: </label>
         <input 
+        	class="input-style"
         	type="date" 
         	id="Birth" 
         	name="Birth" 
         	required>
         <label for="Gender">Giới tính: </label>
-        <select class="select" name="Gender">
+        <select class="select input-style" name="Gender">
         	<option value="male">Male</option>
         	<option value="female">Female</option>
         </select>
@@ -256,25 +267,25 @@
         
      <div style="min-width: 350px;">
         <label for="ServiceName">Tên dịch vụ: </label>
-        <input type="text" id="ServiceName" name="ServiceName" readonly required>
+        <input class="input-style" type="text" id="ServiceName" name="ServiceName" readonly required>
         
         <label for="Number">Số lượng: </label>
-        <input type="Number" id="Number" name="Number" value="1" min="1" required>
+        <input class="input-style" type="Number" id="Number" name="Number" value="1" min="1" required>
         
         <label for="UseDate">Thời điểm sử dụng dịch vụ: </label>
-        <input type="date" id="UseDate" name="UseDate" required>
+        <input class="input-style" type="date" id="UseDate" name="UseDate" required>
         
         <label for="Price">Giá dịch vụ: </label>
-        <input type="text" id="Price" name="Price" readonly required>
+        <input class="input-style" type="text" id="Price" name="Price" readonly required>
         
         <input type="text" id="IDService" name="IDService" class="dp-n">
         
         <label for="total">Tổng Tiền:</label>
-        <input type="text" id="total" name="Total" readonly required>
+        <input class="input-style" type="text" id="total" name="Total" readonly required>
      </div>
       </div>
 		
-        <input type="submit" value="Xác nhận đặt dịch vụ">
+        <input class="input-submit" type="submit" value="Xác nhận đặt dịch vụ">
     </form>
     
 <script>

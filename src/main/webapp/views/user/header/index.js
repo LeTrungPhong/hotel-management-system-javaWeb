@@ -11,6 +11,7 @@ const signInClose = document.querySelector('.sign-in__close');
 const signUpClose = document.querySelector('.sign-up__close');
 
 headerSignIn.addEventListener('click',() => {
+	
     backgroundOpacity.classList.remove('dp-n');
     setTimeout(() => {
         backgroundOpacity.style.opacity = 1;
@@ -19,7 +20,7 @@ headerSignIn.addEventListener('click',() => {
     sign.classList.remove('dp-n');
     sign.style.top = '100%';
     signIn.classList.remove('dp-n');
-
+	signUp.classList.add('dp-n');
     setTimeout(() => {
         sign.style.top = '50%';
     });
@@ -38,6 +39,7 @@ signInClose.addEventListener('click',() => {
 });
 
 headerSignUp.addEventListener('click',() => {
+	signIn.classList.add('dp-n');
     backgroundOpacity.classList.remove('dp-n');
     setTimeout(() => {
         backgroundOpacity.style.opacity = 1;

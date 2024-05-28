@@ -139,9 +139,14 @@
         	height: 100%;
         	z-index: 4;
         	background-color: rgba(0,0,0,0.2);
-        }
+        } 
         .dp-n {
         	display: none;
+        }
+        .button-add {
+        	position: fixed;
+            bottom: 2%;
+            right: 2%;
         }
     </style>
 </head>
@@ -181,7 +186,7 @@
 	}
 %>
 
-<div class="btn-container">
+<div class="btn-container button-add">
     <button onclick="displayFormInsert()">Thêm loại phòng</button>
 </div>
 

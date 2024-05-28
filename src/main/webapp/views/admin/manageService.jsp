@@ -159,6 +159,11 @@
         .dp-n {
         	display: none;
         }
+        .button-add {
+        	position: fixed;
+            bottom: 2%;
+            right: 2%;
+        }
     </style>
 </head>
 <body class="container">
@@ -187,7 +192,14 @@
             				</div>
         				</div>
         				<div class="button-container">
-            				<button onclick="displayFormUpdate('<%= IDService %>','<%= ServiceName %>',<%= Price %>,'<%= Description %>')">Chỉnh sửa</button>
+            				<button 
+            					onclick="displayFormUpdate(
+            						'<%= IDService %>',
+            		 				'<%= ServiceName %>',
+            						<%= Price %>,
+									'<%= Description %>')">
+            					Chỉnh sửa
+            				</button>
         				</div>
     				</div>
     			<%
@@ -197,7 +209,7 @@
 
     <!-- Add more services here -->
 
-    <div class="button-container">
+    <div class="button-container button-add">
         <button onclick="displayFormInsert()">Thêm dịch vụ</button>
     </div>
 </div>
