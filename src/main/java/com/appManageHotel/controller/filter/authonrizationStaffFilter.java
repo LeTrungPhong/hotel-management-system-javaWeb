@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebFilter(urlPatterns = {"/selectRoom","/confirmCheckIn","/cancleRoom","/bookRoomStaff"})
+@WebFilter(urlPatterns = {"/selectRoom","/confirmCheckIn","/cancleRoom","/bookRoomStaff","/checkInRoom","/nonCheckInRoom","/extendRoom"})
 public class authonrizationStaffFilter implements Filter{
 
 	@Override

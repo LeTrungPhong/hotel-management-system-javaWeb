@@ -1,12 +1,9 @@
-<%@page import="jakarta.servlet.http.HttpServletRequest"%>
-<%@page import="com.appManageHotel.controller.cookie.cookie"%>
-<%@page import="com.appManageHotel.model.DAO.RoomDAOimpl"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ page import="com.appManageHotel.controller.url.*" %>
 <%@page import="java.util.ArrayList"%>
 <%@ page import="com.appManageHotel.model.DAO.*" %>
 <%@ page import="com.appManageHotel.model.BEAN.*" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.appManageHotel.controller.url.*" %>
-<%@ page import="jakarta.servlet.http.Cookie" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -160,12 +157,12 @@
     </style>
 </head>
 <body class="container">
-<jsp:include page="navBarAdmin.jsp"/> 
+<jsp:include page="navBarAdmin.jsp"/>
 	<%
 		TypeRoom tr = (TypeRoom)request.getAttribute("TypeRoom");
-		ArrayList<Room> listRoom = request.getAttribute("listRoom") != null ? (ArrayList<Room>)request.getAttribute("listRoom") : null;
+		ArrayList<Facility> listFacility = request.getAttribute("listFacility") != null ? (ArrayList<Facility>)request.getAttribute("listFacility") : null;
 	%> 
-	<h1>Quản lý loại phòng: <%= tr != null ? tr.getTypeRoomName() : "" %></h1> 
+	<h1>Quản lý cơ sở vật chất loại phòng: <%= tr != null ? tr.getTypeRoomName() : "" %></h1> 
     <table>
         <thead>
             <tr>
@@ -173,17 +170,16 @@
                 <th>Thao tác</th>
             </tr>
             	<%
-            	if(listRoom != null){
-    				for(int i = 0; i < listRoom.size(); ++i){
-    					String IDRoom = listRoom.get(i).getIDRoom();
-    					String IDTypeRoom = listRoom.get(i).getIDTypeRoom();
-    					String RoomName = listRoom.get(i).getRoomName();
+            	if(listFacility != null){
+    				for(int i = 0; i < listFacility.size(); ++i){
+    					String IDFacility = listFacility.get(i).getIDFacility();
+    					String IDTypeRoom = listFacility.get(i).getIDTypeRoom();
+    					String FacilityName = listFacility.get(i).getFacilityName();
     					%>
     						<tr>
-    							<td><%= RoomName %></td>
+    							<td><%= FacilityName %></td>
     							<td>
-    								<button class="btn-delete" type="submit">Xóa</button>
-    								<button class="btn-edit" onclick="displayFormUpdate('<%= IDRoom %>','<%= RoomName %>')">Sửa Phòng</button>
+    								<button class="btn-delete" onclick="deleteFacility('<%= IDFacility %>')" type="submit">Xóa</button>
     							</td>
     						</tr>
     					<%
@@ -195,33 +191,29 @@
             <!-- List rooms -->
         </tbody>
     </table>
-    <button class="btn-add" onclick="displayFormInsert()">Thêm Phòng</button>
+    <button class="btn-add" onclick="displayFormInsert()">Thêm</button>
     <!-- <button class="btn-edit" onclick="EditRoom()">Sửa Phòng</button> -->
 
 	<div class="background-shadow dp-n"></div>
 
     <div id="form" class="form-container dp-n">
-        <h1 id="edit_or_add" style="margin-bottom: 10px">Thêm phòng</h1>
-        <form class="formModify" action="<%= url.urlServer + "manageRoom" %>" method="post">
-            <label for="room_name">Tên Phòng:</label><br>
-            <input type="text" id="room_name" name="RoomName" required><br><br>
-            <input type="text" id="IDTypeRoom" name="IDTypeRoom" class="dp-n" value="<%= request.getParameter("IDTypeRoom") %>">
-            <input type="text" name="type" value="insertRoom" class="dp-n">
+        <h1 id="edit_or_add" style="margin-bottom: 10px">Thêm cơ sở vật chất</h1>
+        <form class="formModify" action="<%= url.urlServer + "manageFacility" %>" method="post">
+            <label for="FacilityName">Tên cơ sở vật chất:</label><br>
+            <input type="text" id="FacilityName" name="FacilityName" required><br><br>
+            <input type="text" id="IDTypeRoom" name="IDTypeRoom" value="<%= request.getParameter("IDTypeRoom") %>" class="dp-n">
+            <input type="text" name="type" value="insertFacility" class="dp-n">
             <input type="submit" value="Them">
         </form>
     </div>
     
-    <div id="form" class="form-container-update dp-n">
-        <h1 id="edit_or_add" style="margin-bottom: 10px">Sửa phòng</h1>
-        <form class="formModify" action="<%= url.urlServer + "manageRoom" %>" method="post">
-            <label for="RoomNameUpdate">Tên Phòng:</label><br>
-            <input type="text" id="RoomNameUpdate" name="RoomName" required><br><br>
-            <input type="text" id="IDRoomUpdate" name="IDRoom" class="dp-n">
-            <input type="text" name="type" value="updateRoom" class="dp-n">
-            <input type="submit" value="Sửa">
-        </form>
-    </div>
-
+    <form class="dp-n" action="<%= url.urlServer + "manageFacility" %>" method="post">
+    	<input type="text" name="IDFacility" id="IDFacility" >
+    	<input type="text" name="IDTypeRoom" value="<%= request.getParameter("IDTypeRoom") %>" class="dp-n">
+    	<input type="text" name="type" value="deleteFacility" class="dp-n">
+    	<input type="submit" id="delete">
+    </form>
+    
     <script>
         var formContainer = document.querySelector('.form-container');
         var backgroundShadow = document.querySelector('.background-shadow');
@@ -234,7 +226,8 @@
 
         backgroundShadow.addEventListener('click', () => {
         	formContainer.classList.add('dp-n');
-        	backgroundShadow.classList.add('dp-n'); 
+        	backgroundShadow.classList.add('dp-n');
+        	formContainerUpdate.classList.add('dp-n');
         })
         
         function displayFormUpdate(IDRoom,RoomName){
@@ -244,6 +237,11 @@
             
 			formContainerUpdate.classList.remove('dp-n');
 			backgroundShadow.classList.remove('dp-n');
+        }
+
+        function deleteFacility(IDFacility){
+			document.getElementById('IDFacility').value = IDFacility;
+			document.getElementById('delete').click();
         }
     </script>
 </body>

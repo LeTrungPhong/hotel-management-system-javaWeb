@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -29,7 +30,7 @@ public class IFBookRoomBO {
 	public boolean bookRoom(IFBookRoom t,String IDTypeRoom,Customer r, int totalBill, int PrepaymentBill) {
 		try {
 			Connection con = ConnectDatabase.getConnection();
-			String sql="select IDRoom from Room where IDTypeRoom=? except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?)  ";
+			String sql="select IDRoom from Room where IDTypeRoom=? except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?) or CheckIn = 1 ";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, IDTypeRoom);
 			pstmt.setDate(2, Date.valueOf(t.getComeInDate()));
@@ -63,7 +64,7 @@ public class IFBookRoomBO {
 	public boolean bookRoomByAccount(IFBookRoom t,String IDTypeRoom,Customer r, int totalBill, int PrepaymentBill) {
 		try {
 			Connection con = ConnectDatabase.getConnection();
-			String sql="select IDRoom from Room where IDTypeRoom=? except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?)  ";
+			String sql="select IDRoom from Room where IDTypeRoom=? except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?) or CheckIn = 1  ";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, IDTypeRoom);
 			pstmt.setDate(2, Date.valueOf(t.getComeInDate()));
@@ -201,5 +202,32 @@ public class IFBookRoomBO {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean Extend(IFBookRoom t,LocalDate newDateOut) {
+		if (t.getComeOutDate().isBefore(newDateOut)) {
+			IFBookRoom check = IFBookRoomDAOimpl.getInstance().selectByIDRoomToExtend(t.getIDRoom(), newDateOut, t.getComeOutDate());
+			if (check!=null) return false;
+			Bill b=BillDAOimpl.getInstance().selectByIDIFBookRoom(t.getIDIFBookRoom());
+			int dayBetween=(int)ChronoUnit.DAYS.between(t.getComeOutDate(), newDateOut);
+			b.setTotal(b.getTotal()+dayBetween*RoomDAOimpl.getInstance().selectPriceByIDRoom(t.getIDRoom()));
+			BillDAOimpl.getInstance().update(b);
+			t.setComeOutDate(newDateOut);
+			IFBookRoomDAOimpl.getInstance().update(t);
+			return true;
+		}
+		else return false;
+	}
+	
+	public void CheckOut(IFBookRoom t,LocalDate Datenow) {
+		if (t.getComeOutDate().isBefore(Datenow)) {
+			Extend(t, Datenow);
+		}
+		Bill b = BillDAOimpl.getInstance().selectByIDIFBookRoom(t.getIDIFBookRoom());
+		b.setPrepayment(b.getTotal());
+		BillDAOimpl.getInstance().update(b);
+		t.setState(false);
+		t.setComeOutDateReal(Datenow);
+		IFBookRoomDAOimpl.getInstance().update(t);
 	}
 }

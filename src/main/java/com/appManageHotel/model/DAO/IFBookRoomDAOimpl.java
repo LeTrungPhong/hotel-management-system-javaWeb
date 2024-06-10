@@ -280,4 +280,39 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 		}
 		return null;
 	}
+	
+	@Override
+	public IFBookRoom selectByIDRoomToExtend(String idRoom,LocalDate newOut, LocalDate out) {
+		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			
+			String sql = "SELECT * FROM IFBookRoom where IDRoom =? and (ComeInDate<= ? and ComeInDate>= ?)";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, idRoom);
+			pstmt.setDate(2, Date.valueOf(newOut));
+			pstmt.setDate(3, Date.valueOf(out));
+			ResultSet rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				String IDIFBookRoom = rs.getString("IDIFBookRoom");
+				String IDRoom = rs.getString("IDRoom");
+				LocalDate dayin = rs.getDate("ComeInDate").toLocalDate();
+				LocalDate dayout = rs.getDate("ComeOutDate").toLocalDate();
+				int nA = rs.getInt("NumberAdult");
+				int nC = rs.getInt("NumberChild");
+				boolean state = rs.getBoolean("State");
+				boolean check = rs.getBoolean("CheckIn");
+				LocalDate ComeInDateReal = rs.getDate("ComeInDateReal") != null ? rs.getDate("ComeInDateReal").toLocalDate() : null;
+				LocalDate ComeOutDateReal = rs.getDate("ComeOutDateReal") != null ? rs.getDate("ComeOutDateReal").toLocalDate() : null;
+				LocalDate BookRoomDate = rs.getDate("BookRoomDate") != null ? rs.getDate("BookRoomDate").toLocalDate() : null;
+				return new IFBookRoom(IDIFBookRoom, IDRoom, dayin, dayout, nA, nC,state,check, ComeInDateReal, ComeOutDateReal, BookRoomDate);
+			}
+			System.out.println("Thuc thi: " + pstmt.toString());
+		} 
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

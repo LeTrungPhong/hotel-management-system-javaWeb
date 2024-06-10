@@ -83,13 +83,13 @@ public class selectRoom extends HttpServlet{
 		
 		ArrayList<Room> listFindRoom = RoomBO.getInstance().findRoom(MinPrice, MaxPrice, maxAdult, maxChild, timeStart, timeEnd, listTypeRoomName);
 		
-		ArrayList<IFBookRoom> listIFBookRoomCheckIn = IFBookRoomDAOimpl.getInstance().selectByStateAndCheckIn(true, true);
-		ArrayList<IFBookRoom> listIFBookRoomNonCheckIn = IFBookRoomDAOimpl.getInstance().selectByStateAndCheckIn(true, false);
+		
+		
 		
 		req.setAttribute("listRoom", listFindRoom);
 		req.setAttribute("listTypeRoomName", listTypeRoomName); 
-		req.setAttribute("listIFBookRoomCheckIn", listIFBookRoomCheckIn);
-		req.setAttribute("listIFBookRoomNonCheckIn", listIFBookRoomNonCheckIn);
+		
+
 		req.setAttribute("MaxPrice", maxP); 
 		req.setAttribute("MinPrice", minP);
 		

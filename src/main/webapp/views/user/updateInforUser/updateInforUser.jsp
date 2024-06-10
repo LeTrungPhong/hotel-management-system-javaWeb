@@ -42,6 +42,7 @@
     }
     input[type="text"],
     input[type="email"],
+    input[type="date"], 
     select {
         width: 100%;
         padding: 10px;
@@ -84,8 +85,6 @@
 
        	 <label for="birth">Birth:</label>
        	 <input type="date" value="<%= customer == null ? "" : customer.getBirth() %>" id="birth" name="Birth" required>
-       	 
-       	 <br></br>
 		
      	   <label for="Gender">Gender:</label>
      	   <select id="gender" name="Gender">

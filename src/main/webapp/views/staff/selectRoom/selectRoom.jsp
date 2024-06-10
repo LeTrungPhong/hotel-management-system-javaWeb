@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="java.awt.font.ImageGraphicAttribute"%>
-<%@page import="java.util.ArrayList"%>
+<%@ page import="java.awt.font.ImageGraphicAttribute"%>
+<%@ page import="java.util.ArrayList"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page import="java.util.List" %>
 <%@ page import="com.appManageHotel.model.BEAN.Room" %>
@@ -686,175 +686,6 @@ i{
                 </tbody>
             </table>
         </div>
-        <div class="room-list booked bookedCheckIn dp-n">
-            <h2>Phòng đã check in</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Loại phòng</th>
-                        <th>Tên phòng</th>
-                        <th>Số người lớn</th>
-                        <th>Số trẻ em</th>
-                        <th>Ngày đến</th>
-                        <th>Ngày trả phòng</th>
-                        <th>Ngày Check In</th>
-                        <th>Giá phòng</th>
-                        <th>Phụ thu</th>
-                        <th>Tổng tiền</th>
-                        <th>Số tiền đã trả</th>
-                        <th>Trả phòng</th>
-                    </tr>
-                </thead>
-                <tbody> 
-                    <%
-                    	ArrayList<IFBookRoom> listIFBookRoomCheckIn = request.getAttribute("listIFBookRoomCheckIn") != null ? (ArrayList<IFBookRoom>)request.getAttribute("listIFBookRoomCheckIn") : null;
-                    	if(listIFBookRoomCheckIn != null){
-                    		for(int i = 0; i < listIFBookRoomCheckIn.size(); ++i){
-                    			Room room = RoomDAOimpl.getInstance().selectByID(listIFBookRoomCheckIn.get(i).getIDRoom());
-                    			TypeRoom tr = room != null ? TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()) : null;
-                    			Bill bill = BillDAOimpl.getInstance().selectByIDIFBookRoom(listIFBookRoomCheckIn.get(i).getIDIFBookRoom());
-                    			
-                    			LocalDate comeInDate = listIFBookRoomCheckIn.get(i).getComeInDate();
-                    			LocalDate comeOutDate = listIFBookRoomCheckIn.get(i).getComeOutDate();
-                    			long daysBetween = ChronoUnit.DAYS.between(comeInDate, comeOutDate);
-                    	        int surcharge = bill.getTotal() - (int)(daysBetween * tr.getPrice());
-                    			%>
-                    				<tr>
-                        				<td><%= tr != null ? tr.getTypeRoomName() : "" %></td>
-                        				<td><%= room != null ? room.getRoomName() : "" %></td>
-                        				<td><%= listIFBookRoomCheckIn.get(i).getNumberAdult() %></td>
-                        				<td><%= listIFBookRoomCheckIn.get(i).getNumberChild() %></td>
-                        				<td><%= listIFBookRoomCheckIn.get(i).getComeInDate() %></td>
-                        				<td><%= listIFBookRoomCheckIn.get(i).getComeOutDate() %></td>
-                        				<td><%= listIFBookRoomCheckIn.get(i).getComeInDateReal() %></td>
-                        				<td><%= tr != null ? tr.getPrice() : "Khong ton tai" %></td>
-                        				<td><%= surcharge %></td>
-                        				<td><%= bill != null ? bill.getTotal() : "Khong ton tai"  %></td>
-                        				<td><%= bill != null ? bill.getPrepayment() : "Khong ton tai" %></td>
-                        				<td>
-                        					<button style="background-color: #cfcfcf;" class="buttonUnCheckIn">Trả phòng</button>
-                        					<%
-                        						if(LocalDate.now().isAfter(listIFBookRoomCheckIn.get(i).getComeOutDate())){
-                        							%>
-                        								<button style="background-color: rgb(255, 99, 99);" class="buttonUnCheckIn">Quá hạn</button>
-                        							<%
-                        						}
-                        					%>
-                        				</td>
-                    				</tr>
-                    			<%
-                    		}
-                    	}
-                    %>
-                </tbody>
-            </table>
-        </div>
-        <div class="room-list booked unCheckIn dp-n">
-            <h2>Phòng chưa check in</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Loại phòng</th>
-                        <th>Tên phòng</th>
-                        <th>Số người lớn</th>
-                        <th>Số trẻ em</th>
-                        <th>Ngày đến</th>
-                        <th>Ngày trả phòng</th>
-                        <th>Ngày đặt phòng</th>
-                        <th>Giá phòng</th>
-                        <th>Phụ thu</th>
-                        <th>Tổng tiền</th>
-                        <th>Số tiền đã trả</th>
-                        <th>Chức năng</th>
-                    </tr>
-                </thead>
-                <tbody> 
-                    <%
-                    	ArrayList<IFBookRoom> listIFBookRoomNonCheckIn = request.getAttribute("listIFBookRoomNonCheckIn") != null ? (ArrayList<IFBookRoom>)request.getAttribute("listIFBookRoomNonCheckIn") : null;
-                    	if(listIFBookRoomNonCheckIn != null){
-                    		for(int i = 0; i < listIFBookRoomNonCheckIn.size(); ++i){
-                    			Room room = RoomDAOimpl.getInstance().selectByID(listIFBookRoomNonCheckIn.get(i).getIDRoom());
-                    			TypeRoom tr = room != null ? TypeRoomDAOimpl.getInstance().selectByID(room.getIDTypeRoom()) : null;
-                    			Bill bill = listIFBookRoomNonCheckIn != null ? BillDAOimpl.getInstance().selectByIDIFBookRoom(listIFBookRoomNonCheckIn.get(i).getIDIFBookRoom()) : null;
-                    			String IDIFBookRoom = listIFBookRoomNonCheckIn.get(i).getIDIFBookRoom();
-                    			Customer ctm = bill != null ? CustomerDAOimpl.getInstance().selectByID(bill.getIDCustomer()) : null;
-                    			String IDCustomer = ctm != null ? ctm.getIDCustomer() : "";
-                    			String CCCD = ctm != null ? ctm.getCCCD() : "";
-                    			String SDT = ctm != null ? ctm.getSDT() : "";
-                    			String FullName = ctm != null ? ctm.getFullName() : "";
-                    			LocalDate birth = ctm != null ? ctm.getBirth() : null;
-                    			String Gender = ctm != null ? ctm.getGender() : "";
-                    			String strBirth = birth != null ? String.format("%d-%02d-%02d", birth.getYear(), birth.getMonthValue(), birth.getDayOfMonth()) : "";
-                    			LocalDate comeInDate = listIFBookRoomNonCheckIn.get(i).getComeInDate();
-                    			LocalDate comeOutDate = listIFBookRoomNonCheckIn.get(i).getComeOutDate();
-                    			String strComeInDate = String.format("%d-%02d-%02d", comeInDate.getYear(), comeInDate.getMonthValue(), comeInDate.getDayOfMonth());
-                    			String strComeOutDate = String.format("%d-%02d-%02d", comeOutDate.getYear(), comeOutDate.getMonthValue(), comeOutDate.getDayOfMonth());
-                    			
-                    	        long daysBetween = ChronoUnit.DAYS.between(comeInDate, comeOutDate);
-                    	        int surcharge = bill.getTotal() - (int)(daysBetween * tr.getPrice());
-                    			%>
-                    				<tr>
-                        				<td><%= tr != null ? tr.getTypeRoomName() : "" %></td>
-                        				<td><%= room != null ? room.getRoomName() : "" %></td>
-                        				<td><%= listIFBookRoomNonCheckIn.get(i).getNumberAdult() %></td>
-                        				<td><%= listIFBookRoomNonCheckIn.get(i).getNumberChild() %></td>
-                        				<td><%= listIFBookRoomNonCheckIn.get(i).getComeInDate() %></td>
-                        				<td><%= listIFBookRoomNonCheckIn.get(i).getComeOutDate() %></td>
-                        				<td><%= listIFBookRoomNonCheckIn.get(i).getBookRoomDate() %></td>
-                        				<td><%= tr != null ? tr.getPrice() : "Khong ton tai" %></td>
-                        				<td><%= surcharge %></td>
-                        				<td><%= bill != null ? bill.getTotal() : "Khong ton tai" %></td>
-                        				<td><%= bill != null ? bill.getPrepayment() : "Khong ton tai" %></td>
-                        				<td>
-                        					<%
-                        						if(bill != null){
-                        							if((bill.getTotal() > bill.getPrepayment() && LocalDate.now().isAfter(listIFBookRoomNonCheckIn.get(i).getComeInDate())) 
-                        									|| LocalDate.now().isAfter(listIFBookRoomNonCheckIn.get(i).getComeOutDate())){
-                        								%>
-                        									<button class="buttonUnCheckIn" style="background-color: rgb(255, 99, 99);">Quá hạn</button>
-                        								<%
-                        							} else {
-                        								if(LocalDate.now().isBefore(listIFBookRoomNonCheckIn.get(i).getComeInDate())){
-                        									%>
-                        										<button class="buttonUnCheckIn" style="background-color: #ffffac;">Chưa đến ngày Check in</button>
-                        									<%
-                        								} else {
-                        									%>
-                        										<button onclick="checkIn('<%= IDCustomer %>'
-                        																,'<%= FullName %>'
-                        																,'<%= SDT %>'
-                        																,'<%= CCCD %>'
-                        																,'<%= strBirth %>'
-                        																,'<%= Gender %>'
-                        																,'<%= IDIFBookRoom %>'
-                        																,'<%= strComeInDate %>'
-                        																,'<%= strComeOutDate %>'
-                        																,'<%= tr != null ? tr.getTypeRoomName() : "" %>'
-                        																,'<%= room != null ? room.getRoomName() : "" %>'
-                        																,<%= listIFBookRoomNonCheckIn.get(i).getNumberAdult() %>
-                        																,<%= listIFBookRoomNonCheckIn.get(i).getNumberChild() %>
-                        																,<%= tr != null ? tr.getPrice() : "0" %>
-                        																,<%= bill != null ? bill.getTotal() : "0" %>
-                        																,<%= surcharge %>)"
-                        												class="buttonUnCheckIn" 
-                        												style="background-color: #e0ffe0;">
-                        													Check in
-                        										</button>
-                        									<%
-                        								}
-                        							}
-                        						}
-                        					%>
-                        					<button class="buttonUnCheckIn" style="background-color: #ffe0e0;" onclick="cancleRoom('<%= listIFBookRoomNonCheckIn.get(i).getIDIFBookRoom() %>')">Hủy phòng</button>
-                        				</td>
-                    				</tr>
-                    			<%
-                    		}
-                    	}
-                    %>
-                </tbody>
-            </table>
-        </div>
     </div>
     
     <form class="dp-n" action="" id="form-submit" method="post" onsubmit="return validateInput()">
@@ -951,10 +782,7 @@ i{
         <input type="submit" id="submitInput" value="Xác nhận đặt dịch vụ">
     </form>
     
-    <form class="dp-n" action="<%= url.urlServer + "cancleRoom" %>" method="post">
-    	<input type=text name="IDIFBookRoom" id="IDIFBookRoom">
-    	<input type="submit" id="submitCancleRoom" >
-    </form>
+    
     
     <div class="background-shadow dp-n"></div>
         
@@ -1002,12 +830,6 @@ function nonCheckInRoom(){
 	document.querySelector('.bookedCheckIn').classList.add('dp-n');
 	document.querySelector('.unCheckIn').classList.remove('dp-n');
 }
-
-function cancleRoom(IDIFBookRoom){
-	document.getElementById('IDIFBookRoom').value = IDIFBookRoom;
-	document.getElementById('submitCancleRoom').click();
-}
-
 
 function unBooked(){
 	document.querySelector('.btnUnBooked').classList.toggle('bg-green');

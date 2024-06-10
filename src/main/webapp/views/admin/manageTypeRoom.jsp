@@ -46,6 +46,9 @@
         .btn-container {
             text-align: center;
             margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
         }
         .btn-container a {
             text-decoration: none;
@@ -87,6 +90,13 @@
         .form-container-update input[type="text"],
         .form-container-update input[type="number"] {
             width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .select-image-update {
+        	width: 80%;
             padding: 10px;
             margin-bottom: 20px;
             border: 1px solid #ccc;
@@ -176,8 +186,9 @@
 	        			<p>Số lần đặt: <%= NumberBook %></p>
 	        			<p>Description: <%= Description %></p>
 	        			<div class="btn-container">
-	            			<button onclick="detailTypeRoom('<%= IDTypeRoom %>')">Xem chi tiết</button>
-	            			<button onclick="displayFormUpdate('<%= IDTypeRoom %>','<%= TypeRoomName %>',<%= Price %>,<%= MaxAdult %>,<%= MaxChild %>,'<%= Description %>')">Chỉnh sửa</button>
+	            			<button style="background-color: #2ab12f;" onclick="detailTypeRoom('<%= IDTypeRoom %>')">Xem chi tiết</button>
+	            			<button style="background-color: #4baaf7;" onclick="detailFacility('<%= IDTypeRoom %>')">Cơ sơ vật chất</button>
+	            			<button style="background-color: #d18686;" onclick="displayFormUpdate('<%= IDTypeRoom %>','<%= TypeRoomName %>',<%= Price %>,<%= MaxAdult %>,<%= MaxChild %>,'<%= Description %>')">Chỉnh sửa</button>
 	        			</div>
 	    			</div>
 				</div>
@@ -387,7 +398,11 @@ https://i.ibb.co/PhyGC7n/beach-view-single.jpg -->
 
     function detailTypeRoom(IDTypeRoom){
     	document.cookie = "IDTypeRoom=" + IDTypeRoom + ";max-age=" + (24 * 60 * 60);
-    	window.location.href = '<%= url.urlServer + "manageRoom" %>';
+    	window.location.href = '<%= url.urlServer + "manageRoom?IDTypeRoom=" %>' + IDTypeRoom;
+    }
+
+    function detailFacility(IDTypeRoom){
+		window.location.href = '<%= url.urlServer + "manageFacility?IDTypeRoom=" %>' + IDTypeRoom;
     }
     
 </script>

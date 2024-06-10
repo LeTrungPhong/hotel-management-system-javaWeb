@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="com.appManageHotel.controller.url.*" %>
+<%@ page import="com.appManageHotel.controller.url.*" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,21 +55,15 @@
 <body class="container">
 	<header class='header'>
         <div class='header__logo'>
-            <button>
-            	<a onclick="freeRoom()" class='header__sign-button'>
+            <a href="<%= url.urlServer + "selectRoom" %>" class='header__sign-button'>
                 	<span>Danh sách phòng trống</span>
-            	</a>
-            </button>
-            <button>
-            	<a onclick="checkInRoom()" class='header__sign-button'>
+            </a>
+            <a href="<%= url.urlServer + "checkInRoom" %>" class='header__sign-button'> 
                 	<span>Danh sách phòng đã được Check In</span>
-            	</a>
-            </button>
-            <button>
-            	<a onclick="nonCheckInRoom()" class='header__sign-button'>
-                	<span>Danh sách phòng chưa được Check In</span>
-            	</a>
-            </button>
+            </a>
+           	<a href="<%= url.urlServer + "nonCheckInRoom" %>" class='header__sign-button'>
+                <span>Danh sách phòng chưa được Check In</span>
+            </a>
         </div>
         <button class="button-signout" style="background: red;" onclick="document.getElementById('signOutAdmin').click()">Đăng xuất</button>
      </header>

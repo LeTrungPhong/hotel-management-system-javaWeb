@@ -45,7 +45,7 @@ public class RoomBO {
 		ArrayList<Room> a=new ArrayList<Room>();
 		try {
 			Connection c = ConnectDatabase.getConnection();
-			String sql="Select * From Room where IDRoom in (select IDRoom from Room except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?))  ";
+			String sql="Select * From Room where IDRoom in (select IDRoom from Room except select IDRoom from IFBookRoom where ((?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?) or (CheckIn = 1)) and State = 1  ";
 			PreparedStatement pstmt;
 				pstmt = c.prepareStatement(sql);
 			pstmt.setDate(1, Date.valueOf(inn));
@@ -73,7 +73,7 @@ public class RoomBO {
 		ArrayList<Room> a=new ArrayList<Room>();
 		try {
 			Connection c = ConnectDatabase.getConnection();
-			String sql = "Select * From Room where IDRoom in (select IDRoom from Room except select IDRoom from IFBookRoom where (?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?))  "
+			String sql = "Select * From Room where IDRoom in (select IDRoom from Room except select IDRoom from IFBookRoom where ((?<=ComeInDate and ComeInDate<=?) or (?<=ComeOutDate and ComeOutDate<=?) or (ComeInDate<=? and ComeOutDate>=?) or (CheckIn = 1)) and State = 1)  "
 					+" and IDTypeRoom in (select IDTypeRoom From TypeRoom where (Price>=? and Price<=?) and (MaxAdult>=?) and (MaxChild>=?)) "
 					+ " ORDER BY IDTypeRoom DESC";
 			PreparedStatement pstmt; 
@@ -112,7 +112,7 @@ public class RoomBO {
 		
 		ArrayList<Room> listRoomCondition = ListRoomByCondition(inn, outt, MinPrice, MaxPrice, maxAdult, maxChild);
 		
-		ArrayList<Room> listRoomFree = ListAllRoomFree(inn, outt);
+//		ArrayList<Room> listRoomFree = ListAllRoomFree(inn, outt);
 		
 //		if(idTypeRoomCondition != null) {
 //			for(String s : idTypeRoomCondition) {
@@ -122,29 +122,29 @@ public class RoomBO {
 		
 		ArrayList<Room> listRoom = new ArrayList<Room>();
 		
-		if(listRoomCondition != null) {
-			for(int i = 0; i < listRoomCondition.size(); ++i) {
-				if(listRoomFree != null) {
-					for(int j = 0; j < listRoomFree.size(); ++j) {
-						if(listRoomFree.get(j).getIDRoom().equals(listRoomCondition.get(i).getIDRoom())) {
-							listRoom.add(listRoomFree.get(j));
-						}
-					} 
-				}
-			}
-		}
+//		if(listRoomCondition != null) {
+//			for(int i = 0; i < listRoomCondition.size(); ++i) {
+//				if(listRoomFree != null) {
+//					for(int j = 0; j < listRoomFree.size(); ++j) {
+//						if(listRoomFree.get(j).getIDRoom().equals(listRoomCondition.get(i).getIDRoom())) {
+//							listRoom.add(listRoomFree.get(j));
+//						}
+//					} 
+//				}
+//			}
+//		}
 		
 		if(listTypeRoomName == null) { 
-			return listRoom; 
+			return listRoomCondition; 
 		}
 		
 		ArrayList<Room> listRoomLast = new ArrayList<Room>();
 		
-		if(listRoom != null) {
-			for(int i = 0; i < listRoom.size(); ++i) {
+		if(listRoomCondition != null) {
+			for(int i = 0; i < listRoomCondition.size(); ++i) {
 				for(int j = 0; j < listTypeRoomName.length; j++) {
-					if(listRoom.get(i).getIDTypeRoom().equals(TypeRoomDAOimpl.getInstance().selectByTypeRoomName(listTypeRoomName[j]).getIDTypeRoom())) {
-						listRoomLast.add(listRoom.get(i));
+					if(listRoomCondition.get(i).getIDTypeRoom().equals(TypeRoomDAOimpl.getInstance().selectByTypeRoomName(listTypeRoomName[j]).getIDTypeRoom())) {
+						listRoomLast.add(listRoomCondition.get(i));
 						break;
 					}
 				}

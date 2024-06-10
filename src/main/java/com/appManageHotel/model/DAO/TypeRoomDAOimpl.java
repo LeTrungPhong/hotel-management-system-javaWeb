@@ -312,7 +312,7 @@ public class TypeRoomDAOimpl implements TypeRoomDAO{
 		ArrayList<String> a = new ArrayList<String>();
 		try {
 			Connection con = ConnectDatabase.getConnection();
-			String sql = "Select distinct IDTypeRoom From Room where IDRoom in (select IDRoom from Room except select IDRoom from IFBookRoom where ( ? <= ComeInDate and ComeInDate <=? ) or ( ? <= ComeOutDate and ComeOutDate <= ? ) or ( ComeInDate <= ? and ComeOutDate >= ? ))";
+			String sql = "Select distinct IDTypeRoom From Room where IDRoom in (select IDRoom from Room except select IDRoom from IFBookRoom where (( ? <= ComeInDate and ComeInDate <=? ) or ( ? <= ComeOutDate and ComeOutDate <= ? ) or ( ComeInDate <= ? and ComeOutDate >= ? ) or (CheckIn = 1)) and State = 1 )";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setDate(1, java.sql.Date.valueOf(timeIn));
 			pstmt.setDate(2, java.sql.Date.valueOf(timeOut));

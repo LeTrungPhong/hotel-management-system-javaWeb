@@ -26,8 +26,9 @@ public class manageRoom extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		Cookie cookieIDTypeRoom = cookie.findCookieByName(req, "IDTypeRoom");
-		TypeRoom typeRoom = cookieIDTypeRoom != null ? TypeRoomDAOimpl.getInstance().selectByID(cookieIDTypeRoom.getValue()) : null;
+//		Cookie cookieIDTypeRoom = cookie.findCookieByName(req, "IDTypeRoom");
+		String IDTypeRoom = req.getParameter("IDTypeRoom");
+		TypeRoom typeRoom = IDTypeRoom != null ? TypeRoomDAOimpl.getInstance().selectByID(IDTypeRoom) : null;
 		ArrayList<Room> listRooms = typeRoom != null ? RoomDAOimpl.getInstance().selectByIDTypeRoom(typeRoom.getIDTypeRoom()) : null;
 		
 		req.setAttribute("TypeRoom",typeRoom);
@@ -48,12 +49,12 @@ public class manageRoom extends HttpServlet{
 			System.out.println(typeRequest);
 			
 			String IDRoom = UUID.randomUUID().toString();
-			Cookie cookieIDTypeRoom = cookie.findCookieByName(req, "IDTypeRoom");
+//			Cookie cookieIDTypeRoom = cookie.findCookieByName(req, "IDTypeRoom");
+			String IDTypeRoom = req.getParameter("IDTypeRoom");
 			String RoomName = req.getParameter("RoomName");
-			if(cookieIDTypeRoom == null) {
+			if(IDTypeRoom == null) {
 				System.out.println("Loai phong khong ton tai");
 			} else {
-				String IDTypeRoom = cookieIDTypeRoom.getValue();
 				System.out.println(IDTypeRoom);
 				if(RoomBO.getInstance().InsertRoom(new Room(IDRoom,IDTypeRoom,RoomName))) {
 					System.out.println("Insert room thanh cong");
@@ -76,6 +77,6 @@ public class manageRoom extends HttpServlet{
 			}
 		}
 		
-		resp.sendRedirect(url.urlServer + "manageRoom");
+		resp.sendRedirect(url.urlServer + "manageRoom?IDTypeRoom=" + req.getParameter("IDTypeRoom"));
 	}
 }
