@@ -71,7 +71,7 @@ public class updateInforUser extends HttpServlet{
 					 String notification = CustomerBO.getInstance().checkUpdateCustomer(IDCustomer, FullName, CCCD, Gender, SDT, Birth, IDAccount);
 					 
 					 System.out.println(notification); 
-					 resp.sendRedirect(url.urlServer + "updateInforUser");
+					 resp.sendRedirect(url.urlServer + "updateInforUser?show=Cap nhat thong tin tai khoan thanh cong");
 				 }
 			 }
 		 }

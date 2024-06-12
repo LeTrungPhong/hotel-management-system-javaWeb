@@ -44,6 +44,6 @@ public class myBooking extends HttpServlet{
 		String IDIFBookRoom = req.getParameter("IDIFBookRoom");
 		IFBookRoomBO.getInstance().cancelling(IFBookRoomDAOimpl.getInstance().selectByID(IDIFBookRoom));
 		
-		resp.sendRedirect(url.urlServer + "myBooking");
+		resp.sendRedirect(url.urlServer + "myBooking?show=Huy phong thanh cong");
 	}
 }

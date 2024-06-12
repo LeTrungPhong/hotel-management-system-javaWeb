@@ -224,6 +224,13 @@
 	</div>
 </body>
 <script>
+
+	const urlParams = new URLSearchParams(window.location.search);
+	const paramValue = urlParams.get('show');
+	if(paramValue){
+		alert(paramValue);
+	}
+
 	function cancleRoom(IDIFBookRoom){
 		document.getElementById('IDIFBookRoom').value = IDIFBookRoom;
 		document.getElementById('submitCancle').click();

@@ -279,6 +279,12 @@
 
 <script>
 
+const urlParams = new URLSearchParams(window.location.search);
+const paramValue = urlParams.get('show');
+if(paramValue){
+	alert(paramValue);
+}
+
 var formContainer = document.querySelector('.form-container');
 var backgroundShadow = document.querySelector('.background-shadow'); 
 var formContainerUpdate = document.querySelector('.form-container-update');

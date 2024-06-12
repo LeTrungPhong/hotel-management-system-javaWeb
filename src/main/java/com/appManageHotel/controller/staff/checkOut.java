@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 
 import com.appManageHotel.controller.url.url;
+import com.appManageHotel.model.BEAN.Bill;
 import com.appManageHotel.model.BO.IFBookRoomBO;
+import com.appManageHotel.model.DAO.BillDAOimpl;
 import com.appManageHotel.model.DAO.IFBookRoomDAOimpl;
 
 import jakarta.servlet.ServletException;
@@ -24,9 +26,11 @@ public class checkOut extends HttpServlet {
 		LocalDate dateNow = LocalDate.now();
 		System.out.println(IDIFBookRoom);
 		
+		Bill bill = BillDAOimpl.getInstance().selectByIDIFBookRoom(IDIFBookRoom);
+		
 		IFBookRoomBO.getInstance().CheckOut(IFBookRoomDAOimpl.getInstance().selectByID(IDIFBookRoom), dateNow);
 		
-		resp.sendRedirect(url.urlServer + "checkInRoom");
+		resp.sendRedirect(url.urlServer + "bill?IDBill=" + bill.getIDBill());
 	}
 
 }

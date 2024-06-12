@@ -32,14 +32,16 @@ public class extendRoom extends HttpServlet {
 												Integer.parseInt(strComeOutDateUpdate.substring(8, 10)));
 		
 		System.out.println(ComeOutDateUpdate);
-		
+		String show = "";
 		if(IFBookRoomBO.getInstance().Extend(IFBookRoomDAOimpl.getInstance().selectByID(IDIFBookRoom), ComeOutDateUpdate)) {
 			System.out.println("Gia han thanh cong");
+			show = "Gia han thanh cong";
 		} else {
 			System.out.println("Gia han khong thanh cong, thoi gian khong hop le hoac tai thoi gian phong da duoc dat");
+			show = "Gia han khong thanh cong, thoi gian khong hop le hoac tai thoi gian phong da duoc dat";
 		}
 		
-		resp.sendRedirect(url.urlServer + "checkInRoom");
+		resp.sendRedirect(url.urlServer + "checkInRoom?show=" + show);
 	}
 	
 }

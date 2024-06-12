@@ -239,6 +239,13 @@
 </div>
 
 <script>
+
+const urlParams = new URLSearchParams(window.location.search);
+const paramValue = urlParams.get('show');
+if(paramValue){
+	alert(paramValue);
+}
+
     function editEmployee() {
         // Redirect to the page for editing employee information
         window.location.href = "edit_employee.html";

@@ -73,6 +73,7 @@ public class bookRoomStaff extends HttpServlet{
 		
 		HttpSession session = req.getSession();
 		String IDAccount = session.getAttribute("IDAccount") != null ? (String)session.getAttribute("IDAccount") : "";
+		String show = "";
 		
 		Account account = !IDAccount.equals("") ? AccountDAOImpl.getInstance().selectByID(IDAccount) : null;
 		if(account != null) {
@@ -80,20 +81,25 @@ public class bookRoomStaff extends HttpServlet{
 				Staff staff = account != null ? StaffDAOimpl.getInstance().selectByIDAccount(account.getIDAccount()) : null;
 				if(staff != null) {
 					if(IFBookRoomBO.getInstance().bookRoomStaff(new IFBookRoom(IDIFBookRoom, IDRoom, ComeInDate, ComeOutDate, NumberAdult, NumberChild, true, true, LocalDate.now(), null, LocalDate.now()), new Customer(UUID.randomUUID().toString(),FullName,CCCD,Gender,SDT,Birth,null), staff.getIDStaff(), Prepayment, Total)) {
-						System.out.println("Dat phong thanh cong.");
+						System.out.println("Dat phong thanh cong");
+						show = "Dat phong thanh cong";
 					} else {
 						System.out.println("Dat phong that bai");
+						show = "Dat phong that bai";
 					}
 				} else {
 					System.out.println("Nhan vien khong ton tai");
+					show = "Nhan vien khong ton tai";
 				}
 			} else {
 				System.out.println("Tai khoan khong phai la nhan vien");
+				show = "Tai khoan khong phai la nhan vien";
 			}
 		} else {
 			System.out.println("Tai khoan khong ton tai");
+			show = "Tai khoan khong ton tai";
 		}
 		
-		resp.sendRedirect(url.urlServer + "selectRoom");
+		resp.sendRedirect(url.urlServer + "selectRoom?show=" + show);
 	}	
 }

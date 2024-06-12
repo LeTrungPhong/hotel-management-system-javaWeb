@@ -42,15 +42,18 @@ public class manageFacility extends HttpServlet{
 		// TODO Auto-generated method stub
 		System.out.println("POST IN /manageFacility");
 		String typeRequest = req.getParameter("type");
+		String show = "";
 		if(typeRequest.equals("insertFacility")) {
 			String FacilityName = req.getParameter("FacilityName");
 			String IDTypeRoom = req.getParameter("IDTypeRoom");
 			
 			if(IDTypeRoom == null) {
 				System.out.println("Loai phong khong ton tai");
+				show = "Loai phong khong ton tai";
 			} else {
 				FacilityDAOimpl.getInstance().insert(new Facility(UUID.randomUUID().toString(),FacilityName,IDTypeRoom,1));
 				System.out.println("Them co so vat chat " + FacilityName + " thanh cong");
+				show = "Them co so vat chat " + FacilityName + " thanh cong";
 			}
 		}
 		
@@ -59,13 +62,15 @@ public class manageFacility extends HttpServlet{
 			
 			if(IDFacility == null) {
 				System.out.println("Co so vat chat khong ton tai");
+				show = "Co so vat chat khong ton tai";
 			} else {
 				FacilityDAOimpl.getInstance().delete(IDFacility);
 				System.out.println("Xoa co so vat chat thanh cong");
+				show = "Xoa co so vat chat thanh cong";
 			}
 		}
 		
-		resp.sendRedirect(url.urlServer + "manageFacility?IDTypeRoom=" + req.getParameter("IDTypeRoom"));
+		resp.sendRedirect(url.urlServer + "manageFacility?IDTypeRoom=" + req.getParameter("IDTypeRoom") + "&show=" + show);
 	}
 
 }

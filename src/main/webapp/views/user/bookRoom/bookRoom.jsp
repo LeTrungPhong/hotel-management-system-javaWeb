@@ -227,8 +227,8 @@
             </div>
         </div>
         <div class="room-info">
-            <h2>Deluxe Room</h2>
-            <p>Giá: $200/đêm</p>
+            <h2><%= typeRoom != null ? typeRoom.getTypeRoomName() : "" %></h2>
+            <p>Giá: $<%= typeRoom != null ? typeRoom.getPrice() : "" %>/đêm</p>
             <p>Diện tích: 50m²</p>
             <h3 style="margin: 2px 0px;">Tiện nghi:</h3>
             <%
@@ -338,7 +338,8 @@ function showSlide(index) {
     } else {
         currentIndex = index;
     }
-    slides.style.transform = `translateX(-${currentIndex * 100}%)`;
+    slides.style.transform = "translateX(-" + currentIndex * 100 + "%)";
+    console.log("123");
 }
 
 nextBtn.addEventListener('click', () => {

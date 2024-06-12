@@ -103,7 +103,7 @@
                             </button>
                         </p>
                         <p>
-                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i> 
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -112,7 +112,7 @@
                     </div>
                 </div>
                 <h3 class="room__item__title"><%= listTypeRoomMaxBooked.get(i).getTypeRoomName() %></h3>
-                <button class="book_now">
+                <button class="book_now" onclick="window.location.href='<%= url.urlServer + "bookRoom?IDTypeRoom=" + listTypeRoomMaxBooked.get(i).getIDTypeRoom() %>'">
                     BOOK NOW
                     <div class="star-1">
                         <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" version="1.1"

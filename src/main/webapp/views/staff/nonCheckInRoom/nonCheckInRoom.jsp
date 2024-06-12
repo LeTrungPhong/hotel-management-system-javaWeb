@@ -723,6 +723,12 @@ i{
 	
 	<script>
 
+	const urlParams = new URLSearchParams(window.location.search);
+	const paramValue = urlParams.get('show');
+	if(paramValue){
+		alert(paramValue);
+	}
+
 	function validateInput() {
 	    var inputCCCD = document.getElementById("CCCD").value;
 	    if(inputCCCD.length != 12) {

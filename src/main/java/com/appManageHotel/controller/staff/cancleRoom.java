@@ -22,6 +22,6 @@ public class cancleRoom extends HttpServlet{
 		String IDIFBookRoom = req.getParameter("IDIFBookRoom");
 		IFBookRoomBO.getInstance().cancelling(IFBookRoomDAOimpl.getInstance().selectByID(IDIFBookRoom));
 		
-		resp.sendRedirect(url.urlServer + "selectRoom");
+		resp.sendRedirect(url.urlServer + "selectRoom?show=Huy phong thanh cong");
 	}
 }

@@ -39,14 +39,16 @@ public class confirmCheckIn extends HttpServlet{
 		System.out.println(Birth.toString());
 		System.out.println(Gender);
 		System.out.println(IDIFBookRoom);
-		
+		String show = "";
 		if(IFBookRoomBO.getInstance().confirmCheckIn(new Customer(IDCustomer, FullName, CCCD, Gender, SDT, Birth, null), IDIFBookRoom)) {
 			System.out.println("Check in thanh cong");
+			show = "Check in thanh cong";
 		} else {
 			System.out.println("Check in that bai");
+			show = "Check in that bai";
 		}
 		
-		resp.sendRedirect(url.urlServer + "selectRoom");
+		resp.sendRedirect(url.urlServer + "selectRoom?show=" + show);
 	}
 
 }

@@ -99,6 +99,13 @@
 	</div>
 </body>
 <script>
+
+const urlParams = new URLSearchParams(window.location.search);
+const paramValue = urlParams.get('show');
+if(paramValue){
+	alert(paramValue);
+}
+
 const newPassWord = document.getElementsByClassName('newPassWord');
 const submitNewPassWord = document.querySelector('.submitNewPassWord');
 

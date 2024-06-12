@@ -610,6 +610,13 @@ i{
         <div class="background-shadow dp-n"></div>
 	</div>
 	<script>
+
+	const urlParams = new URLSearchParams(window.location.search);
+	const paramValue = urlParams.get('show');
+	if(paramValue){
+		alert(paramValue);
+	} 
+	
 		const submitCheckOut = document.getElementById('submitCheckOut');
 
 		function checkOut(IDIFBookRoom){

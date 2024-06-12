@@ -177,7 +177,7 @@
 
 .bottom__infor {
   position: absolute;
-  bottom: -200px;
+  bottom: -300px;
   left: 15px;
   text-align: left;
   transition: all 0.5s;

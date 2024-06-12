@@ -88,6 +88,26 @@ public class BillDAOimpl implements BillDAO {
 	@Override
 	public Bill selectByID(String ID) {
 		// TODO Auto-generated method stub
+		try {
+			Connection con = ConnectDatabase.getConnection();
+			String sql = "SELECT * FROM Bill WHERE IDBill = ?";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, ID);
+			
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				String IDBill = rs.getString("IDBill");
+				String IDStaff = rs.getString("IDStaff");
+				String IDCustomer = rs.getString("IDCustomer");
+				int Total = rs.getInt("Total");
+				String IDIFBookRoom = rs.getString("IDIFBookRoom");
+				int Prepayment = rs.getInt("Prepayment");
+				return (new Bill(IDBill, IDStaff, IDCustomer,Prepayment, Total, IDIFBookRoom));
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 

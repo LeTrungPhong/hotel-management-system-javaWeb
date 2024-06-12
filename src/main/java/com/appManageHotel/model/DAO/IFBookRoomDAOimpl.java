@@ -254,7 +254,12 @@ public class IFBookRoomDAOimpl implements IFBookRoomDAO {
 		try {
 			ArrayList<IFBookRoom> result = new ArrayList<IFBookRoom>(); 
 			Connection con = ConnectDatabase.getConnection();
-			String sql = "SELECT * FROM IFBookRoom WHERE State = ? AND CheckIn = ?";
+			String sql = "";
+			if(stateInput && checkInInput) {
+				sql = "SELECT * FROM IFBookRoom WHERE State = ? AND CheckIn = ? ORDER BY ComeInDate DESC";
+			} else {
+				sql = "SELECT * FROM IFBookRoom WHERE State = ? AND CheckIn = ? ORDER BY BookRoomDate DESC";
+			}
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setBoolean(1, stateInput);
 			pstmt.setBoolean(2, checkInInput);

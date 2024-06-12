@@ -222,6 +222,12 @@ https://i.ibb.co/PhyGC7n/beach-view-single.jpg -->
 </body>
 <script>
 
+const urlParams = new URLSearchParams(window.location.search);
+const paramValue = urlParams.get('show');
+if(paramValue){
+	alert(paramValue);
+}
+
 var backgroundShadow = document.querySelector('.background-shadow');
 var formContainer = document.querySelector('.form-container');
 var formContainerUpdate = document.querySelector('.form-container-update');
